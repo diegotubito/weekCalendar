@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WeekView: View {
+struct WeekCalendarView: View {
     @State var initialDate: Date
     @State var selectedDate: Date
     @State var visibleDates: [Model] = []
@@ -34,19 +34,20 @@ struct WeekView: View {
         GeometryReader { geometry in
             VStack(spacing: 8) {
                 HStack(spacing: 1) {
-                    ForEach(visibleDates, id: \.self) { date in
+                    ForEach(visibleDates, id: \.self) { item in
                         VStack(spacing: 1) {
-                            Text("\(getDayName(date: date.date))")
+                            Text("\(getDayName(date: item.date))")
                                 .font(.caption)
-                            Text("\(getDay(date: date.date))")
+                                .foregroundColor(getDayForegroundColor(date: item.date))
+                            Text("\(getDay(date: item.date))")
                                 .font(.system(size: 13))
-                                .foregroundColor(equalDates(date1: Date(), date2: date.date) == .orderedSame ? Color.red : Color.black.opacity(0.7))
+                                .foregroundColor(getDayForegroundColor(date: item.date))
                                 .padding(8)
-                                .background(getDayBackgroundColor(date: date.date))
+                                .background(getDayBackgroundColor(date: item.date))
                                 .cornerRadius(15)
                                 .onTapGesture {
                                     if isSelectable {
-                                        selectedDate = date.date
+                                        selectedDate = item.date
                                         onSelectedDate?(selectedDate)
                                     }
                                 }
@@ -76,6 +77,10 @@ struct WeekView: View {
                 getWeekItems(containigDate: initialDate)
             }
         }
+    }
+    
+    func getDayForegroundColor(date: Date) -> Color {
+        equalDates(date1: Date(), date2: date) == .orderedSame ? Color.red : Color.black.opacity(0.7)
     }
     
     func getDayBackgroundColor(date: Date) -> Color {
@@ -149,7 +154,7 @@ struct WeekView: View {
 
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
-        WeekView(initialDate: Date(), selectedDate: Date(), maxDays: 3, isSelectable: true, onSelectedDate: { selectedDate in
+        WeekCalendarView(initialDate: Date(), selectedDate: Date(), maxDays: 3, isSelectable: true, onSelectedDate: { selectedDate in
             
         }, onVisibleDates: { dates in
             

@@ -30,7 +30,7 @@ struct ContentView: View {
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
             
-            WeekView(initialDate: getNearSunday(date: Date()), selectedDate: currentDate, maxDays: 3, isSelectable: false) { selectedDate in
+            WeekCalendarView(initialDate: getNearSunday(date: Date()), selectedDate: currentDate, maxDays: 3, isSelectable: true) { selectedDate in
                 print(selectedDate)
             } onVisibleDates: { visibleDates in
                 for i in visibleDates {

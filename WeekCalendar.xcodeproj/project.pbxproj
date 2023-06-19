@@ -11,7 +11,7 @@
 		AB5A9ACB2A3F576100A379D1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9ACA2A3F576100A379D1 /* ContentView.swift */; };
 		AB5A9ACD2A3F576200A379D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5A9ACC2A3F576200A379D1 /* Assets.xcassets */; };
 		AB5A9AD02A3F576200A379D1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5A9ACF2A3F576200A379D1 /* Preview Assets.xcassets */; };
-		AB5A9AD72A3F586200A379D1 /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9AD62A3F586200A379D1 /* WeekView.swift */; };
+		AB5A9AD72A3F586200A379D1 /* WeekCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9AD62A3F586200A379D1 /* WeekCalendarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,7 +20,7 @@
 		AB5A9ACA2A3F576100A379D1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AB5A9ACC2A3F576200A379D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB5A9ACF2A3F576200A379D1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		AB5A9AD62A3F586200A379D1 /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
+		AB5A9AD62A3F586200A379D1 /* WeekCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +55,7 @@
 			children = (
 				AB5A9AC82A3F576100A379D1 /* WeekCalendarApp.swift */,
 				AB5A9ACA2A3F576100A379D1 /* ContentView.swift */,
-				AB5A9AD62A3F586200A379D1 /* WeekView.swift */,
+				AB5A9AD62A3F586200A379D1 /* WeekCalendarView.swift */,
 				AB5A9ACC2A3F576200A379D1 /* Assets.xcassets */,
 				AB5A9ACE2A3F576200A379D1 /* Preview Content */,
 			);
@@ -140,7 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB5A9AD72A3F586200A379D1 /* WeekView.swift in Sources */,
+				AB5A9AD72A3F586200A379D1 /* WeekCalendarView.swift in Sources */,
 				AB5A9ACB2A3F576100A379D1 /* ContentView.swift in Sources */,
 				AB5A9AC92A3F576100A379D1 /* WeekCalendarApp.swift in Sources */,
 			);
