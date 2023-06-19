@@ -25,21 +25,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-            
-            WeekCalendarView(initialDate: getNearSunday(date: Date()), selectedDate: currentDate, maxDays: 3, isSelectable: true) { selectedDate in
-                print(selectedDate)
-            } onVisibleDates: { visibleDates in
-                for i in visibleDates {
-                    print(i)
-                }
-            }
-
+            SchedulerView()
+                .background(Color.gray.opacity(0.3))
         }
-        .padding()
+        .padding(8)
     }
     
     func getNearSunday(date: Date) -> Date {
