@@ -63,8 +63,8 @@ struct SchedulerColumnView: View {
     }
     
     func getTimeInterval(item: SchedulerModel) -> CGFloat {
-        let startTimeString = item.startTime
-        let endTimeString = item.endTime
+        let startTimeString = item.startDate
+        let endTimeString = item.endDate
         
         guard let startTime = startTimeString.toDate()?.timeIntervalSince1970,
               let endTime = endTimeString.toDate()?.timeIntervalSince1970 else { return 0 }
@@ -76,7 +76,7 @@ struct SchedulerColumnView: View {
     }
     
     func getStartingHour(item: SchedulerModel) -> CGFloat {
-        let startTimeString = item.startTime
+        let startTimeString = item.startDate
         guard let startTime = startTimeString.toDate(),
               let hour = Float(startTime.toString(format: "HH")),
               let minutes = Float(startTime.toString(format: "mm")) else { return 0 }
@@ -89,9 +89,9 @@ struct SchedulerColumnView: View {
 
 struct SchedulerModel: Hashable {
     let availabilityId: String
-    let dayOfWeek: Int
-    let startTime: String
-    let endTime: String
+    let period: SchedulerPeriod
+    let startDate: String
+    let endDate: String
     let backgroundColor: Color
     let columnType: ColumnType
     
@@ -101,6 +101,13 @@ struct SchedulerModel: Hashable {
         case inner
         case tail
     }
+}
+
+enum SchedulerPeriod: String, Decodable {
+    case none
+    case daily
+    case weekly
+    case monthly
 }
 
 struct SchedulerCapsuleView: View {
@@ -127,10 +134,10 @@ struct SchedulerCapsuleView: View {
     }
     
     func getStartTime() -> String {
-        item.startTime.showTimeFormat()
+        item.startDate.showTimeFormat()
     }
     
     func getEndTime() -> String {
-        item.endTime.showTimeFormat()
+        item.endDate.showTimeFormat()
     }
 }

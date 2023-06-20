@@ -101,13 +101,7 @@ struct WeekCalendarView: View {
         }
     }
     
-    func equalDates(date1: Date, date2: Date) -> ComparisonResult {
-        let calendar = Calendar.current
-        let comparisonResult = calendar.compare(date1, to: date2, toGranularity: .day)
-        
-        return comparisonResult
-    }
-    
+   
     func getFullDateName(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMMM d, yyyy"
@@ -160,4 +154,18 @@ struct WeekView_Previews: PreviewProvider {
             
         })
     }
+}
+
+func equalDates(date1: Date, date2: Date) -> ComparisonResult {
+    let calendar = Calendar.current
+    let comparisonResult = calendar.compare(date1, to: date2, toGranularity: .day)
+    
+    return comparisonResult
+}
+
+func areEqualDates(date1: Date, date2: Date) -> Bool {
+    let calendar = Calendar.current
+    let comparisonResult = calendar.compare(date1, to: date2, toGranularity: .day)
+    if comparisonResult == .orderedSame { return true }
+    return false
 }

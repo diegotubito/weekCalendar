@@ -41,16 +41,13 @@ struct SchedulerView: View {
                             WeekCalendarView(initialDate: initialDate, selectedDate: Date(), maxDays: maxColumn, isSelectable: false, spacing: Constant.spacing) { selectedDate in
                                 print(selectedDate)
                             } onVisibleDates: { visibleDates in
-                                for i in visibleDates {
-                                    print(i)
-                                }
                             }
                             .frame(height: Constant.headerHeight)
                             
                             HStack(spacing: Constant.spacing) {
                                 ForEach(0..<maxColumn, id: \.self) {index in
-                                    SchedulerColumnView(items: filterAvailabilities(weekday: calculateWeekDay(index: index))) { model in
-                                        print(model.startTime)
+                                    SchedulerColumnView(items: filterItems(index: index)) { model in
+                                        print(model.startDate)
                                     } emptyHourDidTapped: { hourIndex in
                                         print(hourIndex, index)
                                     }
@@ -64,14 +61,58 @@ struct SchedulerView: View {
         }
     }
     
-    func calculateWeekDay(index: Int) -> Int {
-        let initialWeekDay = Calendar.current.component(.weekday, from: initialDate)
-        return (index + initialWeekDay) % 7
+    func calculateColumnDate(index: Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: index, to: initialDate)!
     }
     
-    func filterAvailabilities(weekday: Int) -> [SchedulerModel] {
-        let filteredItems = items.filter({$0.dayOfWeek == weekday})
-        return filteredItems
+    func filterItems(index: Int) -> [SchedulerModel] {
+        var result: [SchedulerModel] = []
+        let columnDate = calculateColumnDate(index: index)
+        
+        // add non periodic items
+        result.append(contentsOf: items.filter({ item in
+            let isDaily = item.period == .daily
+            
+            let itemStartDate = item.startDate.toDate()!
+            let correctDate = equalDates(date1: columnDate, date2: itemStartDate) != .orderedAscending
+            
+            return isDaily && correctDate
+        }))
+        
+        // add non periodic items
+        result.append(contentsOf: items.filter({$0.period == .none && areEqualDates(date1: columnDate, date2: $0.startDate.toDate()! ) }))
+        
+        // add weekly items
+        result.append(contentsOf: items.filter({ item in
+            let isWeekly = item.period == .weekly
+            
+            let itemStartDate = item.startDate.toDate()!
+          
+            let itemWeekDay = Calendar.current.component(.weekday, from: itemStartDate)
+            let weekday = Calendar.current.component(.weekday, from: columnDate)
+          
+            let correctDate = equalDates(date1: columnDate, date2: itemStartDate) != .orderedAscending
+            
+            return isWeekly && (itemWeekDay == weekday) && (correctDate)
+        }))
+        
+        // add monthly items
+        result.append(contentsOf: items.filter({ item in
+            let isMonthly = item.period == .monthly
+            
+            let itemStartDate = item.startDate.toDate()!
+           
+            let dayItem = Calendar.current.component(.day, from: itemStartDate)
+            let dayColumn = Calendar.current.component(.day, from: columnDate)
+            let isDayEqual = dayItem == dayColumn
+
+            let correctDate = equalDates(date1: columnDate, date2: itemStartDate) != .orderedAscending
+            
+            return isMonthly && isDayEqual && correctDate
+        }))
+        
+        
+        return result
     }
 }
 

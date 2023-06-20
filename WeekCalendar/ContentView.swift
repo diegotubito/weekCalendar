@@ -25,7 +25,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            SchedulerView(items: generateItems(availabilities: loadAvailabilities()), initialDate: currentDate, maxColumn: 14)
+            SchedulerView(items: generateItems(availabilities: loadAvailabilities()), initialDate: currentDate, maxColumn: 90)
                 .background(Color.black)
         }
         .padding(8)
@@ -41,64 +41,64 @@ struct ContentView: View {
     
     func loadAvailabilities() -> [Availability] {
     
-        let availability = Availability(_id: "1110",
-                                        dayOfWeek: 2,
-                                        startTime: "2000-01-01T04:00:00.000Z",
-                                        endTime: "2000-01-01T07:30:00.000Z",
+        let availability1 = Availability(_id: "1110",
+                                        period: .monthly,
+                                        startDate: "2023-07-12T04:00:00.000Z",
+                                        endDate: "2023-07-12T05:30:00.000Z",
                                         service: "",
                                         isEnabled: true,
                                         priceAdjustmentPercentage: 10,
                                         createdAt: "",
                                         updatedAt: "")
         
-        return [availability]
+       
+        return [availability1]
     }
     
     func generateItems(availabilities: [Availability]) -> [SchedulerModel]{
         var result: [SchedulerModel] = []
 
         for availability in availabilities {
-            guard let availabilityStartTime = availability.startTime.toDate(),
-                  let endTime = availability.endTime.toDate() else { return [] }
+            guard let availabilityStartDate = availability.startDate.toDate(),
+                  let endDate = availability.endDate.toDate() else { return [] }
             
-            let components = Calendar.current.dateComponents([.day], from: availabilityStartTime, to: endTime)
+            let components = Calendar.current.dateComponents([.day], from: availabilityStartDate, to: endDate)
             guard let days = components.day else { return [] }
 
             let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
 
             for index in 0..<(days + 1) {
-                guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: availabilityStartTime) else { break }
+                guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: availabilityStartDate) else { break }
                 
                 var columnType: SchedulerModel.ColumnType = .none
-                let dayofweek = availability.dayOfWeek + index
-                var startTime = startTimeDate.toString(format: format)
-                var endTime = availability.endTime
+                var startDate = startTimeDate.toString(format: format)
+                var endDate = availability.endDate
 
                 if days > 0 {
                     if index != 0 {
                         let startOfDay = startTimeDate.startOfDay()
-                        startTime = startOfDay.toString(format: format)
+                        startDate = startOfDay.toString(format: format)
                         
                         if index == days {
                             columnType = .tail
-                            endTime = availability.endTime
+                            endDate = availability.endDate
                         } else {
                             columnType = .inner
                             let endOfDay = startTimeDate.endOfDay()
-                            endTime = endOfDay.toString(format: format)
+                            endDate = endOfDay.toString(format: format)
                         }
                         
                     } else {
                         columnType = .head
                         let endOfDay = startTimeDate.endOfDay()
-                        endTime = endOfDay.toString(format: format)
+                        endDate = endOfDay.toString(format: format)
                     }
                 }
                 
                 let newCapsule = SchedulerModel(availabilityId: availability._id,
-                                                dayOfWeek: dayofweek,
-                                                startTime: startTime,
-                                                endTime: endTime,
+                                                period: availability.period,
+                                                startDate: startDate,
+                                                endDate: endDate,
                                                 backgroundColor: Color.green,
                                                 columnType: columnType)
                 result.append(newCapsule)
@@ -123,9 +123,9 @@ struct ContentView_Previews: PreviewProvider {
 
 struct Availability: Decodable, Hashable {
     let _id: String
-    let dayOfWeek: Int
-    let startTime: String
-    let endTime: String
+    let period: SchedulerPeriod
+    let startDate: String
+    let endDate: String
     let service: String
     let isEnabled: Bool
     let priceAdjustmentPercentage: Int
