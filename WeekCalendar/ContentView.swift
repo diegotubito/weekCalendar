@@ -26,7 +26,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             SchedulerView()
-                .background(Color.gray.opacity(0.3))
+                .background(Color.clear)
         }
         .padding(8)
     }

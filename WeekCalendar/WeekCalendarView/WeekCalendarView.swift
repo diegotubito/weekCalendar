@@ -24,60 +24,58 @@ struct WeekCalendarView: View {
         self._maxDays = State(initialValue: maxDays)
         self.spacing = spacing
     }
-        
+    
     struct Model: Hashable {
         let date: Date
     }
     
     var onSelectedDate: ((Date) -> Void)?
     var onVisibleDates: (([Date]) -> Void)?
-
+    
     var body: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 8) {
-                HStack(spacing: 1) {
-                    ForEach(visibleDates, id: \.self) { item in
-                        VStack(spacing: 1) {
-                            Text("\(getDayName(date: item.date))")
-                                .font(.caption)
-                                .foregroundColor(getDayForegroundColor(date: item.date))
-                            Text("\(getDay(date: item.date))")
-                                .font(.system(size: 13))
-                                .foregroundColor(getDayForegroundColor(date: item.date))
-                                .padding(8)
-                                .background(getDayBackgroundColor(date: item.date))
-                                .cornerRadius(15)
-                                .onTapGesture {
-                                    if isSelectable {
-                                        selectedDate = item.date
-                                        onSelectedDate?(selectedDate)
-                                    }
+        VStack(spacing: 8) {
+            HStack(spacing: 1) {
+                ForEach(visibleDates, id: \.self) { item in
+                    VStack(spacing: 1) {
+                        Text("\(getDayName(date: item.date))")
+                            .font(.caption)
+                            .foregroundColor(getDayForegroundColor(date: item.date))
+                        Text("\(getDay(date: item.date))")
+                            .font(.system(size: 13))
+                            .foregroundColor(getDayForegroundColor(date: item.date))
+                            .padding(8)
+                            .background(getDayBackgroundColor(date: item.date))
+                            .cornerRadius(15)
+                            .onTapGesture {
+                                if isSelectable {
+                                    selectedDate = item.date
+                                    onSelectedDate?(selectedDate)
                                 }
-                        }
-                        .frame(width: (geometry.size.width - (CGFloat(maxDays) * 1)) / CGFloat(maxDays))
-                        .background(.gray.opacity(0.3))
+                            }
                     }
-                }
-                if isSelectable {
-                    Text(getFullDateName(date: selectedDate))
+                    .frame(width: SchedulerView.Constant.columnWidht)
+                    .background(.gray.opacity(0.3))
                 }
             }
-            .gesture(
-                DragGesture(minimumDistance: 50)
-                    .onEnded { value in
-                        let gestureThreshold: CGFloat = 100.0
-                        if value.translation.width < -gestureThreshold {
-                            // Swiped left
-                            getNextWeek()
-                        } else if value.translation.width > gestureThreshold {
-                            // Swiped right
-                            getPreviousWeek()
-                        }
-                    }
-            )
-            .onAppear {
-                getWeekItems(containigDate: initialDate)
+            if isSelectable {
+                Text(getFullDateName(date: selectedDate))
             }
+        }
+        .gesture(
+            DragGesture(minimumDistance: 50)
+                .onEnded { value in
+                    let gestureThreshold: CGFloat = 100.0
+                    if value.translation.width < -gestureThreshold {
+                        // Swiped left
+                        getNextWeek()
+                    } else if value.translation.width > gestureThreshold {
+                        // Swiped right
+                        getPreviousWeek()
+                    }
+                }
+        )
+        .onAppear {
+            getWeekItems(containigDate: initialDate)
         }
     }
     
@@ -106,14 +104,14 @@ struct WeekCalendarView: View {
     func equalDates(date1: Date, date2: Date) -> ComparisonResult {
         let calendar = Calendar.current
         let comparisonResult = calendar.compare(date1, to: date2, toGranularity: .day)
-
+        
         return comparisonResult
     }
     
     func getFullDateName(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMMM d, yyyy"
-
+        
         let currentDate = date
         let fullDate = dateFormatter.string(from: currentDate)
         return fullDate
@@ -122,7 +120,7 @@ struct WeekCalendarView: View {
     func getDayName(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
-
+        
         let currentDate = date
         let dayName = dateFormatter.string(from: currentDate)
         return String(String(dayName).capitalized.prefix(3))
@@ -135,7 +133,7 @@ struct WeekCalendarView: View {
     func getDay(date: Date) -> Int {
         Calendar.current.component(.day, from: date)
     }
-
+    
     func getWeekItems(containigDate: Date) {
         var result: [Model] = []
         for index in 0..<maxDays {
