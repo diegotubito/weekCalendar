@@ -25,10 +25,14 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            SchedulerView(items: generateItems(availabilities: loadAvailabilities()), initialDate: currentDate, maxColumn: 90)
-                .background(Color.black)
+            SchedulerView(items: generateItems(availabilities: loadAvailabilities()),
+                          initialDate: currentDate,
+                          maxColumn: 90, didTapped: { model in
+                print(model.id)
+                print(model.date)
+            })
+            .background(Color.black)
         }
-        .padding(8)
     }
     
     func getNearSunday(date: Date) -> Date {
@@ -43,8 +47,8 @@ struct ContentView: View {
     
         let availability1 = Availability(_id: "1110",
                                         period: .monthly,
-                                        startDate: "2023-07-12T04:00:00.000Z",
-                                        endDate: "2023-07-12T05:30:00.000Z",
+                                        startDate: "2023-06-12T04:00:00.000Z",
+                                        endDate: "2023-06-12T013:30:00.000Z",
                                         service: "",
                                         isEnabled: true,
                                         priceAdjustmentPercentage: 10,

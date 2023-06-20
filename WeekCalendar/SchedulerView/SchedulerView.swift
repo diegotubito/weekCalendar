@@ -24,6 +24,13 @@ struct SchedulerView: View {
     var initialDate: Date
     let maxColumn: Int
     
+    var didTapped: ((TappedModel) -> Void)
+    
+    struct TappedModel {
+        let date: Date
+        let id: String?
+    }
+    
     var body: some View {
         
         ScrollView(.vertical) {
@@ -47,9 +54,10 @@ struct SchedulerView: View {
                             HStack(spacing: Constant.spacing) {
                                 ForEach(0..<maxColumn, id: \.self) {index in
                                     SchedulerColumnView(items: filterItems(index: index)) { model in
-                                        print(model.startDate)
+                                        didTapped(TappedModel(date: calculateColumnDate(index: index), id: model.availabilityId))
                                     } emptyHourDidTapped: { hourIndex in
-                                        print(hourIndex, index)
+                                        let tappedDate = Calendar.current.date(bySetting: .hour, value: hourIndex!, of: calculateColumnDate(index: index))
+                                        didTapped(TappedModel(date: tappedDate!, id: nil))
                                     }
                                     .frame(width: Constant.columnWidht)
                                 }
@@ -118,7 +126,9 @@ struct SchedulerView: View {
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        SchedulerView(items: [], initialDate: Date(), maxColumn: 7)
+        SchedulerView(items: [], initialDate: Date(), maxColumn: 7, didTapped: {_ in 
+            
+        })
     }
 }
 
