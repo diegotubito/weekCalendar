@@ -47,6 +47,7 @@ struct ContentView: View {
     
         let availability1 = Availability(_id: "1110",
                                         period: .monthly,
+                                        capacity: 33,
                                         startDate: "2023-06-12T04:00:00.000Z",
                                         endDate: "2023-06-12T013:30:00.000Z",
                                         service: "",
@@ -101,6 +102,7 @@ struct ContentView: View {
                 
                 let newCapsule = SchedulerModel(availabilityId: availability._id,
                                                 period: availability.period,
+                                                capacity: availability.capacity,
                                                 startDate: startDate,
                                                 endDate: endDate,
                                                 backgroundColor: Color.green,
@@ -128,6 +130,7 @@ struct ContentView_Previews: PreviewProvider {
 struct Availability: Decodable, Hashable {
     let _id: String
     let period: SchedulerPeriod
+    let capacity: Int
     let startDate: String
     let endDate: String
     let service: String

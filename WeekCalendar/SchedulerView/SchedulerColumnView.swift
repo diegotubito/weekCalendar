@@ -90,6 +90,7 @@ struct SchedulerColumnView: View {
 struct SchedulerModel: Hashable {
     let availabilityId: String
     let period: SchedulerPeriod
+    let capacity: Int
     let startDate: String
     let endDate: String
     let backgroundColor: Color
@@ -118,14 +119,21 @@ struct SchedulerCapsuleView: View {
             if item.columnType == .inner || item.columnType == .tail {
                 Text("⤵")
             }
-            Text(getStartTime())
-                .font(.system(size: 11))
-                .padding(.horizontal, 4)
-            
-            Text(getEndTime())
-                .font(.system(size: 11))
-                .padding(.horizontal, 4)
+            HStack {
+                Text(getStartTime())
+                    .font(.system(size: 11))
+                    .padding(.horizontal, 4)
+                Spacer()
+            }
             Spacer()
+            Text("\(item.capacity)")
+            Spacer()
+            HStack {
+                Text(getEndTime())
+                    .font(.system(size: 11))
+                    .padding(.horizontal, 4)
+                Spacer()
+            }
             if item.columnType == .inner || item.columnType == .head {
                 Text("⤴")
             }
