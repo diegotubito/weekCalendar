@@ -26,7 +26,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             SchedulerView(items: generateItems(availabilities: loadAvailabilities()), initialDate: currentDate, maxColumn: 14)
-                .background(Color.clear)
+                .background(Color.black)
         }
         .padding(8)
     }
@@ -44,7 +44,7 @@ struct ContentView: View {
         let availability = Availability(_id: "1110",
                                         dayOfWeek: 2,
                                         startTime: "2000-01-01T04:00:00.000Z",
-                                        endTime: "2000-01-02T07:30:00.000Z",
+                                        endTime: "2000-01-01T07:30:00.000Z",
                                         service: "",
                                         isEnabled: true,
                                         priceAdjustmentPercentage: 10,
@@ -58,51 +58,48 @@ struct ContentView: View {
         var result: [SchedulerModel] = []
 
         for availability in availabilities {
-            let startTime = availability.startTime.toDate()
-            let endTime = availability.endTime.toDate()
-            let components = Calendar.current.dateComponents([.day], from: startTime!, to: endTime!)
-            let days = components.day!
-            var columnType: SchedulerModel.ColumnType = .none
+            guard let availabilityStartTime = availability.startTime.toDate(),
+                  let endTime = availability.endTime.toDate() else { return [] }
             
+            let components = Calendar.current.dateComponents([.day], from: availabilityStartTime, to: endTime)
+            guard let days = components.day else { return [] }
+
+            let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+
             for index in 0..<(days + 1) {
+                guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: availabilityStartTime) else { break }
+                
+                var columnType: SchedulerModel.ColumnType = .none
                 let dayofweek = availability.dayOfWeek + index
-                let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: availability.startTime.toDate()!)!
-                var startTime = startTimeDate.toString(format: "yyyy-MM-dd'T'HH:mm:ss.sssZ")
+                var startTime = startTimeDate.toString(format: format)
+                var endTime = availability.endTime
 
-                var endTime = ""
-
-                if index != 0 {
-                    // this is going to be executed only when availability takes more than 1 day
-                    let nextDate = Calendar.current.date(byAdding: .day, value: index, to: availability.startTime.toDate()!)!
-                    let components = Calendar.current.dateComponents([.year, .month, .day], from: nextDate)
-                    let newStartTime = Calendar.current.date(from: components)!
-                    startTime = newStartTime.toString(format: "yyyy-MM-dd'T'HH:mm:ss.sssZ")
-                    
-                    if index == days {
-                        endTime = availability.endTime
-                        columnType = .tail
+                if days > 0 {
+                    if index != 0 {
+                        let startOfDay = startTimeDate.startOfDay()
+                        startTime = startOfDay.toString(format: format)
+                        
+                        if index == days {
+                            columnType = .tail
+                            endTime = availability.endTime
+                        } else {
+                            columnType = .inner
+                            let endOfDay = startTimeDate.endOfDay()
+                            endTime = endOfDay.toString(format: format)
+                        }
+                        
                     } else {
-                        columnType = .inner
-                        let lastHour = Calendar.current.date(byAdding: .hour, value: 23, to: nextDate)!
-                        endTime = lastHour.toString(format: "yyyy-MM-dd'T'HH:mm:ss.sssZ")
-                    }
-                    
-                } else {
-                    if days > 0 {
-                        let lastHour = Calendar.current.date(byAdding: .hour, value: 23, to: startTimeDate)!
-                        endTime = lastHour.toString(format: "yyyy-MM-dd'T'HH:mm:ss.sssZ")
                         columnType = .head
-                    } else {
-                        // in most cases end time is going to be this line.
-                        endTime = availability.endTime
-                        columnType = .none
+                        let endOfDay = startTimeDate.endOfDay()
+                        endTime = endOfDay.toString(format: format)
                     }
                 }
+                
                 let newCapsule = SchedulerModel(availabilityId: availability._id,
                                                 dayOfWeek: dayofweek,
                                                 startTime: startTime,
                                                 endTime: endTime,
-                                                backgroundColor: .green,
+                                                backgroundColor: Color.green,
                                                 columnType: columnType)
                 result.append(newCapsule)
             }
@@ -116,8 +113,6 @@ struct ContentView: View {
         let components = calendar.dateComponents([.day], from: date1, to: date2)
         return components.day
     }
-
-
 }
 
 struct ContentView_Previews: PreviewProvider {

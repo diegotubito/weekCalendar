@@ -20,14 +20,14 @@ struct SchedulerColumnView: View {
                 VStack(spacing: SchedulerView.Constant.spacing) {
                     ForEach(hours, id: \.self) { hour in
                         ZStack {
-                            Color.gray.opacity(0.3).frame(height: SchedulerView.Constant.hourHeight)
+                            Color.gray.opacity(0.25).frame(height: SchedulerView.Constant.hourHeight)
                                 .onTapGesture {
                                     emptyHourDidTapped?(hours.firstIndex(of: hour))
                                 }
                         }
                     }
                 }
-                
+               
                 ZStack {
                     ForEach(items, id: \.self) { item in
                         SchedulerCapsuleView(item: item)
@@ -43,7 +43,6 @@ struct SchedulerColumnView: View {
                     }
                 }
             }
-            .background(Color.clear)
         }
     }
     
