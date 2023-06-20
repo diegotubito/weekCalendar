@@ -22,7 +22,7 @@ struct SchedulerView: View {
     
     var items: [SchedulerModel]
     var initialDate: Date
-    var maxColumn: Int
+    let maxColumn: Int
     
     var body: some View {
         
@@ -30,7 +30,8 @@ struct SchedulerView: View {
             
             HStack(spacing: Constant.spacing) {
                 VStack(spacing: Constant.spacing) {
-                    Spacer(minLength: Constant.hourHeight)
+                    Color(.clear)
+                        .frame(width: SchedulerView.Constant.hourWidth, height: SchedulerView.Constant.hourHeight)
                     SchedulerHourView()
                 }
                 
@@ -47,7 +48,7 @@ struct SchedulerView: View {
                             .frame(height: Constant.headerHeight)
                             
                             HStack(spacing: Constant.spacing) {
-                                ForEach(0..<maxColumn) {index in
+                                ForEach(0..<maxColumn, id: \.self) {index in
                                     SchedulerColumnView(items: filterAvailabilities(weekday: calculateWeekDay(index: index))) { model in
                                         print(model.startTime)
                                     } emptyHourDidTapped: { hourIndex in

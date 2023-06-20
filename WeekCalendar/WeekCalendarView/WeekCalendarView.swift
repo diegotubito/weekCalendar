@@ -80,7 +80,7 @@ struct WeekCalendarView: View {
     }
     
     func getDayForegroundColor(date: Date) -> Color {
-        equalDates(date1: Date(), date2: date) == .orderedSame ? Color.red : Color.black.opacity(0.7)
+        equalDates(date1: Date(), date2: date) == .orderedSame ? Color.red : Color.white.opacity(0.7)
     }
     
     func getDayBackgroundColor(date: Date) -> Color {

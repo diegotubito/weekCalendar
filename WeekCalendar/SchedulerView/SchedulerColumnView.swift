@@ -94,6 +94,14 @@ struct SchedulerModel: Hashable {
     let startTime: String
     let endTime: String
     let backgroundColor: Color
+    let columnType: ColumnType
+    
+    enum ColumnType {
+        case none
+        case head
+        case inner
+        case tail
+    }
 }
 
 struct SchedulerCapsuleView: View {
@@ -101,6 +109,9 @@ struct SchedulerCapsuleView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            if item.columnType == .inner || item.columnType == .tail {
+                Text("⤵")
+            }
             Text(getStartTime())
                 .font(.system(size: 11))
                 .padding(.horizontal, 4)
@@ -108,6 +119,10 @@ struct SchedulerCapsuleView: View {
             Text(getEndTime())
                 .font(.system(size: 11))
                 .padding(.horizontal, 4)
+            Spacer()
+            if item.columnType == .inner || item.columnType == .head {
+                Text("⤴")
+            }
         }
         
     }

@@ -44,7 +44,7 @@ struct ContentView: View {
         let availability = Availability(_id: "1110",
                                         dayOfWeek: 2,
                                         startTime: "2000-01-01T04:00:00.000Z",
-                                        endTime: "2000-01-04T07:30:00.000Z",
+                                        endTime: "2000-01-02T07:30:00.000Z",
                                         service: "",
                                         isEnabled: true,
                                         priceAdjustmentPercentage: 10,
@@ -62,13 +62,17 @@ struct ContentView: View {
             let endTime = availability.endTime.toDate()
             let components = Calendar.current.dateComponents([.day], from: startTime!, to: endTime!)
             let days = components.day!
+            var columnType: SchedulerModel.ColumnType = .none
             
             for index in 0..<(days + 1) {
                 let dayofweek = availability.dayOfWeek + index
-                var startTime = Calendar.current.date(byAdding: .day, value: index, to: availability.startTime.toDate()!)?.toString(format: "yyyy-MM-dd'T'HH:mm:ss.sssZ")
-                
-                var endTime = availability.endTime
+                let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: availability.startTime.toDate()!)!
+                var startTime = startTimeDate.toString(format: "yyyy-MM-dd'T'HH:mm:ss.sssZ")
+
+                var endTime = ""
+
                 if index != 0 {
+                    // this is going to be executed only when availability takes more than 1 day
                     let nextDate = Calendar.current.date(byAdding: .day, value: index, to: availability.startTime.toDate()!)!
                     let components = Calendar.current.dateComponents([.year, .month, .day], from: nextDate)
                     let newStartTime = Calendar.current.date(from: components)!
@@ -76,17 +80,30 @@ struct ContentView: View {
                     
                     if index == days {
                         endTime = availability.endTime
+                        columnType = .tail
                     } else {
+                        columnType = .inner
                         let lastHour = Calendar.current.date(byAdding: .hour, value: 23, to: nextDate)!
                         endTime = lastHour.toString(format: "yyyy-MM-dd'T'HH:mm:ss.sssZ")
                     }
                     
+                } else {
+                    if days > 0 {
+                        let lastHour = Calendar.current.date(byAdding: .hour, value: 23, to: startTimeDate)!
+                        endTime = lastHour.toString(format: "yyyy-MM-dd'T'HH:mm:ss.sssZ")
+                        columnType = .head
+                    } else {
+                        // in most cases end time is going to be this line.
+                        endTime = availability.endTime
+                        columnType = .none
+                    }
                 }
                 let newCapsule = SchedulerModel(availabilityId: availability._id,
                                                 dayOfWeek: dayofweek,
-                                                startTime: startTime!,
+                                                startTime: startTime,
                                                 endTime: endTime,
-                                                backgroundColor: .green)
+                                                backgroundColor: .green,
+                                                columnType: columnType)
                 result.append(newCapsule)
             }
         }

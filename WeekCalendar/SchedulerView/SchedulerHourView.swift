@@ -14,11 +14,11 @@ struct SchedulerHourView: View {
         VStack(spacing: SchedulerView.Constant.spacing) {
             ForEach(hours, id: \.self) { hour in
                 ZStack {
-                    Color.gray.opacity(0.3)
+                    Color.clear.opacity(0.3)
                     Text("\(getIndex(hour: hour)):00")
-                        .foregroundColor(Color.black.opacity(0.6))
+                        .foregroundColor(Color.white.opacity(0.6))
                         .font(.caption)
-                        .offset(x: 0, y: -SchedulerView.Constant.hourHeight / 3)
+                        .offset(x: 0, y: -(SchedulerView.Constant.hourHeight / 2) - 1)
                 }
                 .frame(width: SchedulerView.Constant.hourWidth, height: SchedulerView.Constant.hourHeight)
             }
