@@ -89,20 +89,12 @@ struct SchedulerColumnView: View {
 }
 
 struct SchedulerModel: Hashable {
+    let availabilityId: String
     let dayOfWeek: Int
     let startTime: String
     let endTime: String
     let backgroundColor: Color
 }
-
-struct AvailabilitySheet_Previews: PreviewProvider {
-    static var previews: some View {
-        SchedulerColumnView(items: loadAvailability())
-    }
-}
-
-
-
 
 struct SchedulerCapsuleView: View {
     var item: SchedulerModel
