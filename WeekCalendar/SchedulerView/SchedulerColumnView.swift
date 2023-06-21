@@ -126,8 +126,6 @@ struct SchedulerCapsuleView: View {
                 Spacer()
             }
             Spacer()
-            Text("\(item.capacity)")
-            Spacer()
             HStack {
                 Text(getEndTime())
                     .font(.system(size: 11))

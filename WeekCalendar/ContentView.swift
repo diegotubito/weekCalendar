@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     var currentDate = Date()
+    @State var assignments: [Assignment] = []
+    @State var availabilities: [Availability] = []
+    @State var capsules: [SchedulerModel] = []
     
     init(currentDate: Date = Date()) {
         
@@ -25,14 +28,41 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            SchedulerView(items: generateItems(availabilities: loadAvailabilities()),
+            SchedulerView(items: capsules,
                           initialDate: currentDate,
                           maxColumn: 90, didTapped: { model in
                 print(model.id)
                 print(model.date)
+                createNewAvailability(model: model)
             })
             .background(Color.black)
         }
+        .onAppear {
+            availabilities = loadAvailabilities()
+            assignments = loadAssignment(toAvailability: availabilities.first!)
+            capsules = generateItems(availabilities: availabilities)
+        }
+    }
+    
+    func createNewAvailability(model: SchedulerView.TappedModel) {
+        let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+        
+        let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: model.date)
+        
+        let newAvailability = Availability(_id: "003",
+                                           period: .weekly,
+                                           capacity: 21,
+                                           startDate: model.date.toString(format: format),
+                                           endDate: (endDate?.toString(format: format))!,
+                                           service: "",
+                                           isEnabled: true,
+                                           priceAdjustmentPercentage: 10,
+                                           createdAt: "",
+                                           updatedAt: "")
+        if let newCapsule = addSingleItem(availability: newAvailability) {
+            capsules.append(newCapsule)
+        }
+        
     }
     
     func getNearSunday(date: Date) -> Date {
@@ -41,6 +71,19 @@ struct ContentView: View {
         guard let fromDate = Calendar.current.date(byAdding: .day, value: -(weekDay - 1), to: date) else { return Date() }
         return fromDate
       
+    }
+    
+    func loadAssignment(toAvailability: Availability) -> [Assignment] {
+        let assignment1 = Assignment(_id: "0000001",
+                                    availability: toAvailability,
+                                    status: "user-pending",
+                                    startDate: "2023-06-17T00:00:00.000Z",
+                                    amount: 1500,
+                                    createdAt: "",
+                                    updatedAt: "",
+                                    expiration: nil)
+        
+        return [assignment1]
     }
     
     func loadAvailabilities() -> [Availability] {
@@ -60,54 +103,64 @@ struct ContentView: View {
         return [availability1]
     }
     
+    func addSingleItem(availability: Availability) -> SchedulerModel? {
+        guard let availabilityStartDate = availability.startDate.toDate(),
+              let endDate = availability.endDate.toDate() else { return nil }
+        
+        let components = Calendar.current.dateComponents([.day], from: availabilityStartDate, to: endDate)
+        guard let days = components.day else { return nil }
+
+        let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+        
+        var result: SchedulerModel?
+
+        for index in 0..<(days + 1) {
+            guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: availabilityStartDate) else { break }
+            
+            var columnType: SchedulerModel.ColumnType = .none
+            var startDate = startTimeDate.toString(format: format)
+            var endDate = availability.endDate
+
+            if days > 0 {
+                if index != 0 {
+                    let startOfDay = startTimeDate.startOfDay()
+                    startDate = startOfDay.toString(format: format)
+                    
+                    if index == days {
+                        columnType = .tail
+                        endDate = availability.endDate
+                    } else {
+                        columnType = .inner
+                        let endOfDay = startTimeDate.endOfDay()
+                        endDate = endOfDay.toString(format: format)
+                    }
+                    
+                } else {
+                    columnType = .head
+                    let endOfDay = startTimeDate.endOfDay()
+                    endDate = endOfDay.toString(format: format)
+                }
+            }
+            
+            let newCapsule = SchedulerModel(availabilityId: availability._id,
+                                            period: availability.period,
+                                            capacity: availability.capacity,
+                                            startDate: startDate,
+                                            endDate: endDate,
+                                            backgroundColor: Color.green,
+                                            columnType: columnType)
+            result = newCapsule
+        }
+
+        return result
+    }
+    
     func generateItems(availabilities: [Availability]) -> [SchedulerModel]{
         var result: [SchedulerModel] = []
 
         for availability in availabilities {
-            guard let availabilityStartDate = availability.startDate.toDate(),
-                  let endDate = availability.endDate.toDate() else { return [] }
-            
-            let components = Calendar.current.dateComponents([.day], from: availabilityStartDate, to: endDate)
-            guard let days = components.day else { return [] }
-
-            let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-
-            for index in 0..<(days + 1) {
-                guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: availabilityStartDate) else { break }
-                
-                var columnType: SchedulerModel.ColumnType = .none
-                var startDate = startTimeDate.toString(format: format)
-                var endDate = availability.endDate
-
-                if days > 0 {
-                    if index != 0 {
-                        let startOfDay = startTimeDate.startOfDay()
-                        startDate = startOfDay.toString(format: format)
-                        
-                        if index == days {
-                            columnType = .tail
-                            endDate = availability.endDate
-                        } else {
-                            columnType = .inner
-                            let endOfDay = startTimeDate.endOfDay()
-                            endDate = endOfDay.toString(format: format)
-                        }
-                        
-                    } else {
-                        columnType = .head
-                        let endOfDay = startTimeDate.endOfDay()
-                        endDate = endOfDay.toString(format: format)
-                    }
-                }
-                
-                let newCapsule = SchedulerModel(availabilityId: availability._id,
-                                                period: availability.period,
-                                                capacity: availability.capacity,
-                                                startDate: startDate,
-                                                endDate: endDate,
-                                                backgroundColor: Color.green,
-                                                columnType: columnType)
-                result.append(newCapsule)
+            if let newItem = addSingleItem(availability: availability) {
+                result.append(newItem)
             }
         }
         
@@ -138,4 +191,31 @@ struct Availability: Decodable, Hashable {
     let priceAdjustmentPercentage: Int
     let createdAt: String
     let updatedAt: String
+}
+
+
+
+struct Assignment: Decodable, Hashable {
+    let _id: String
+    let availability: Availability
+    let status: String
+    let startDate: String
+    let amount: Double
+    let createdAt: String
+    let updatedAt: String
+    let expiration: Expiration?
+    
+    struct Expiration: Decodable, Hashable {
+        let _id: String
+        let duration: Int
+        let startDate: String?
+    }
+}
+
+enum AssignmentStatus: String {
+    case userPending
+    case ownerAccepted
+    case ownerRejected
+    case userScheduled
+    case userCancelled
 }
