@@ -27,10 +27,14 @@ struct ContentView: View {
     }
     
     var body: some View {
+        
+        WeekSchedulerView(initialDate: currentDate)
+        
+        /*
         VStack {
             SchedulerView(items: capsules,
                           initialDate: currentDate,
-                          maxColumn: 90, didTapped: { model in
+                          maxColumn: 7, didTapped: { model in
                 print(model.id)
                 print(model.date)
                 createNewAvailability(model: model)
@@ -42,6 +46,9 @@ struct ContentView: View {
             assignments = loadAssignment(toAvailability: availabilities.first!)
             capsules = generateItems(availabilities: availabilities)
         }
+         
+         
+         */
     }
     
     func createNewAvailability(model: SchedulerView.TappedModel) {
@@ -50,7 +57,7 @@ struct ContentView: View {
         let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: model.date)
         
         let newAvailability = Availability(_id: "003",
-                                           period: .weekly,
+                                           period: .none,
                                            capacity: 21,
                                            startDate: model.date.toString(format: format),
                                            endDate: (endDate?.toString(format: format))!,
@@ -92,7 +99,7 @@ struct ContentView: View {
                                         period: .monthly,
                                         capacity: 33,
                                         startDate: "2023-06-12T04:00:00.000Z",
-                                        endDate: "2023-06-12T013:30:00.000Z",
+                                        endDate: "2023-06-12T005:00:00.000Z",
                                         service: "",
                                         isEnabled: true,
                                         priceAdjustmentPercentage: 10,
@@ -147,7 +154,7 @@ struct ContentView: View {
                                             capacity: availability.capacity,
                                             startDate: startDate,
                                             endDate: endDate,
-                                            backgroundColor: Color.green,
+                                            backgroundColor: Color.gray.opacity(0.15),
                                             columnType: columnType)
             result = newCapsule
         }

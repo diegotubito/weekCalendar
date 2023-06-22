@@ -17,6 +17,8 @@
 		AB5A9ADE2A3FD67000A379D1 /* SchedulerHourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9ADD2A3FD67000A379D1 /* SchedulerHourView.swift */; };
 		AB5A9AE02A3FD6A100A379D1 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9ADF2A3FD6A100A379D1 /* Date+Extension.swift */; };
 		AB5A9AE22A3FD6AB00A379D1 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9AE12A3FD6AB00A379D1 /* String+Extension.swift */; };
+		AB5A9B792A4387C100A379D1 /* WeekSchedulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9B782A4387C100A379D1 /* WeekSchedulerView.swift */; };
+		AB5A9B7B2A4389A700A379D1 /* WeekSchedulerBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9B7A2A4389A700A379D1 /* WeekSchedulerBoxView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		AB5A9ADD2A3FD67000A379D1 /* SchedulerHourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerHourView.swift; sourceTree = "<group>"; };
 		AB5A9ADF2A3FD6A100A379D1 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		AB5A9AE12A3FD6AB00A379D1 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		AB5A9B782A4387C100A379D1 /* WeekSchedulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSchedulerView.swift; sourceTree = "<group>"; };
+		AB5A9B7A2A4389A700A379D1 /* WeekSchedulerBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSchedulerBoxView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,7 @@
 			children = (
 				AB5A9AC82A3F576100A379D1 /* WeekCalendarApp.swift */,
 				AB5A9ACA2A3F576100A379D1 /* ContentView.swift */,
+				AB5A9B772A4387A700A379D1 /* NewVersion */,
 				AB5A9AE42A3FD6CE00A379D1 /* Extension */,
 				AB5A9AE32A3FD6BF00A379D1 /* WeekCalendarView */,
 				AB5A9AD82A3FD61700A379D1 /* SchedulerView */,
@@ -107,6 +112,15 @@
 				AB5A9ADF2A3FD6A100A379D1 /* Date+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		AB5A9B772A4387A700A379D1 /* NewVersion */ = {
+			isa = PBXGroup;
+			children = (
+				AB5A9B782A4387C100A379D1 /* WeekSchedulerView.swift */,
+				AB5A9B7A2A4389A700A379D1 /* WeekSchedulerBoxView.swift */,
+			);
+			path = NewVersion;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,11 +193,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB5A9B792A4387C100A379D1 /* WeekSchedulerView.swift in Sources */,
 				AB5A9AE22A3FD6AB00A379D1 /* String+Extension.swift in Sources */,
 				AB5A9ADA2A3FD64500A379D1 /* SchedulerView.swift in Sources */,
 				AB5A9AD72A3F586200A379D1 /* WeekCalendarView.swift in Sources */,
 				AB5A9ADE2A3FD67000A379D1 /* SchedulerHourView.swift in Sources */,
 				AB5A9ACB2A3F576100A379D1 /* ContentView.swift in Sources */,
+				AB5A9B7B2A4389A700A379D1 /* WeekSchedulerBoxView.swift in Sources */,
 				AB5A9AE02A3FD6A100A379D1 /* Date+Extension.swift in Sources */,
 				AB5A9ADC2A3FD66400A379D1 /* SchedulerColumnView.swift in Sources */,
 				AB5A9AC92A3F576100A379D1 /* WeekCalendarApp.swift in Sources */,

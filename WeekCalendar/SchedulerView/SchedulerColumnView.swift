@@ -121,16 +121,17 @@ struct SchedulerCapsuleView: View {
             }
             HStack {
                 Text(getStartTime())
-                    .font(.system(size: 11))
+                    .font(.system(size: 10))
                     .padding(.horizontal, 4)
+                    .foregroundColor(.white.opacity(0.5))
                 Spacer()
             }
             Spacer()
             HStack {
-                Text(getEndTime())
-                    .font(.system(size: 11))
-                    .padding(.horizontal, 4)
-                Spacer()
+                //Text(getEndTime())
+                //    .font(.system(size: 11))
+                //    .padding(.horizontal, 4)
+                //Spacer()
             }
             if item.columnType == .inner || item.columnType == .head {
                 Text("⤴")
