@@ -11,9 +11,10 @@ struct WeekSchedulerView: View {
     struct Constants {
         static let rows: Int = 24
         
-        static let boxWidth: CGFloat = 70
+        static let boxWidth: CGFloat = 50
         static let boxHeight: CGFloat = 50
         static let spacing: CGFloat = 1
+        static let refreshPositionX: CGFloat = 0.9 /// porcentage of the whole scroll content view that we should starting adding more columns for infinite columns.
     }
     
     @State var capsules: [SchedulerModel] = [] {
@@ -23,7 +24,7 @@ struct WeekSchedulerView: View {
     }
     var initialDate: Date
     
-    @State var columns: Int = 3
+    @State var columns: Int = 100
     
     struct SchedulerModel: Hashable {
         let availabilityId: String
@@ -42,23 +43,35 @@ struct WeekSchedulerView: View {
         }
     }
 
+    @State private var scrollPosition: CGPoint = .zero
     
     var body: some View {
         GeometryReader { geometry in
             ScrollView(.vertical) {
                 ScrollView(.horizontal) {
                     ZStack {
-                        VStack(spacing: 1) {
+                        VStack(spacing: Constants.spacing) {
                             ForEach(0..<Constants.rows, id: \.self) { rowIndex in
                                 
                                 ScrollView(.horizontal) {
-                                    HStack(spacing: 1) {
+                                    HStack(spacing: Constants.spacing) {
                                         ForEach(0..<columns, id: \.self) { columnIndex in
                                             WeekSchedulerBoxView()
                                                 .frame(width: Constants.boxWidth, height: Constants.boxHeight)
-                                                .background(.yellow)
+                                            //   .background(.yellow)
+                                                .background(GeometryReader { geometry in
+                                                    ZStack {
+                                                        Text("\(Int(geometry.size.width))")
+                                                            .font(.system(size: 12))
+                                                        Color.clear
+                                                            .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
+                                                        
+                                                    }
+                                                })
+                                                
                                         }
                                     }
+                                    
                                 }
                             }
                         }
@@ -70,17 +83,30 @@ struct WeekSchedulerView: View {
                                 .position(x: getPositionX(item: capsule), y: getPosition(item: capsule))
                         }
                     }
+                   
+                   
+                }
+            }
+            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+                self.scrollPosition = value
+                print(value)
+                if getCurrentMaxXPosition(x: value.x, geometry: geometry) > getCriticalWidth(geometry: geometry) {
+                    print("critical", getCriticalWidth(geometry: geometry))
+                   // columns = columns + 7
+                   // generateItems()
                 }
             }
         }
         .onAppear {
             generateItems()
-            
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-                columns = columns + 1
-                self.generateItems()
-            })
+        }
+        
+    }
+
+    struct ScrollOffsetPreferenceKey: PreferenceKey {
+        static var defaultValue: CGPoint = .zero
+
+        static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {
         }
     }
     
@@ -120,6 +146,19 @@ struct WeekSchedulerView: View {
 
        
         return [availability1, availability2, availability3]
+    }
+    
+    private func getCurrentMaxXPosition(x: CGFloat, geometry: GeometryProxy) -> CGFloat {
+        (abs(x) + geometry.size.width)
+    }
+    
+    private func getCriticalWidth(geometry: GeometryProxy) -> CGFloat {
+        let totalWidht = getContainerWidht()
+        return totalWidht * Constants.refreshPositionX
+    }
+    
+    private func getContainerWidht() -> CGFloat {
+        (CGFloat(columns) * Constants.boxWidth) + (CGFloat(columns - 1) * Constants.spacing)
     }
     
     func getItemHeight(item: SchedulerModel) -> CGFloat {
