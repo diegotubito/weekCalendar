@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct WeekSchedulerCapsuleView: View {
-    var capsule: WeekSchedulerView.SchedulerModel
-    var selectedCapsules: [WeekSchedulerView.SchedulerModel]
+    var capsule: SchedulerModel
+    var selectedCapsules: [SchedulerModel]
     
     var body: some View {
         VStack(spacing: 0) {
