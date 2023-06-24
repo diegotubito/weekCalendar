@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct WeekSchedulerHourView: View {
-    //var hours = Array(0..<Int(SchedulerView.Constant.maxHours))
-
-
-    
     var startHour: Int
     var endHour: Int
     var hourWidth: CGFloat

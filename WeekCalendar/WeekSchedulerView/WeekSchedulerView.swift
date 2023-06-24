@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WeekSchedulerView: View {
     struct Constants {
+        static let capsuleProportionalWidth: CGFloat = 0.95
         static let calendarHeight: CGFloat = 70
         static let hourWidht: CGFloat = 50
         static let boxWidth: CGFloat = 70
@@ -29,7 +30,6 @@ struct WeekSchedulerView: View {
     var onCapsuleTapped: (SchedulerModel) -> Void
     var onEmptyHourTapped: (Int, Int, Date) -> Void
 
-
     struct SchedulerModel: Hashable {
         let availabilityId: String
         let period: SchedulerPeriod
@@ -47,8 +47,13 @@ struct WeekSchedulerView: View {
         }
     }
     
-    
-  
+    enum SchedulerPeriod: String, Decodable {
+        case none
+        case daily
+        case weekly
+        case monthly
+    }
+
     var body: some View {
         GeometryReader { geometry in
             ScrollView(.vertical) {
@@ -56,15 +61,22 @@ struct WeekSchedulerView: View {
                     VStack {
                         Spacer()
                             .frame(height: Constants.calendarHeight)
-                        WeekSchedulerHourView(startHour: startHour, endHour: endHour, hourWidth: Constants.hourWidht, hourHeight: Constants.boxHeight, spacing: Constants.spacing)
+                        WeekSchedulerHourView(startHour: startHour,
+                                              endHour: endHour,
+                                              hourWidth: Constants.hourWidht,
+                                              hourHeight: Constants.boxHeight,
+                                              spacing: Constants.spacing)
                     }
                     
                     ScrollView(.horizontal) {
                         VStack(spacing: Constants.spacing) {
-                            WeekCalendarView(initialDate: initialDate, selectedDate: Date(), maxDays: days, isSelectable: false, spacing: Constants.spacing, columnWidth: Constants.boxWidth, height: Constants.calendarHeight) { selectedDate in
-                                print(selectedDate)
-                            } onVisibleDates: { visibleDates in
-                            }
+                            WeekCalendarView(initialDate: initialDate,
+                                             selectedDate: Date(),
+                                             maxDays: days,
+                                             isSelectable: false,
+                                             spacing: Constants.spacing,
+                                             columnWidth: Constants.boxWidth,
+                                             height: Constants.calendarHeight) { selectedDate in } onVisibleDates: { visibleDates in }
                             
                             VStack(spacing: Constants.spacing) {
                                 ForEach(0..<(endHour - startHour + 1), id: \.self) { rowIndex in
@@ -85,40 +97,14 @@ struct WeekSchedulerView: View {
                             }.overlay {
                                 ForEach(capsules, id: \.self) { capsuleItem in
                                     if let yPosition = getPositionY(item: capsuleItem) {
-                                        VStack(spacing: 0) {
-                                            if capsuleItem.columnType == .inner || capsuleItem.columnType == .tail {
-                                                HStack {
-                                                    Text("⤵")
-                                                    Spacer()
-                                                }
+                                        WeekSchedulerCapsuleView(capsule: capsuleItem)
+                                            .frame(width: Constants.boxWidth * Constants.capsuleProportionalWidth, height: getItemHeight(item: capsuleItem))
+                                            .background(capsuleItem.backgroundColor)
+                                            .cornerRadius(5)
+                                            .position(x: getPositionX(item: capsuleItem), y: yPosition)
+                                            .onTapGesture {
+                                                onCapsuleTapped(capsuleItem)
                                             }
-                                            HStack {
-                                                Text(getStartTime(stringDate: capsuleItem.startDate))
-                                                    .font(.system(size: 10))
-                                                    .padding(.horizontal, 4)
-                                                    .foregroundColor(.white.opacity(0.5))
-                                                Spacer()
-                                            }
-                                            Spacer()
-                                            HStack {
-                                                //Text(getEndTime())
-                                                //    .font(.system(size: 11))
-                                                //    .padding(.horizontal, 4)
-                                                //Spacer()
-                                            }
-                                            if capsuleItem.columnType == .inner || capsuleItem.columnType == .head {
-                                                HStack {
-                                                    Spacer()
-                                                    Text("⤴")
-                                                }
-                                            }
-                                        }
-                                        .frame(width: Constants.boxWidth, height: getItemHeight(item: capsuleItem))
-                                        .background(capsuleItem.backgroundColor)
-                                        .position(x: getPositionX(item: capsuleItem), y: yPosition)
-                                        .onTapGesture {
-                                            onCapsuleTapped(capsuleItem)
-                                        }
                                     }
                                     
                                 }
@@ -134,14 +120,6 @@ struct WeekSchedulerView: View {
         
     }
     
-    func getStartTime(stringDate: String) -> String {
-        stringDate.showTimeFormat()
-    }
-    
-    func getEndTime(stringDate: String) -> String {
-        stringDate.showTimeFormat()
-    }
-        
     private func getContainerWidht() -> CGFloat {
         (CGFloat(days) * Constants.boxWidth) + (CGFloat(days - 1) * Constants.spacing)
     }
@@ -212,8 +190,6 @@ struct WeekSchedulerView: View {
     }
     
     func generateItems(availabilities: [Availability]) {
-      //  capsules.removeAll()
-        
         for availability in availabilities {
             switch availability.period {
             case .none:
@@ -293,8 +269,6 @@ struct WeekSchedulerView: View {
                     endDate = endOfDay.toString(format: format)
                 }
             }
-            
-            
             
             let newCapsule = SchedulerModel(availabilityId: availability._id,
                                             period: availability.period,
