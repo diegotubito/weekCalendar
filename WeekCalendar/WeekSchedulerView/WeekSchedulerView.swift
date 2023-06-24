@@ -22,13 +22,16 @@ struct WeekSchedulerView: View {
             print(capsules.count)
         }
     }
+
     var initialDate: Date
     @State var days: Int
     var startHour: Int
     var endHour: Int
     var availabilities: [Availability]
-    var onCapsuleTapped: (SchedulerModel) -> Void
-    var onEmptyHourTapped: (Int, Int, Date) -> Void
+    var onCapsuleTapped: (Availability) -> Void
+    var onEmptyHourTapped: (Availability) -> Void
+    
+    @State var selectedCapsules: [SchedulerModel] = []
 
     struct SchedulerModel: Hashable {
         let availabilityId: String
@@ -87,8 +90,11 @@ struct WeekSchedulerView: View {
                                                 .onTapGesture {
                                                     if let tappedDate = Calendar.current.date(byAdding: .day, value: columnIndex, to: initialDate),
                                                        let tappedDateAndTime = Calendar.current.date(byAdding: .hour, value: rowIndex + startHour, to: tappedDate) {
-                                                        onEmptyHourTapped(rowIndex, columnIndex, tappedDateAndTime)
-                                                        createNewAvailability(date: tappedDateAndTime)
+                                                        let newAvailability = createNewAvailability(date: tappedDateAndTime)
+                                                        generateItems(availabilities: [newAvailability])
+                                                        let newCapsules = capsules.filter({$0.availabilityId == newAvailability._id})
+                                                        selectedCapsules = newCapsules
+                                                        onEmptyHourTapped(newAvailability)
                                                     }
                                                 }
                                         }
@@ -97,13 +103,22 @@ struct WeekSchedulerView: View {
                             }.overlay {
                                 ForEach(capsules, id: \.self) { capsuleItem in
                                     if let yPosition = getPositionY(item: capsuleItem) {
-                                        WeekSchedulerCapsuleView(capsule: capsuleItem)
+                                        WeekSchedulerCapsuleView(capsule: capsuleItem, selectedCapsules: selectedCapsules)
                                             .frame(width: Constants.boxWidth * Constants.capsuleProportionalWidth, height: getItemHeight(item: capsuleItem))
-                                            .background(capsuleItem.backgroundColor)
                                             .cornerRadius(5)
                                             .position(x: getPositionX(item: capsuleItem), y: yPosition)
                                             .onTapGesture {
-                                                onCapsuleTapped(capsuleItem)
+                                                
+                                                selectAllSameId(capsule: capsuleItem)
+                                                
+                                                if let availabilityTapped = availabilities.filter({$0._id == capsuleItem.availabilityId}).first {
+                                                    
+                                                    if selectedCapsules.contains(where: {$0.availabilityId == availabilityTapped._id}) {
+                                                        onCapsuleTapped(availabilityTapped)
+                                                    }
+                                                }
+                                               
+
                                             }
                                     }
                                     
@@ -118,6 +133,14 @@ struct WeekSchedulerView: View {
             generateItems(availabilities: availabilities)
         }
         
+    }
+    
+    func selectAllSameId(capsule: SchedulerModel) {
+        if selectedCapsules.contains(where: {$0.availabilityId == capsule.availabilityId}) {
+            selectedCapsules.removeAll()
+        } else {
+            selectedCapsules = capsules.filter({$0.availabilityId == capsule.availabilityId})
+        }
     }
     
     private func getContainerWidht() -> CGFloat {
@@ -196,34 +219,41 @@ struct WeekSchedulerView: View {
                 capsules.append(contentsOf: addSingleItem(fromDate: availability.startDate.toDate()!, toDate: availability.endDate.toDate()!, availability: availability))
             case .daily:
                 let dailyConstant = 1
+                var result: [SchedulerModel] = []
                 for index in 0..<days / dailyConstant {
                     let fromDate = availability.startDate.toDate()!
                     let correctFromDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: fromDate)
                     let toDate = availability.endDate.toDate()!
                     let correctToDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: toDate)
-                    capsules.append(contentsOf: addSingleItem(fromDate: correctFromDate!, toDate: correctToDate!, availability: availability))
+                    result.append(contentsOf: addSingleItem(fromDate: correctFromDate!, toDate: correctToDate!, availability: availability))
                 }
+                
+                capsules.append(contentsOf: result)
                 break
             case .monthly:
                 let monthlyConstant = 1 // month
                 let iteration = (days / 30) + 1
-                
+                var result: [SchedulerModel] = []
+
                 for index in 0..<iteration {
                     let fromDate = availability.startDate.toDate()!
                     let correctFromDate = Calendar.current.date(byAdding: .month, value: monthlyConstant * index, to: fromDate)
                     let toDate = availability.endDate.toDate()!
                     let correctToDate = Calendar.current.date(byAdding: .month, value: monthlyConstant * index, to: toDate)
-                    capsules.append(contentsOf: addSingleItem(fromDate: correctFromDate!, toDate: correctToDate!, availability: availability))
+                    result.append(contentsOf: addSingleItem(fromDate: correctFromDate!, toDate: correctToDate!, availability: availability))
                 }
+                capsules.append(contentsOf: result)
             case .weekly:
                 let weeklyConstant = 7
+                var result: [SchedulerModel] = []
                 for index in 0..<days / weeklyConstant {
                     let fromDate = availability.startDate.toDate()!
                     let correctFromDate = Calendar.current.date(byAdding: .day, value: weeklyConstant * index, to: fromDate)
                     let toDate = availability.endDate.toDate()!
                     let correctToDate = Calendar.current.date(byAdding: .day, value: weeklyConstant * index, to: toDate)
-                    capsules.append(contentsOf: addSingleItem(fromDate: correctFromDate!, toDate: correctToDate!, availability: availability))
+                    result.append(contentsOf: addSingleItem(fromDate: correctFromDate!, toDate: correctToDate!, availability: availability))
                 }
+                capsules.append(contentsOf: result)
             }
         }
     }
@@ -283,13 +313,13 @@ struct WeekSchedulerView: View {
         return result
     }
     
-    func createNewAvailability(date: Date) {
+    func createNewAvailability(date: Date) -> Availability {
         let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
         
         let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)
         
-        let newAvailability = Availability(_id: "003",
-                                           period: .weekly,
+        let newAvailability = Availability(_id: UUID().uuidString,
+                                           period: .none,
                                            capacity: 21,
                                            startDate: date.toString(format: format),
                                            endDate: (endDate?.toString(format: format))!,
@@ -298,6 +328,7 @@ struct WeekSchedulerView: View {
                                            priceAdjustmentPercentage: 10,
                                            createdAt: "",
                                            updatedAt: "")
-        generateItems(availabilities: [newAvailability])
+        
+        return newAvailability
     }
 }

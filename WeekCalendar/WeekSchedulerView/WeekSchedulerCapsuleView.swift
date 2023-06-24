@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WeekSchedulerCapsuleView: View {
     var capsule: WeekSchedulerView.SchedulerModel
+    var selectedCapsules: [WeekSchedulerView.SchedulerModel]
     
     var body: some View {
         VStack(spacing: 0) {
@@ -22,7 +23,7 @@ struct WeekSchedulerCapsuleView: View {
                 Text("\(getStartTime(stringDate: capsule.startDate)) (\(capsule.capacity))")
                     .font(.system(size: 10))
                     .padding(.horizontal, 4)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(isCapsuleSelected() ? .white : .white.opacity(0.5))
                 Spacer()
             }
             Spacer()
@@ -40,7 +41,12 @@ struct WeekSchedulerCapsuleView: View {
                 }
             }
         }
+        .background(isCapsuleSelected() ? .blue.opacity(0.5) : capsule.backgroundColor)
         
+    }
+    
+    func isCapsuleSelected() -> Bool {
+        selectedCapsules.contains(where: {$0.availabilityId == capsule.availabilityId})
     }
     
     func getStartTime(stringDate: String) -> String {

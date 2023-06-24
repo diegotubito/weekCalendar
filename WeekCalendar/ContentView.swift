@@ -12,6 +12,8 @@ struct ContentView: View {
     @State var assignments: [Assignment] = []
     @State var availabilities: [Availability] = []
     
+    @State var isShowingSheet = false
+    
     init(currentDate: Date = Date()) {
         
         let calendar = Calendar.current
@@ -26,11 +28,27 @@ struct ContentView: View {
     }
     
     var body: some View {
-        WeekSchedulerView(initialDate: currentDate, days: 14, startHour: 7, endHour: 22, availabilities: loadAvailabilities()) { capsule in
-            print(capsule)
-        } onEmptyHourTapped: { (row, column, date) in
-            print(row, column, date)
-    
+        VStack {
+            ZStack {
+                VStack {
+                    WeekSchedulerView(initialDate: currentDate, days: 14, startHour: 7, endHour: 22, availabilities: loadAvailabilities()) { availabilityTapped in
+                        print(availabilityTapped)
+                    } onEmptyHourTapped: { newAvailability in
+                        isShowingSheet = true
+                    }
+                }
+                if isShowingSheet {
+                    Color.gray.opacity(0.3)
+                        .onTapGesture {
+                            isShowingSheet = false
+                        }
+                }
+            }
+            if isShowingSheet {
+                Spacer()
+                Text("asdkfj")
+                    .padding(100)
+            }
         }
     }
     
@@ -45,10 +63,10 @@ struct ContentView: View {
     func loadAvailabilities() -> [Availability] {
         
         let availability1 = Availability(_id: "1110",
-                                         period: .daily,
+                                         period: .none,
                                          capacity: 33,
-                                         startDate: "2023-06-12T06:00:00.000Z",
-                                         endDate: "2023-06-12T07:00:00.000Z",
+                                         startDate: "2023-06-13T15:00:00.000Z",
+                                         endDate: "2023-06-13T16:00:00.000Z",
                                          service: "",
                                          isEnabled: true,
                                          priceAdjustmentPercentage: 10,
@@ -57,8 +75,8 @@ struct ContentView: View {
         let availability2 = Availability(_id: "1110",
                                          period: .none,
                                          capacity: 33,
-                                         startDate: "2023-06-13T09:00:00.000Z",
-                                         endDate: "2023-06-13T10:00:00.000Z",
+                                         startDate: "2023-06-13T15:00:00.000Z",
+                                         endDate: "2023-06-13T17:00:00.000Z",
                                          service: "",
                                          isEnabled: true,
                                          priceAdjustmentPercentage: 10,
@@ -68,8 +86,8 @@ struct ContentView: View {
         let availability3 = Availability(_id: "1110",
                                          period: .none,
                                          capacity: 33,
-                                         startDate: "2023-06-14T22:00:00.000Z",
-                                         endDate: "2023-06-14T23:30:00.000Z",
+                                         startDate: "2023-06-13T15:00:00.000Z",
+                                         endDate: "2023-06-13T18:00:00.000Z",
                                          service: "",
                                          isEnabled: true,
                                          priceAdjustmentPercentage: 10,
@@ -77,7 +95,7 @@ struct ContentView: View {
                                          updatedAt: "")
         
         
-        return [availability2, availability3]
+        return [availability1, availability2, availability3]
     }
 }
 
