@@ -12,7 +12,13 @@ struct ContentView: View {
     @State var assignments: [Assignment] = []
     @State var availabilities: [Availability] = []
     
-    @State var isShowingSheet = false
+    @State var openSheet: SheetType = .none
+    
+    enum SheetType {
+        case edit
+        case new
+        case none
+    }
     
     init(currentDate: Date = Date()) {
         
@@ -26,29 +32,34 @@ struct ContentView: View {
             self.currentDate = particularDate
         }
     }
-    
+    @State var isShowingSheet = false
     var body: some View {
         VStack {
             ZStack {
                 VStack {
                     WeekSchedulerView(initialDate: currentDate, days: 14, startHour: 7, endHour: 22, availabilities: loadAvailabilities()) { availabilityTapped in
-                        print(availabilityTapped)
+                        openSheet = .edit
+                        isShowingSheet = true
                     } onEmptyHourTapped: { newAvailability in
+                        openSheet = .new
                         isShowingSheet = true
                     }
                 }
-                if isShowingSheet {
-                    Color.gray.opacity(0.3)
-                        .onTapGesture {
-                            isShowingSheet = false
-                        }
+            }
+        }
+        .sheet(isPresented: $isShowingSheet) {
+            ZStack {
+                if openSheet == .edit {
+                    Color.gray.opacity(0.6)
+                    Text("Edit or Delete current availability")
+                        .foregroundColor(.black)
+                } else if openSheet == .new{
+                    Color.gray.opacity(0.6)
+                    Text("This should be a screen to create a new Availability")
+                        .foregroundColor(.black)
                 }
             }
-            if isShowingSheet {
-                Spacer()
-                Text("asdkfj")
-                    .padding(100)
-            }
+            .presentationDetents([.medium, .fraction(0.8)])
         }
     }
     
