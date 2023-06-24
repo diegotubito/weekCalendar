@@ -8,12 +8,28 @@
 import SwiftUI
 
 struct WeekSchedulerHourView: View {
-    var hours = Array(0..<Int(SchedulerView.Constant.maxHours))
+    //var hours = Array(0..<Int(SchedulerView.Constant.maxHours))
+
+
     
+    var startHour: Int
+    var endHour: Int
     var hourWidth: CGFloat
     var hourHeight: CGFloat
     var spacing: CGFloat
     
+    private var hours: [Int]
+
+    init(startHour: Int, endHour: Int, hourWidth: CGFloat, hourHeight: CGFloat, spacing: CGFloat) {
+        self.startHour = startHour
+        self.endHour = endHour
+        self.hourWidth = hourWidth
+        self.hourHeight = hourHeight
+        self.spacing = spacing
+
+        hours = Array(stride(from: startHour, through: endHour, by: 1))
+    }
+
     var body: some View {
         VStack(spacing: spacing) {
             ForEach(hours, id: \.self) { hour in
@@ -30,15 +46,11 @@ struct WeekSchedulerHourView: View {
             }
         }
     }
-    
-    func getIndex(hour: Int) -> String {
-        String(hours.lastIndex(of: hour)!)
-    }
 }
 
 struct WeekSchedulerHourView_Previews: PreviewProvider {
     static var previews: some View {
-        WeekSchedulerHourView(hourWidth: 50, hourHeight: 50, spacing: 1)
+        WeekSchedulerHourView(startHour: 4, endHour: 10, hourWidth: 50, hourHeight: 50, spacing: 1)
     }
 }
 

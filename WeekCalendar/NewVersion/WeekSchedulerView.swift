@@ -9,7 +9,6 @@ import SwiftUI
 
 struct WeekSchedulerView: View {
     struct Constants {
-        static let rows: Int = 24
         static let calendarHeight: CGFloat = 70
         static let hourWidht: CGFloat = 50
         static let boxWidth: CGFloat = 70
@@ -24,6 +23,8 @@ struct WeekSchedulerView: View {
     }
     var initialDate: Date
     @State var days: Int
+    var startHour: Int
+    var endHour: Int
     var availabilities: [Availability]
     var onCapsuleTapped: (SchedulerModel) -> Void
     var onEmptyHourTapped: (Int, Int, Date) -> Void
@@ -55,7 +56,7 @@ struct WeekSchedulerView: View {
                     VStack {
                         Spacer()
                             .frame(height: Constants.calendarHeight)
-                        WeekSchedulerHourView(hourWidth: Constants.hourWidht, hourHeight: Constants.boxHeight, spacing: Constants.spacing)
+                        WeekSchedulerHourView(startHour: startHour, endHour: endHour, hourWidth: Constants.hourWidht, hourHeight: Constants.boxHeight, spacing: Constants.spacing)
                     }
                     
                     ScrollView(.horizontal) {
@@ -66,16 +67,16 @@ struct WeekSchedulerView: View {
                             }
                             
                             VStack(spacing: Constants.spacing) {
-                                ForEach(0..<Constants.rows, id: \.self) { rowIndex in
+                                ForEach(0..<(endHour - startHour + 1), id: \.self) { rowIndex in
                                     HStack(spacing: Constants.spacing) {
                                         ForEach(0..<days, id: \.self) { columnIndex in
                                             Color.gray.opacity(0.25)
                                                 .frame(width: Constants.boxWidth, height: Constants.boxHeight)
                                                 .onTapGesture {
                                                     if let tappedDate = Calendar.current.date(byAdding: .day, value: columnIndex, to: initialDate),
-                                                       let addTime = Calendar.current.date(byAdding: .hour, value: rowIndex, to: tappedDate) {
-                                                        onEmptyHourTapped(rowIndex, columnIndex, addTime)
-                                                        createNewAvailability(date: addTime)
+                                                       let tappedDateAndTime = Calendar.current.date(byAdding: .hour, value: rowIndex + startHour, to: tappedDate) {
+                                                        onEmptyHourTapped(rowIndex, columnIndex, tappedDateAndTime)
+                                                        createNewAvailability(date: tappedDateAndTime)
                                                     }
                                                 }
                                         }
@@ -83,41 +84,43 @@ struct WeekSchedulerView: View {
                                 }
                             }.overlay {
                                 ForEach(capsules, id: \.self) { capsuleItem in
-                                    VStack(spacing: 0) {
-                                        if capsuleItem.columnType == .inner || capsuleItem.columnType == .tail {
+                                    if let yPosition = getPositionY(item: capsuleItem) {
+                                        VStack(spacing: 0) {
+                                            if capsuleItem.columnType == .inner || capsuleItem.columnType == .tail {
+                                                HStack {
+                                                    Text("⤵")
+                                                    Spacer()
+                                                }
+                                            }
                                             HStack {
-                                                Text("⤵")
+                                                Text(getStartTime(stringDate: capsuleItem.startDate))
+                                                    .font(.system(size: 10))
+                                                    .padding(.horizontal, 4)
+                                                    .foregroundColor(.white.opacity(0.5))
                                                 Spacer()
                                             }
-                                        }
-                                        HStack {
-                                            Text(getStartTime(stringDate: capsuleItem.startDate))
-                                                .font(.system(size: 10))
-                                                .padding(.horizontal, 4)
-                                                .foregroundColor(.white.opacity(0.5))
                                             Spacer()
-                                        }
-                                        Spacer()
-                                        HStack {
-                                            //Text(getEndTime())
-                                            //    .font(.system(size: 11))
-                                            //    .padding(.horizontal, 4)
-                                            //Spacer()
-                                        }
-                                        if capsuleItem.columnType == .inner || capsuleItem.columnType == .head {
                                             HStack {
-                                                Spacer()
-                                                Text("⤴")
+                                                //Text(getEndTime())
+                                                //    .font(.system(size: 11))
+                                                //    .padding(.horizontal, 4)
+                                                //Spacer()
+                                            }
+                                            if capsuleItem.columnType == .inner || capsuleItem.columnType == .head {
+                                                HStack {
+                                                    Spacer()
+                                                    Text("⤴")
+                                                }
                                             }
                                         }
-                                    }
                                         .frame(width: Constants.boxWidth, height: getItemHeight(item: capsuleItem))
                                         .background(capsuleItem.backgroundColor)
-                                        .position(x: getPositionX(item: capsuleItem), y: getPosition(item: capsuleItem))
+                                        .position(x: getPositionX(item: capsuleItem), y: yPosition)
                                         .onTapGesture {
                                             onCapsuleTapped(capsuleItem)
                                         }
-                                       
+                                    }
+                                    
                                 }
                             }
                         }
@@ -153,8 +156,9 @@ struct WeekSchedulerView: View {
         return (getItemHeight(item: item) / 2) + (Constants.spacing / 2)
     }
     
-    func getPosition(item: SchedulerModel) -> CGFloat {
-        let startingHour = getStartingHour(item: item)
+    func getPositionY(item: SchedulerModel) -> CGFloat? {
+        let startingHour = getStartingHour(item: item) - CGFloat(startHour)
+        if startingHour < 0 { return nil }
         let zeroPosition = getZeroPosition(item: item)
         let finalPosition = zeroPosition + (Constants.boxHeight * startingHour) + (startingHour * Constants.spacing)
         

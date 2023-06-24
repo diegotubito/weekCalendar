@@ -27,7 +27,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        WeekSchedulerView(initialDate: currentDate, days: 14, availabilities: loadAvailabilities()) { capsule in
+        WeekSchedulerView(initialDate: currentDate, days: 14, startHour: 7, endHour: 23, availabilities: loadAvailabilities()) { capsule in
             print(capsule)
         } onEmptyHourTapped: { (row, column, date) in
             print(row, column, date)
@@ -111,7 +111,7 @@ struct ContentView: View {
                                          createdAt: "",
                                          updatedAt: "")
         let availability2 = Availability(_id: "1110",
-                                         period: .weekly,
+                                         period: .none,
                                          capacity: 33,
                                          startDate: "2023-06-13T09:00:00.000Z",
                                          endDate: "2023-06-13T10:00:00.000Z",
@@ -122,10 +122,10 @@ struct ContentView: View {
                                          updatedAt: "")
         
         let availability3 = Availability(_id: "1110",
-                                         period: .monthly,
+                                         period: .none,
                                          capacity: 33,
-                                         startDate: "2023-06-14T16:00:00.000Z",
-                                         endDate: "2023-06-15T17:30:00.000Z",
+                                         startDate: "2023-06-14T22:00:00.000Z",
+                                         endDate: "2023-06-14T23:30:00.000Z",
                                          service: "",
                                          isEnabled: true,
                                          priceAdjustmentPercentage: 10,
@@ -133,7 +133,7 @@ struct ContentView: View {
                                          updatedAt: "")
         
         
-        return [availability1, availability2, availability3]
+        return [availability2, availability3]
     }
    
    
