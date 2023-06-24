@@ -14,39 +14,115 @@ class WeekSchedulerViewModel: ObservableObject {
         }
     }
     
-    @Published var capsules: [SchedulerModel] = []
-    @Published var selectedCapsules: [SchedulerModel] = []
-    
+    @Published var capsules: [SchedulerCapsuleModel] = []
+    @Published var selectedCapsules: [SchedulerCapsuleModel] = []
+    @Published var openSheet: SheetType = .none
+    @Published var isShowingSheet = false
+
     var initialDate: Date
     var days: Int
     var startHour: Int
     var endHour: Int
-
+    var boxWidth: CGFloat
+    var boxHeight: CGFloat
+    var calendarHeight: CGFloat
+    var spacing: CGFloat
     
-    init(initialDate: Date, days: Int, startHour: Int, endHour: Int) {
+    init(initialDate: Date, days: Int, startHour: Int, endHour: Int, boxWidth: CGFloat, boxHeight: CGFloat, calendarHeight: CGFloat, spacing: CGFloat) {
         self.initialDate = initialDate
         self.days = days
         self.startHour = startHour
         self.endHour = endHour
+        self.boxWidth = boxWidth
+        self.boxHeight = boxHeight
+        self.calendarHeight = calendarHeight
+        self.spacing = spacing
     }
     
-    func selectAllSameId(capsule: SchedulerModel) {
+    func getPositionX(item: SchedulerCapsuleModel) -> CGFloat {
+        let spacing = spacing
+        let diff = getDayDifference(date1: initialDate, date2: item.startDate.toDate()!)
+        let index: CGFloat = CGFloat(diff)
+        let zeroPosition = boxWidth / 2
+        let spacingOffset = spacing * index
+        let result = zeroPosition + (boxWidth * index) + spacingOffset
+        return result
+    }
+    
+    private func getDayDifference(date1: Date, date2: Date) -> Int {
+        let components = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        guard let days = components.day else { return 0 }
+        
+        return days
+    }
+    
+    private func numberOfDaysBetweenDates(date1: Date, date2: Date) -> Int? {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day], from: date1, to: date2)
+        return components.day
+    }
+    
+    func getPositionY(item: SchedulerCapsuleModel) -> CGFloat? {
+        let spacing = spacing
+        let startingHour = getStartingHour(item: item) - CGFloat(startHour)
+        if startingHour < 0 { return nil }
+        let zeroPosition = getZeroPosition(item: item)
+        let finalPosition = zeroPosition + (boxHeight * startingHour) + (startingHour * spacing)
+        
+        return finalPosition
+    }
+    
+    private func getStartingHour(item: SchedulerCapsuleModel) -> CGFloat {
+        let startTimeString = item.startDate
+        guard let startTime = startTimeString.toDate(),
+              let hour = Float(startTime.toString(format: "HH")),
+              let minutes = Float(startTime.toString(format: "mm")) else { return 0 }
+        
+        let a = minutes / 60
+        
+        return CGFloat(hour + a)
+    }
+    
+    private func getZeroPosition(item: SchedulerCapsuleModel) -> CGFloat {
+        return (getItemHeight(item: item) / 2) + (spacing / 2)
+    }
+    
+    func selectAllSameId(capsule: SchedulerCapsuleModel) {
         selectedCapsules = capsules.filter({$0.availabilityId == capsule.availabilityId})
+    }
+    
+    func getItemHeight(item: SchedulerCapsuleModel) -> CGFloat {
+        let timeInterval = getTimeInterval(item: item)
+        let spacing = spacing
+        return timeInterval * (boxHeight) + (timeInterval * spacing) - (spacing * 2)
+    }
+    
+    private func getTimeInterval(item: SchedulerCapsuleModel) -> CGFloat {
+        let startTimeString = item.startDate
+        let endTimeString = item.endDate
+        
+        guard let startTime = startTimeString.toDate()?.timeIntervalSince1970,
+              let endTime = endTimeString.toDate()?.timeIntervalSince1970 else { return 0 }
+        
+        let difference = endTime - startTime
+        let hour = difference / 3600
+        
+        return hour
     }
     
     func loadAvailabilities() {
         availabilities.removeAll()
         let availability1 = Availability(_id: "1110",
-                                         period: .none,
+                                         period: .daily,
                                          capacity: 33,
-                                         startDate: "2023-06-13T15:00:00.000Z",
-                                         endDate: "2023-06-13T16:00:00.000Z",
+                                         startDate: "2023-06-14T19:00:00.000Z",
+                                         endDate: "2023-06-14T20:00:00.000Z",
                                          service: "",
                                          isEnabled: true,
                                          priceAdjustmentPercentage: 10,
                                          createdAt: "",
                                          updatedAt: "")
-        let availability2 = Availability(_id: "1110",
+        let availability2 = Availability(_id: "1100",
                                          period: .none,
                                          capacity: 33,
                                          startDate: "2023-06-13T15:00:00.000Z",
@@ -57,7 +133,7 @@ class WeekSchedulerViewModel: ObservableObject {
                                          createdAt: "",
                                          updatedAt: "")
         
-        let availability3 = Availability(_id: "1110",
+        let availability3 = Availability(_id: "1000",
                                          period: .none,
                                          capacity: 33,
                                          startDate: "2023-06-13T15:00:00.000Z",
@@ -82,7 +158,7 @@ class WeekSchedulerViewModel: ObservableObject {
                 capsules.append(contentsOf: addSingleItem(fromDate: availability.startDate.toDate()!, toDate: availability.endDate.toDate()!, availability: availability))
             case .daily:
                 let dailyConstant = 1
-                var result: [SchedulerModel] = []
+                var result: [SchedulerCapsuleModel] = []
                 for index in 0..<days / dailyConstant {
                     let fromDate = availability.startDate.toDate()!
                     let correctFromDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: fromDate)
@@ -94,9 +170,9 @@ class WeekSchedulerViewModel: ObservableObject {
                 capsules.append(contentsOf: result)
                 break
             case .monthly:
-                let monthlyConstant = 1 // month
+                let monthlyConstant = 1
                 let iteration = (days / 30) + 1
-                var result: [SchedulerModel] = []
+                var result: [SchedulerCapsuleModel] = []
 
                 for index in 0..<iteration {
                     let fromDate = availability.startDate.toDate()!
@@ -108,7 +184,7 @@ class WeekSchedulerViewModel: ObservableObject {
                 capsules.append(contentsOf: result)
             case .weekly:
                 let weeklyConstant = 7
-                var result: [SchedulerModel] = []
+                var result: [SchedulerCapsuleModel] = []
                 for index in 0..<days / weeklyConstant {
                     let fromDate = availability.startDate.toDate()!
                     let correctFromDate = Calendar.current.date(byAdding: .day, value: weeklyConstant * index, to: fromDate)
@@ -121,14 +197,14 @@ class WeekSchedulerViewModel: ObservableObject {
         }
     }
     
-    func addSingleItem(fromDate: Date, toDate: Date, availability: Availability) -> [SchedulerModel] {
+    private func addSingleItem(fromDate: Date, toDate: Date, availability: Availability) -> [SchedulerCapsuleModel] {
         
         let components = Calendar.current.dateComponents([.day], from: fromDate, to: toDate)
         guard let daysCounter = components.day else { return [] }
         let lastDate = Calendar.current.date(byAdding: .day, value: days, to: initialDate)!
 
         let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-        var result: [SchedulerModel] = []
+        var result: [SchedulerCapsuleModel] = []
         
         for index in 0..<(daysCounter + 1) {
             guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: fromDate) else { break }
@@ -140,7 +216,7 @@ class WeekSchedulerViewModel: ObservableObject {
             var startDate = startTimeDate.toString(format: format)
             var endDate = toDate.toString(format: format)
             
-            var columnType: SchedulerModel.ColumnType = .none
+            var columnType: SchedulerCapsuleModel.ColumnType = .none
             
             if daysCounter > 0 {
                 if index != 0 {
@@ -163,7 +239,7 @@ class WeekSchedulerViewModel: ObservableObject {
                 }
             }
             
-            let newCapsule = SchedulerModel(availabilityId: availability._id,
+            let newCapsule = SchedulerCapsuleModel(availabilityId: availability._id,
                                             period: availability.period,
                                             capacity: availability.capacity,
                                             startDate: startDate,
@@ -194,5 +270,4 @@ class WeekSchedulerViewModel: ObservableObject {
         
         return newAvailability
     }
-    
 }

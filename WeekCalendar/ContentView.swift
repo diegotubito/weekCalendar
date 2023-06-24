@@ -23,7 +23,14 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            WeekSchedulerView(viewmodel: WeekSchedulerViewModel(initialDate: currentDate, days: 14, startHour: 7, endHour: 22))
+            WeekSchedulerView(viewmodel: WeekSchedulerViewModel(initialDate: currentDate,
+                                                                days: 14,
+                                                                startHour: 0,
+                                                                endHour: 23,
+                                                                boxWidth: 50,
+                                                                boxHeight: 50,
+                                                                calendarHeight: 70,
+                                                                spacing: 1))
         }
     }
     
@@ -44,7 +51,7 @@ struct ContentView_Previews: PreviewProvider {
 
 struct Availability: Decodable, Hashable {
     let _id: String
-    let period: SchedulerPeriod
+    let period: SchedulerCapsulePeriod
     let capacity: Int
     let startDate: String
     let endDate: String

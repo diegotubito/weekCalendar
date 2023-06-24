@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct CreateAvailabilitySheet: View {
-    var capsule: SchedulerModel
+    var capsule: SchedulerCapsuleModel
     var onSuccess: (Availability) -> Void
-    var onCancel: (SchedulerModel) -> Void
+    var onCancel: (SchedulerCapsuleModel) -> Void
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        ScrollView {
             VStack {
-                Text("asdflkjasdf")
+                Text("Availability Settings")
+                    .padding()
+                Spacer()
                 HStack {
                     Button("Cancel") {
                         onCancel(capsule)
@@ -36,6 +37,5 @@ struct CreateAvailabilitySheet: View {
                     .cornerRadius(10)
                 }
             }
-        }
     }
 }
