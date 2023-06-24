@@ -14,9 +14,8 @@ struct SchedulerView: View {
         static let maxHours: CGFloat = 24
         static let spacing: CGFloat = 1
         static let hourHeight: CGFloat = 50
-        static let hourWidth: CGFloat = 40
+        static let hourWidth: CGFloat = 50
         static let cornerRadius: CGFloat = 5
-        static let columnWidht: CGFloat = 70
         static let headerHeight: CGFloat = 50
     }
     
@@ -36,16 +35,12 @@ struct SchedulerView: View {
         ScrollView(.vertical) {
             
             HStack(spacing: Constant.spacing) {
-                VStack(spacing: Constant.spacing) {
-                    Color(.clear)
-                        .frame(width: SchedulerView.Constant.hourWidth, height: SchedulerView.Constant.hourHeight)
                     SchedulerHourView()
-                }
                 
                 HStack(spacing: Constant.spacing) {
                     ScrollView(.horizontal) {
                         VStack(spacing: Constant.spacing) {
-                            WeekCalendarView(initialDate: initialDate, selectedDate: Date(), maxDays: maxColumn, isSelectable: false, spacing: Constant.spacing) { selectedDate in
+                            WeekCalendarView(initialDate: initialDate, selectedDate: Date(), maxDays: maxColumn, isSelectable: false, spacing: Constant.spacing, columnWidth: Constant.hourWidth) { selectedDate in
                                 print(selectedDate)
                             } onVisibleDates: { visibleDates in
                             }
@@ -59,7 +54,6 @@ struct SchedulerView: View {
                                         let tappedDate = Calendar.current.date(bySetting: .hour, value: hourIndex!, of: calculateColumnDate(index: index))
                                         didTapped(TappedModel(date: tappedDate!, id: nil))
                                     }
-                                    .frame(width: Constant.columnWidht)
                                 }
                             }
                         }

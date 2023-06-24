@@ -27,17 +27,22 @@ struct ContentView: View {
     }
     
     var body: some View {
+        WeekSchedulerView(initialDate: currentDate) { capsule in
+            print(capsule)
+        } onEmptyHourTapped: { (row, column, date) in
+            print(row, column, date)
+            
+        }
         
-        WeekSchedulerView(initialDate: currentDate)
+           
         
-        /*
         VStack {
             SchedulerView(items: capsules,
                           initialDate: currentDate,
-                          maxColumn: 7, didTapped: { model in
+                          maxColumn: 14, didTapped: { model in
                 print(model.id)
                 print(model.date)
-                createNewAvailability(model: model)
+                createNewAvailability(date: model.date)
             })
             .background(Color.black)
         }
@@ -48,18 +53,18 @@ struct ContentView: View {
         }
          
          
-         */
+         
     }
     
-    func createNewAvailability(model: SchedulerView.TappedModel) {
+    func createNewAvailability(date: Date) {
         let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
         
-        let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: model.date)
+        let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)
         
         let newAvailability = Availability(_id: "003",
-                                           period: .none,
+                                           period: .daily,
                                            capacity: 21,
-                                           startDate: model.date.toString(format: format),
+                                           startDate: date.toString(format: format),
                                            endDate: (endDate?.toString(format: format))!,
                                            service: "",
                                            isEnabled: true,

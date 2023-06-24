@@ -23,9 +23,11 @@ struct WeekSchedulerView: View {
         }
     }
     var initialDate: Date
-    
-    @State var columns: Int = 100
-    
+    var onCapsuleTapped: (SchedulerModel) -> Void
+    var onEmptyHourTapped: (Int, Int, Date) -> Void
+
+    @State var columns: Int = 14
+
     struct SchedulerModel: Hashable {
         let availabilityId: String
         let period: SchedulerPeriod
@@ -42,109 +44,101 @@ struct WeekSchedulerView: View {
             case tail
         }
     }
-
-    @State private var scrollPosition: CGPoint = .zero
     
+    
+  
     var body: some View {
         GeometryReader { geometry in
             ScrollView(.vertical) {
-                ScrollView(.horizontal) {
-                    ZStack {
+                HStack(spacing: 0) {
+                    SchedulerHourView()
+                    ScrollView(.horizontal) {
                         VStack(spacing: Constants.spacing) {
-                            ForEach(0..<Constants.rows, id: \.self) { rowIndex in
-                                
-                                ScrollView(.horizontal) {
+                            WeekCalendarView(initialDate: initialDate, selectedDate: Date(), maxDays: columns, isSelectable: false, spacing: Constants.spacing, columnWidth: Constants.boxWidth) { selectedDate in
+                                print(selectedDate)
+                            } onVisibleDates: { visibleDates in
+                            }
+                            
+                            VStack(spacing: Constants.spacing) {
+                                ForEach(0..<Constants.rows, id: \.self) { rowIndex in
                                     HStack(spacing: Constants.spacing) {
                                         ForEach(0..<columns, id: \.self) { columnIndex in
-                                            WeekSchedulerBoxView()
+                                            Color.yellow
                                                 .frame(width: Constants.boxWidth, height: Constants.boxHeight)
-                                            //   .background(.yellow)
-                                                .background(GeometryReader { geometry in
-                                                    ZStack {
-                                                        Text("\(Int(geometry.size.width))")
-                                                            .font(.system(size: 12))
-                                                        Color.clear
-                                                            .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
-                                                        
+                                                .onTapGesture {
+                                                    if let tappedDate = Calendar.current.date(byAdding: .day, value: columnIndex, to: initialDate),
+                                                       let addTime = Calendar.current.date(byAdding: .hour, value: rowIndex, to: tappedDate) {
+                                                        onEmptyHourTapped(rowIndex, columnIndex, addTime)
+                                                        createNewAvailability(date: addTime)
                                                     }
-                                                })
-                                                
+                                                }
                                         }
                                     }
-                                    
+                                }
+                            }.overlay {
+                                ForEach(capsules, id: \.self) { capsule in
+                                    WeekSchedulerBoxView()
+                                        .frame(width: Constants.boxWidth, height: getItemHeight(item: capsule))
+                                        .background(.blue)
+                                        .position(x: getPositionX(item: capsule), y: getPosition(item: capsule))
+                                        .onTapGesture {
+                                            onCapsuleTapped(capsule)
+                                        }
+                                       
                                 }
                             }
                         }
-                        
-                        ForEach(capsules, id: \.self) { capsule in
-                            WeekSchedulerBoxView()
-                                .frame(width: Constants.boxWidth, height: getItemHeight(item: capsule))
-                                .background(.blue)
-                                .position(x: getPositionX(item: capsule), y: getPosition(item: capsule))
-                        }
                     }
-                   
-                   
-                }
-            }
-            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-                self.scrollPosition = value
-                print(value)
-                if getCurrentMaxXPosition(x: value.x, geometry: geometry) > getCriticalWidth(geometry: geometry) {
-                    print("critical", getCriticalWidth(geometry: geometry))
-                   // columns = columns + 7
-                   // generateItems()
                 }
             }
         }
         .onAppear {
-            generateItems()
+            generateItems(availabilities: loadAvailabilities())
         }
         
     }
-
+    
     struct ScrollOffsetPreferenceKey: PreferenceKey {
         static var defaultValue: CGPoint = .zero
-
-        static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {
-        }
+        
+        static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) { }
     }
     
     func loadAvailabilities() -> [Availability] {
-    
+        
         let availability1 = Availability(_id: "1110",
-                                        period: .daily,
-                                        capacity: 33,
-                                        startDate: "2023-06-12T06:00:00.000Z",
-                                        endDate: "2023-06-12T07:00:00.000Z",
-                                        service: "",
-                                        isEnabled: true,
-                                        priceAdjustmentPercentage: 10,
-                                        createdAt: "",
-                                        updatedAt: "")
+                                         period: .daily,
+                                         capacity: 33,
+                                         startDate: "2023-06-12T06:00:00.000Z",
+                                         endDate: "2023-06-12T07:00:00.000Z",
+                                         service: "",
+                                         isEnabled: true,
+                                         priceAdjustmentPercentage: 10,
+                                         createdAt: "",
+                                         updatedAt: "")
         let availability2 = Availability(_id: "1110",
-                                        period: .weekly,
-                                        capacity: 33,
-                                        startDate: "2023-06-13T09:00:00.000Z",
-                                        endDate: "2023-06-13T10:00:00.000Z",
-                                        service: "",
-                                        isEnabled: true,
-                                        priceAdjustmentPercentage: 10,
-                                        createdAt: "",
-                                        updatedAt: "")
+                                         period: .weekly,
+                                         capacity: 33,
+                                         startDate: "2023-06-13T09:00:00.000Z",
+                                         endDate: "2023-06-13T10:00:00.000Z",
+                                         service: "",
+                                         isEnabled: true,
+                                         priceAdjustmentPercentage: 10,
+                                         createdAt: "",
+                                         updatedAt: "")
         
         let availability3 = Availability(_id: "1110",
-                                        period: .monthly,
-                                        capacity: 33,
-                                        startDate: "2023-06-14T16:00:00.000Z",
-                                        endDate: "2023-06-15T17:30:00.000Z",
-                                        service: "",
-                                        isEnabled: true,
-                                        priceAdjustmentPercentage: 10,
-                                        createdAt: "",
-                                        updatedAt: "")
-
-       
+                                         period: .monthly,
+                                         capacity: 33,
+                                         startDate: "2023-06-14T16:00:00.000Z",
+                                         endDate: "2023-06-15T17:30:00.000Z",
+                                         service: "",
+                                         isEnabled: true,
+                                         priceAdjustmentPercentage: 10,
+                                         createdAt: "",
+                                         updatedAt: "")
+        
+        
         return [availability1, availability2, availability3]
     }
     
@@ -225,10 +219,9 @@ struct WeekSchedulerView: View {
         return components.day
     }
     
-    func generateItems() {
-        capsules.removeAll()
+    func generateItems(availabilities: [Availability]) {
+      //  capsules.removeAll()
         
-        let availabilities = loadAvailabilities()
         for availability in availabilities {
             switch availability.period {
             case .none:
@@ -266,12 +259,12 @@ struct WeekSchedulerView: View {
             }
         }
     }
-
+    
     func addSingleItem(fromDate: Date, toDate: Date, availability: Availability) -> [SchedulerModel] {
         
         let components = Calendar.current.dateComponents([.day], from: fromDate, to: toDate)
         guard let days = components.day else { return [] }
-
+        
         let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
         var result: [SchedulerModel] = []
         
@@ -280,9 +273,9 @@ struct WeekSchedulerView: View {
             
             var startDate = startTimeDate.toString(format: format)
             var endDate = toDate.toString(format: format)
-
+            
             var columnType: SchedulerModel.ColumnType = .none
-
+            
             if days > 0 {
                 if index != 0 {
                     let startOfDay = startTimeDate.startOfDay()
@@ -317,4 +310,21 @@ struct WeekSchedulerView: View {
         return result
     }
     
+    func createNewAvailability(date: Date) {
+        let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+        
+        let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)
+        
+        let newAvailability = Availability(_id: "003",
+                                           period: .daily,
+                                           capacity: 21,
+                                           startDate: date.toString(format: format),
+                                           endDate: (endDate?.toString(format: format))!,
+                                           service: "",
+                                           isEnabled: true,
+                                           priceAdjustmentPercentage: 10,
+                                           createdAt: "",
+                                           updatedAt: "")
+        generateItems(availabilities: [newAvailability])
+    }
 }

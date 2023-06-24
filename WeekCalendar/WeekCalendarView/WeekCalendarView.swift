@@ -15,7 +15,7 @@ struct WeekCalendarView: View {
     var isSelectable: Bool
     var spacing: CGFloat
     
-    init(initialDate: Date, selectedDate: Date = Date(), maxDays: Int, isSelectable: Bool, spacing: CGFloat, onSelectedDate: ((Date) -> Void)?, onVisibleDates: (([Date]) -> Void)?) {
+    init(initialDate: Date, selectedDate: Date = Date(), maxDays: Int, isSelectable: Bool, spacing: CGFloat, columnWidth: CGFloat, onSelectedDate: ((Date) -> Void)?, onVisibleDates: (([Date]) -> Void)?) {
         self._initialDate = State(initialValue: initialDate)
         self._selectedDate = State(initialValue: selectedDate)
         self.onSelectedDate = onSelectedDate
@@ -23,6 +23,7 @@ struct WeekCalendarView: View {
         self.isSelectable = isSelectable
         self._maxDays = State(initialValue: maxDays)
         self.spacing = spacing
+        self.columnWidht = columnWidth
     }
     
     struct Model: Hashable {
@@ -31,6 +32,8 @@ struct WeekCalendarView: View {
     
     var onSelectedDate: ((Date) -> Void)?
     var onVisibleDates: (([Date]) -> Void)?
+    
+    var columnWidht: CGFloat
     
     var body: some View {
         VStack(spacing: 8) {
@@ -53,7 +56,7 @@ struct WeekCalendarView: View {
                                 }
                             }
                     }
-                    .frame(width: SchedulerView.Constant.columnWidht)
+                    .frame(width: columnWidht)
                     .background(.gray.opacity(0.3))
                 }
             }
@@ -148,7 +151,7 @@ struct WeekCalendarView: View {
 
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
-        WeekCalendarView(initialDate: Date(), selectedDate: Date(), maxDays: 3, isSelectable: true, spacing: 1, onSelectedDate: { selectedDate in
+        WeekCalendarView(initialDate: Date(), selectedDate: Date(), maxDays: 3, isSelectable: true, spacing: 1, columnWidth: 58, onSelectedDate: { selectedDate in
             
         }, onVisibleDates: { dates in
             
