@@ -40,12 +40,11 @@ struct SchedulerView: View {
                 HStack(spacing: Constant.spacing) {
                     ScrollView(.horizontal) {
                         VStack(spacing: Constant.spacing) {
-                            WeekCalendarView(initialDate: initialDate, selectedDate: Date(), maxDays: maxColumn, isSelectable: false, spacing: Constant.spacing, columnWidth: Constant.hourWidth) { selectedDate in
+                            WeekCalendarView(initialDate: initialDate, selectedDate: Date(), maxDays: maxColumn, isSelectable: false, spacing: Constant.spacing, columnWidth: Constant.hourWidth, height: Constant.headerHeight) { selectedDate in
                                 print(selectedDate)
                             } onVisibleDates: { visibleDates in
                             }
-                            .frame(height: Constant.headerHeight)
-                            
+                                                    
                             HStack(spacing: Constant.spacing) {
                                 ForEach(0..<maxColumn, id: \.self) {index in
                                     SchedulerColumnView(items: filterItems(index: index)) { model in

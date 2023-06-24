@@ -10,11 +10,11 @@ import SwiftUI
 struct WeekSchedulerView: View {
     struct Constants {
         static let rows: Int = 24
-        
-        static let boxWidth: CGFloat = 50
-        static let boxHeight: CGFloat = 50
+        static let calendarHeight: CGFloat = 70
+        static let hourWidht: CGFloat = 50
+        static let boxWidth: CGFloat = 70
+        static let boxHeight: CGFloat = 40
         static let spacing: CGFloat = 1
-        static let refreshPositionX: CGFloat = 0.9 /// porcentage of the whole scroll content view that we should starting adding more columns for infinite columns.
     }
     
     @State var capsules: [SchedulerModel] = [] {
@@ -23,10 +23,11 @@ struct WeekSchedulerView: View {
         }
     }
     var initialDate: Date
+    @State var days: Int
+    var availabilities: [Availability]
     var onCapsuleTapped: (SchedulerModel) -> Void
     var onEmptyHourTapped: (Int, Int, Date) -> Void
 
-    @State var columns: Int = 14
 
     struct SchedulerModel: Hashable {
         let availabilityId: String
@@ -51,10 +52,15 @@ struct WeekSchedulerView: View {
         GeometryReader { geometry in
             ScrollView(.vertical) {
                 HStack(spacing: 0) {
-                    SchedulerHourView()
+                    VStack {
+                        Spacer()
+                            .frame(height: Constants.calendarHeight)
+                        WeekSchedulerHourView(hourWidth: Constants.hourWidht, hourHeight: Constants.boxHeight, spacing: Constants.spacing)
+                    }
+                    
                     ScrollView(.horizontal) {
                         VStack(spacing: Constants.spacing) {
-                            WeekCalendarView(initialDate: initialDate, selectedDate: Date(), maxDays: columns, isSelectable: false, spacing: Constants.spacing, columnWidth: Constants.boxWidth) { selectedDate in
+                            WeekCalendarView(initialDate: initialDate, selectedDate: Date(), maxDays: days, isSelectable: false, spacing: Constants.spacing, columnWidth: Constants.boxWidth, height: Constants.calendarHeight) { selectedDate in
                                 print(selectedDate)
                             } onVisibleDates: { visibleDates in
                             }
@@ -62,8 +68,8 @@ struct WeekSchedulerView: View {
                             VStack(spacing: Constants.spacing) {
                                 ForEach(0..<Constants.rows, id: \.self) { rowIndex in
                                     HStack(spacing: Constants.spacing) {
-                                        ForEach(0..<columns, id: \.self) { columnIndex in
-                                            Color.yellow
+                                        ForEach(0..<days, id: \.self) { columnIndex in
+                                            Color.gray.opacity(0.25)
                                                 .frame(width: Constants.boxWidth, height: Constants.boxHeight)
                                                 .onTapGesture {
                                                     if let tappedDate = Calendar.current.date(byAdding: .day, value: columnIndex, to: initialDate),
@@ -76,13 +82,40 @@ struct WeekSchedulerView: View {
                                     }
                                 }
                             }.overlay {
-                                ForEach(capsules, id: \.self) { capsule in
-                                    WeekSchedulerBoxView()
-                                        .frame(width: Constants.boxWidth, height: getItemHeight(item: capsule))
-                                        .background(.blue)
-                                        .position(x: getPositionX(item: capsule), y: getPosition(item: capsule))
+                                ForEach(capsules, id: \.self) { capsuleItem in
+                                    VStack(spacing: 0) {
+                                        if capsuleItem.columnType == .inner || capsuleItem.columnType == .tail {
+                                            HStack {
+                                                Text("⤵")
+                                                Spacer()
+                                            }
+                                        }
+                                        HStack {
+                                            Text(getStartTime(stringDate: capsuleItem.startDate))
+                                                .font(.system(size: 10))
+                                                .padding(.horizontal, 4)
+                                                .foregroundColor(.white.opacity(0.5))
+                                            Spacer()
+                                        }
+                                        Spacer()
+                                        HStack {
+                                            //Text(getEndTime())
+                                            //    .font(.system(size: 11))
+                                            //    .padding(.horizontal, 4)
+                                            //Spacer()
+                                        }
+                                        if capsuleItem.columnType == .inner || capsuleItem.columnType == .head {
+                                            HStack {
+                                                Spacer()
+                                                Text("⤴")
+                                            }
+                                        }
+                                    }
+                                        .frame(width: Constants.boxWidth, height: getItemHeight(item: capsuleItem))
+                                        .background(capsuleItem.backgroundColor)
+                                        .position(x: getPositionX(item: capsuleItem), y: getPosition(item: capsuleItem))
                                         .onTapGesture {
-                                            onCapsuleTapped(capsule)
+                                            onCapsuleTapped(capsuleItem)
                                         }
                                        
                                 }
@@ -93,66 +126,21 @@ struct WeekSchedulerView: View {
             }
         }
         .onAppear {
-            generateItems(availabilities: loadAvailabilities())
+            generateItems(availabilities: availabilities)
         }
         
     }
     
-    struct ScrollOffsetPreferenceKey: PreferenceKey {
-        static var defaultValue: CGPoint = .zero
-        
-        static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) { }
+    func getStartTime(stringDate: String) -> String {
+        stringDate.showTimeFormat()
     }
     
-    func loadAvailabilities() -> [Availability] {
-        
-        let availability1 = Availability(_id: "1110",
-                                         period: .daily,
-                                         capacity: 33,
-                                         startDate: "2023-06-12T06:00:00.000Z",
-                                         endDate: "2023-06-12T07:00:00.000Z",
-                                         service: "",
-                                         isEnabled: true,
-                                         priceAdjustmentPercentage: 10,
-                                         createdAt: "",
-                                         updatedAt: "")
-        let availability2 = Availability(_id: "1110",
-                                         period: .weekly,
-                                         capacity: 33,
-                                         startDate: "2023-06-13T09:00:00.000Z",
-                                         endDate: "2023-06-13T10:00:00.000Z",
-                                         service: "",
-                                         isEnabled: true,
-                                         priceAdjustmentPercentage: 10,
-                                         createdAt: "",
-                                         updatedAt: "")
-        
-        let availability3 = Availability(_id: "1110",
-                                         period: .monthly,
-                                         capacity: 33,
-                                         startDate: "2023-06-14T16:00:00.000Z",
-                                         endDate: "2023-06-15T17:30:00.000Z",
-                                         service: "",
-                                         isEnabled: true,
-                                         priceAdjustmentPercentage: 10,
-                                         createdAt: "",
-                                         updatedAt: "")
-        
-        
-        return [availability1, availability2, availability3]
+    func getEndTime(stringDate: String) -> String {
+        stringDate.showTimeFormat()
     }
-    
-    private func getCurrentMaxXPosition(x: CGFloat, geometry: GeometryProxy) -> CGFloat {
-        (abs(x) + geometry.size.width)
-    }
-    
-    private func getCriticalWidth(geometry: GeometryProxy) -> CGFloat {
-        let totalWidht = getContainerWidht()
-        return totalWidht * Constants.refreshPositionX
-    }
-    
+        
     private func getContainerWidht() -> CGFloat {
-        (CGFloat(columns) * Constants.boxWidth) + (CGFloat(columns - 1) * Constants.spacing)
+        (CGFloat(days) * Constants.boxWidth) + (CGFloat(days - 1) * Constants.spacing)
     }
     
     func getItemHeight(item: SchedulerModel) -> CGFloat {
@@ -228,7 +216,7 @@ struct WeekSchedulerView: View {
                 capsules.append(contentsOf: addSingleItem(fromDate: availability.startDate.toDate()!, toDate: availability.endDate.toDate()!, availability: availability))
             case .daily:
                 let dailyConstant = 1
-                for index in 0..<columns / dailyConstant {
+                for index in 0..<days / dailyConstant {
                     let fromDate = availability.startDate.toDate()!
                     let correctFromDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: fromDate)
                     let toDate = availability.endDate.toDate()!
@@ -238,7 +226,7 @@ struct WeekSchedulerView: View {
                 break
             case .monthly:
                 let monthlyConstant = 1 // month
-                let iteration = (columns / 30) + 1
+                let iteration = (days / 30) + 1
                 
                 for index in 0..<iteration {
                     let fromDate = availability.startDate.toDate()!
@@ -249,7 +237,7 @@ struct WeekSchedulerView: View {
                 }
             case .weekly:
                 let weeklyConstant = 7
-                for index in 0..<columns / weeklyConstant {
+                for index in 0..<days / weeklyConstant {
                     let fromDate = availability.startDate.toDate()!
                     let correctFromDate = Calendar.current.date(byAdding: .day, value: weeklyConstant * index, to: fromDate)
                     let toDate = availability.endDate.toDate()!
@@ -263,25 +251,30 @@ struct WeekSchedulerView: View {
     func addSingleItem(fromDate: Date, toDate: Date, availability: Availability) -> [SchedulerModel] {
         
         let components = Calendar.current.dateComponents([.day], from: fromDate, to: toDate)
-        guard let days = components.day else { return [] }
-        
+        guard let daysCounter = components.day else { return [] }
+        let lastDate = Calendar.current.date(byAdding: .day, value: days, to: initialDate)!
+
         let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
         var result: [SchedulerModel] = []
         
-        for index in 0..<(days + 1) {
+        for index in 0..<(daysCounter + 1) {
             guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: fromDate) else { break }
-            
+           
+            if startTimeDate >= lastDate { // this is to avoid creating more capsules than the calendar screen width can support.
+                return []
+            }
+           
             var startDate = startTimeDate.toString(format: format)
             var endDate = toDate.toString(format: format)
             
             var columnType: SchedulerModel.ColumnType = .none
             
-            if days > 0 {
+            if daysCounter > 0 {
                 if index != 0 {
                     let startOfDay = startTimeDate.startOfDay()
                     startDate = startOfDay.toString(format: format)
                     
-                    if index == days {
+                    if index == daysCounter {
                         columnType = .tail
                         endDate = toDate.toString(format: format)
                     } else {
@@ -296,6 +289,8 @@ struct WeekSchedulerView: View {
                     endDate = endOfDay.toString(format: format)
                 }
             }
+            
+            
             
             let newCapsule = SchedulerModel(availabilityId: availability._id,
                                             period: availability.period,
@@ -316,7 +311,7 @@ struct WeekSchedulerView: View {
         let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)
         
         let newAvailability = Availability(_id: "003",
-                                           period: .daily,
+                                           period: .weekly,
                                            capacity: 21,
                                            startDate: date.toString(format: format),
                                            endDate: (endDate?.toString(format: format))!,

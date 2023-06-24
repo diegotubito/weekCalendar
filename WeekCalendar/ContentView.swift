@@ -27,7 +27,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        WeekSchedulerView(initialDate: currentDate) { capsule in
+        WeekSchedulerView(initialDate: currentDate, days: 14, availabilities: loadAvailabilities()) { capsule in
             print(capsule)
         } onEmptyHourTapped: { (row, column, date) in
             print(row, column, date)
@@ -71,9 +71,9 @@ struct ContentView: View {
                                            priceAdjustmentPercentage: 10,
                                            createdAt: "",
                                            updatedAt: "")
-        if let newCapsule = addSingleItem(availability: newAvailability) {
-            capsules.append(newCapsule)
-        }
+        let newCapsules = addSingleItem(availability: newAvailability)
+            capsules.append(contentsOf: newCapsules)
+        
         
     }
     
@@ -99,32 +99,55 @@ struct ContentView: View {
     }
     
     func loadAvailabilities() -> [Availability] {
-    
-        let availability1 = Availability(_id: "1110",
-                                        period: .monthly,
-                                        capacity: 33,
-                                        startDate: "2023-06-12T04:00:00.000Z",
-                                        endDate: "2023-06-12T005:00:00.000Z",
-                                        service: "",
-                                        isEnabled: true,
-                                        priceAdjustmentPercentage: 10,
-                                        createdAt: "",
-                                        updatedAt: "")
         
-       
-        return [availability1]
+        let availability1 = Availability(_id: "1110",
+                                         period: .daily,
+                                         capacity: 33,
+                                         startDate: "2023-06-12T06:00:00.000Z",
+                                         endDate: "2023-06-12T07:00:00.000Z",
+                                         service: "",
+                                         isEnabled: true,
+                                         priceAdjustmentPercentage: 10,
+                                         createdAt: "",
+                                         updatedAt: "")
+        let availability2 = Availability(_id: "1110",
+                                         period: .weekly,
+                                         capacity: 33,
+                                         startDate: "2023-06-13T09:00:00.000Z",
+                                         endDate: "2023-06-13T10:00:00.000Z",
+                                         service: "",
+                                         isEnabled: true,
+                                         priceAdjustmentPercentage: 10,
+                                         createdAt: "",
+                                         updatedAt: "")
+        
+        let availability3 = Availability(_id: "1110",
+                                         period: .monthly,
+                                         capacity: 33,
+                                         startDate: "2023-06-14T16:00:00.000Z",
+                                         endDate: "2023-06-15T17:30:00.000Z",
+                                         service: "",
+                                         isEnabled: true,
+                                         priceAdjustmentPercentage: 10,
+                                         createdAt: "",
+                                         updatedAt: "")
+        
+        
+        return [availability1, availability2, availability3]
     }
+   
+   
     
-    func addSingleItem(availability: Availability) -> SchedulerModel? {
+    func addSingleItem(availability: Availability) ->  [SchedulerModel] {
         guard let availabilityStartDate = availability.startDate.toDate(),
-              let endDate = availability.endDate.toDate() else { return nil }
+              let endDate = availability.endDate.toDate() else { return [] }
         
         let components = Calendar.current.dateComponents([.day], from: availabilityStartDate, to: endDate)
-        guard let days = components.day else { return nil }
+        guard let days = components.day else { return [] }
 
         let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
         
-        var result: SchedulerModel?
+        var result: [SchedulerModel] = []
 
         for index in 0..<(days + 1) {
             guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: availabilityStartDate) else { break }
@@ -161,7 +184,7 @@ struct ContentView: View {
                                             endDate: endDate,
                                             backgroundColor: Color.gray.opacity(0.15),
                                             columnType: columnType)
-            result = newCapsule
+            result.append(newCapsule)
         }
 
         return result
@@ -171,9 +194,9 @@ struct ContentView: View {
         var result: [SchedulerModel] = []
 
         for availability in availabilities {
-            if let newItem = addSingleItem(availability: availability) {
-                result.append(newItem)
-            }
+            let newItems = addSingleItem(availability: availability)
+            result.append(contentsOf: newItems)
+            
         }
         
         return result

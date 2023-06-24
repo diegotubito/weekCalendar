@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB1EB7202A46B1E500E0E161 /* WeekSchedulerHourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1EB71F2A46B1E500E0E161 /* WeekSchedulerHourView.swift */; };
 		AB5A9AC92A3F576100A379D1 /* WeekCalendarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9AC82A3F576100A379D1 /* WeekCalendarApp.swift */; };
 		AB5A9ACB2A3F576100A379D1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9ACA2A3F576100A379D1 /* ContentView.swift */; };
 		AB5A9ACD2A3F576200A379D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5A9ACC2A3F576200A379D1 /* Assets.xcassets */; };
@@ -18,10 +19,10 @@
 		AB5A9AE02A3FD6A100A379D1 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9ADF2A3FD6A100A379D1 /* Date+Extension.swift */; };
 		AB5A9AE22A3FD6AB00A379D1 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9AE12A3FD6AB00A379D1 /* String+Extension.swift */; };
 		AB5A9B792A4387C100A379D1 /* WeekSchedulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9B782A4387C100A379D1 /* WeekSchedulerView.swift */; };
-		AB5A9B7B2A4389A700A379D1 /* WeekSchedulerBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9B7A2A4389A700A379D1 /* WeekSchedulerBoxView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AB1EB71F2A46B1E500E0E161 /* WeekSchedulerHourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSchedulerHourView.swift; sourceTree = "<group>"; };
 		AB5A9AC52A3F576100A379D1 /* WeekCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeekCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5A9AC82A3F576100A379D1 /* WeekCalendarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCalendarApp.swift; sourceTree = "<group>"; };
 		AB5A9ACA2A3F576100A379D1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -34,7 +35,6 @@
 		AB5A9ADF2A3FD6A100A379D1 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		AB5A9AE12A3FD6AB00A379D1 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		AB5A9B782A4387C100A379D1 /* WeekSchedulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSchedulerView.swift; sourceTree = "<group>"; };
-		AB5A9B7A2A4389A700A379D1 /* WeekSchedulerBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSchedulerBoxView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5A9B782A4387C100A379D1 /* WeekSchedulerView.swift */,
-				AB5A9B7A2A4389A700A379D1 /* WeekSchedulerBoxView.swift */,
+				AB1EB71F2A46B1E500E0E161 /* WeekSchedulerHourView.swift */,
 			);
 			path = NewVersion;
 			sourceTree = "<group>";
@@ -199,7 +199,7 @@
 				AB5A9AD72A3F586200A379D1 /* WeekCalendarView.swift in Sources */,
 				AB5A9ADE2A3FD67000A379D1 /* SchedulerHourView.swift in Sources */,
 				AB5A9ACB2A3F576100A379D1 /* ContentView.swift in Sources */,
-				AB5A9B7B2A4389A700A379D1 /* WeekSchedulerBoxView.swift in Sources */,
+				AB1EB7202A46B1E500E0E161 /* WeekSchedulerHourView.swift in Sources */,
 				AB5A9AE02A3FD6A100A379D1 /* Date+Extension.swift in Sources */,
 				AB5A9ADC2A3FD66400A379D1 /* SchedulerColumnView.swift in Sources */,
 				AB5A9AC92A3F576100A379D1 /* WeekCalendarApp.swift in Sources */,
