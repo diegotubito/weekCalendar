@@ -35,7 +35,7 @@ struct WeekSchedulerHourView: View {
                     Text("\(hour):00")
                         .foregroundColor(Color.white.opacity(0.6))
                         .font(.caption)
-                        .offset(x: 0, y: -(hourHeight / 2) - 1)
+                        .offset(x: 0, y: -(hourHeight / 2) + spacing * 2)
                     
                 }
                 .frame(width: hourWidth, height: hourHeight)

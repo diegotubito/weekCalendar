@@ -89,31 +89,34 @@ struct WeekSchedulerView: View {
         }
     }
     
+    @State private var verticalOffset: CGFloat = 0.0
+    @State private var horizontalOffset: CGFloat = 0.0
+    
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView(.vertical) {
-                HStack(spacing: 0) {
-                    HoursView
-                    ScrollView(.horizontal) {
-                        VStack(spacing: viewmodel.spacing) {
-                            CalendarView
+        GeometryReader { proxy in
+            
+            VStack {
+                OffsettableScrollView(axes: .vertical) { point in
+                    verticalOffset = point.y
+                    print(verticalOffset, proxy.size.height, viewmodel.getTotalHeight())
+                    
+                } content: {
+                    HStack {
+                        HoursView
+                        OffsettableScrollView(axes: .horizontal) { point in
+                            horizontalOffset = point.x
+                            print(horizontalOffset, proxy.size.width, viewmodel.getTotalWidth())
+                        } content: {
                             VStack(spacing: viewmodel.spacing) {
-                                RowsAndColumns
-                            }.overlay {
-                                Capsules
+                                CalendarView
+                                VStack(spacing: viewmodel.spacing) {
+                                    RowsAndColumns
+                                }.overlay {
+                                    Capsules
+                                }
                             }
                         }
                     }
-                }
-            }
-            .offset(y: -sheetOffset)
-            .animation(.easeInOut(duration: 0.5), value: viewmodel.isShowingSheet)
-            .onReceive(viewmodel.$isShowingSheet) { isShowingSheet in
-                if isShowingSheet {
-                    // Calculate the offset based on sheet height
-                    sheetOffset = geometry.size.height * 0.4
-                } else {
-                    sheetOffset = 0.0
                 }
             }
         }

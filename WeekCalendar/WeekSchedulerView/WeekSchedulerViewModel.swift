@@ -270,4 +270,12 @@ class WeekSchedulerViewModel: ObservableObject {
         
         return newAvailability
     }
+    
+    func getTotalWidth() -> CGFloat {
+        return CGFloat(days) * boxWidth + (CGFloat(days) * spacing)
+    }
+    
+    func getTotalHeight() -> CGFloat {
+        return CGFloat(endHour - startHour) * boxHeight + (CGFloat(endHour - startHour) * spacing) + calendarHeight + spacing
+    }
 }
