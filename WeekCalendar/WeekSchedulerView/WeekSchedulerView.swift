@@ -49,7 +49,6 @@ struct WeekSchedulerView: View {
                             if let tappedDate = Calendar.current.date(byAdding: .day, value: columnIndex, to: viewmodel.initialDate),
                                let tappedDateAndTime = Calendar.current.date(byAdding: .hour, value: rowIndex + viewmodel.startHour, to: tappedDate) {
                                 let newAvailability = viewmodel.createNewAvailability(date: tappedDateAndTime)
-                                viewmodel.availabilities.append(newAvailability)
                                 let newCapsules = viewmodel.capsules.filter({$0.availabilityId == newAvailability._id})
                                 viewmodel.selectedCapsules = newCapsules
                                 

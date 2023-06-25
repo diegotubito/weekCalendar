@@ -33,7 +33,7 @@ class WeekSchedulerViewModel: ObservableObject {
     var spacing: CGFloat
     
     init(initialDate: Date, days: Int, startHour: Int, endHour: Int, boxWidth: CGFloat, boxHeight: CGFloat, calendarHeight: CGFloat, spacing: CGFloat) {
-        self.initialDate = initialDate
+        self.initialDate = initialDate.startOfDay()
         self.days = days
         self.startHour = startHour
         self.endHour = endHour
@@ -163,8 +163,6 @@ class WeekSchedulerViewModel: ObservableObject {
         
         
         availabilities = [availability1, availability2, availability3, availability4]
-        
-        generateItems()
     }
     
     private func generateItems() {
@@ -285,6 +283,7 @@ class WeekSchedulerViewModel: ObservableObject {
                                            createdAt: "",
                                            updatedAt: "")
         
+        availabilities.append(newAvailability)
         return newAvailability
     }
     
