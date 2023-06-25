@@ -29,7 +29,7 @@ struct ContentView: View {
                                                                 endHour: 20,
                                                                 boxWidth: 50,
                                                                 boxHeight: 50,
-                                                                calendarHeight: 70,
+                                                                calendarHeight: 60,
                                                                 spacing: 1))
         }
     }

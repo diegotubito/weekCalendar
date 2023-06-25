@@ -94,26 +94,23 @@ struct WeekSchedulerView: View {
     
     var body: some View {
         GeometryReader { proxy in
-            
-            VStack {
-                OffsettableScrollView(axes: .vertical) { point in
-                    verticalOffset = point.y
-                    print(verticalOffset, proxy.size.height, viewmodel.getTotalHeight())
-                    
-                } content: {
-                    HStack {
-                        HoursView
-                        OffsettableScrollView(axes: .horizontal) { point in
-                            horizontalOffset = point.x
-                            print(horizontalOffset, proxy.size.width, viewmodel.getTotalWidth())
-                        } content: {
+            OffsettableScrollView(axes: .vertical) { point in
+                verticalOffset = point.y
+                print(verticalOffset, proxy.size.height, viewmodel.getTotalHeight())
+                
+            } content: {
+                HStack(spacing: viewmodel.spacing) {
+                    HoursView
+                    OffsettableScrollView(axes: .horizontal) { point in
+                        horizontalOffset = point.x
+                        print(horizontalOffset, proxy.size.width, viewmodel.getTotalWidth())
+                    } content: {
+                        VStack(spacing: viewmodel.spacing) {
+                            CalendarView
                             VStack(spacing: viewmodel.spacing) {
-                                CalendarView
-                                VStack(spacing: viewmodel.spacing) {
-                                    RowsAndColumns
-                                }.overlay {
-                                    Capsules
-                                }
+                                RowsAndColumns
+                            }.overlay {
+                                Capsules
                             }
                         }
                     }

@@ -39,9 +39,9 @@ struct WeekCalendarView: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            HStack(spacing: 1) {
+            HStack(spacing: spacing) {
                 ForEach(visibleDates, id: \.self) { item in
-                    VStack(spacing: 1) {
+                    VStack(spacing: spacing) {
                         Text("\(getDayName(date: item.date))")
                             .font(.caption)
                             .foregroundColor(getDayForegroundColor(date: item.date))
