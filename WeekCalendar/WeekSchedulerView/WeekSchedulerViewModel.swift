@@ -14,7 +14,11 @@ class WeekSchedulerViewModel: ObservableObject {
         }
     }
     
-    @Published var capsules: [SchedulerCapsuleModel] = []
+    @Published var capsules: [SchedulerCapsuleModel] = [] {
+        didSet {
+            print(capsules.count)
+        }
+    }
     @Published var selectedCapsules: [SchedulerCapsuleModel] = []
     @Published var openSheet: SheetType = .none
     @Published var isShowingSheet = false
@@ -40,7 +44,6 @@ class WeekSchedulerViewModel: ObservableObject {
     }
     
     func getPositionX(item: SchedulerCapsuleModel) -> CGFloat {
-        let spacing = spacing
         let diff = getDayDifference(date1: initialDate, date2: item.startDate.toDate()!)
         let index: CGFloat = CGFloat(diff)
         let zeroPosition = boxWidth / 2
@@ -57,19 +60,18 @@ class WeekSchedulerViewModel: ObservableObject {
     }
     
     private func numberOfDaysBetweenDates(date1: Date, date2: Date) -> Int? {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: date1, to: date2)
+        let components = Calendar.current.dateComponents([.day], from: date1, to: date2)
         return components.day
     }
     
-    func getPositionY(item: SchedulerCapsuleModel) -> CGFloat? {
-        let spacing = spacing
-        let startingHour = getStartingHour(item: item) - CGFloat(startHour)
-        if startingHour < 0 { return nil }
-        let zeroPosition = getZeroPosition(item: item)
-        let finalPosition = zeroPosition + (boxHeight * startingHour) + (startingHour * spacing)
+    func getPositionY(item: SchedulerCapsuleModel) -> CGFloat {
+        var startingHour = getStartingHour(item: item) - CGFloat(startHour)
+        if startingHour < 0 {
+            startingHour = 0
+        }
         
-        return finalPosition
+        return getZeroPosition(item: item) + (boxHeight * startingHour) + (startingHour * spacing)
+        
     }
     
     private func getStartingHour(item: SchedulerCapsuleModel) -> CGFloat {
@@ -93,8 +95,12 @@ class WeekSchedulerViewModel: ObservableObject {
     
     func getItemHeight(item: SchedulerCapsuleModel) -> CGFloat {
         let timeInterval = getTimeInterval(item: item)
-        let spacing = spacing
-        return timeInterval * (boxHeight) + (timeInterval * spacing) - (spacing * 2)
+        let height = timeInterval * (boxHeight) + (timeInterval * spacing) - (spacing * 2)
+        var diff: CGFloat = 0
+        if item.columnType == .tail {
+            diff = (CGFloat(startHour) * boxHeight) + (CGFloat(startHour) * spacing)
+        }
+        return height - diff
     }
     
     private func getTimeInterval(item: SchedulerCapsuleModel) -> CGFloat {
@@ -144,8 +150,19 @@ class WeekSchedulerViewModel: ObservableObject {
                                          createdAt: "",
                                          updatedAt: "")
         
+        let availability4 = Availability(_id: "11000",
+                                         period: .none,
+                                         capacity: 33,
+                                         startDate: "2023-06-15T15:00:00.000Z",
+                                         endDate: "2023-06-17T18:00:00.000Z",
+                                         service: "",
+                                         isEnabled: true,
+                                         priceAdjustmentPercentage: 10,
+                                         createdAt: "",
+                                         updatedAt: "")
         
-        availabilities = [availability1, availability2, availability3]
+        
+        availabilities = [availability1, availability2, availability3, availability4]
         
         generateItems()
     }
@@ -209,8 +226,8 @@ class WeekSchedulerViewModel: ObservableObject {
         for index in 0..<(daysCounter + 1) {
             guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: fromDate) else { break }
            
-            if startTimeDate >= lastDate { // this is to avoid creating more capsules than the calendar screen width can support.
-                return []
+            if startTimeDate > lastDate { // this is to avoid creating more capsules than the calendar screen width can support.
+                return result
             }
            
             var startDate = startTimeDate.toString(format: format)

@@ -66,26 +66,25 @@ struct WeekSchedulerView: View {
     
     var Capsules: some View {
         ForEach(viewmodel.capsules, id: \.self) { capsuleItem in
-            if let yPosition = viewmodel.getPositionY(item: capsuleItem) {
-                WeekSchedulerCapsuleView(capsule: capsuleItem, selectedCapsules: viewmodel.selectedCapsules)
-                    .frame(width: viewmodel.boxWidth * Constants.capsuleProportionalWidth, height: viewmodel.getItemHeight(item: capsuleItem))
-                    .cornerRadius(5)
-                    .position(x: viewmodel.getPositionX(item: capsuleItem), y: yPosition)
-                    .onTapGesture {
+            WeekSchedulerCapsuleView(capsule: capsuleItem, selectedCapsules: viewmodel.selectedCapsules)
+                .frame(width: viewmodel.boxWidth * Constants.capsuleProportionalWidth, height: viewmodel.getItemHeight(item: capsuleItem))
+                .cornerRadius(5)
+                .position(x: viewmodel.getPositionX(item: capsuleItem), y: viewmodel.getPositionY(item: capsuleItem))
+                .onTapGesture {
+                    
+                    viewmodel.selectAllSameId(capsule: capsuleItem)
+                    
+                    if let availabilityTapped = viewmodel.availabilities.filter({$0._id == capsuleItem.availabilityId}).first {
                         
-                        viewmodel.selectAllSameId(capsule: capsuleItem)
-                        
-                        if let availabilityTapped = viewmodel.availabilities.filter({$0._id == capsuleItem.availabilityId}).first {
+                        if viewmodel.selectedCapsules.contains(where: {$0.availabilityId == availabilityTapped._id}) {
                             
-                            if viewmodel.selectedCapsules.contains(where: {$0.availabilityId == availabilityTapped._id}) {
-                                
-                                viewmodel.openSheet = .edit
-                                viewmodel.isShowingSheet = true
-                                
-                            }
+                            viewmodel.openSheet = .edit
+                            viewmodel.isShowingSheet = true
+                            
                         }
                     }
-            }
+                }
+            
         }
     }
     
@@ -120,7 +119,9 @@ struct WeekSchedulerView: View {
         .onAppear {
             viewmodel.loadAvailabilities()
         }
-        .sheet(isPresented: $viewmodel.isShowingSheet) {
+        .sheet(isPresented: $viewmodel.isShowingSheet, onDismiss: {
+            viewmodel.loadAvailabilities()
+        }) {
             if viewmodel.openSheet == .edit {
                 Color.gray.opacity(0.6)
                 Text("Edit or Delete current availability")
@@ -129,11 +130,10 @@ struct WeekSchedulerView: View {
                 
             } else if viewmodel.openSheet == .new {
                 if let capsuleToCancel = viewmodel.selectedCapsules.first {
-                    CreateAvailabilitySheet(capsule: capsuleToCancel, onSuccess: { newAvailability in
-                        
-                    }, onCancel: {capsule in
-                        viewmodel.availabilities.removeAll(where: {$0._id == capsule.availabilityId})
-                        
+                    CreateAvailabilitySheet(capsule: capsuleToCancel, onFinished: { success in
+                        if !success {
+                            viewmodel.availabilities.removeLast()
+                        }
                     })
                     .presentationDetents([.medium, .fraction(0.8)])
                 }

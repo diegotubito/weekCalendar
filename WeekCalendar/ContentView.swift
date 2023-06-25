@@ -24,9 +24,9 @@ struct ContentView: View {
     var body: some View {
         VStack {
             WeekSchedulerView(viewmodel: WeekSchedulerViewModel(initialDate: currentDate,
-                                                                days: 90,
-                                                                startHour: 7,
-                                                                endHour: 20,
+                                                                days: 30,
+                                                                startHour: 0,
+                                                                endHour: 23,
                                                                 boxWidth: 50,
                                                                 boxHeight: 50,
                                                                 calendarHeight: 60,

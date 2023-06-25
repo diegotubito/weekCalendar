@@ -9,8 +9,7 @@ import SwiftUI
 
 struct CreateAvailabilitySheet: View {
     var capsule: SchedulerCapsuleModel
-    var onSuccess: (Availability) -> Void
-    var onCancel: (SchedulerCapsuleModel) -> Void
+    var onFinished: (Bool) -> Void
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -20,7 +19,7 @@ struct CreateAvailabilitySheet: View {
                 Spacer()
                 HStack {
                     Button("Cancel") {
-                        onCancel(capsule)
+                        onFinished(false)
                         dismiss()
                     }
                     .padding()
@@ -29,6 +28,7 @@ struct CreateAvailabilitySheet: View {
                     .background(Color.clear)
                     .cornerRadius(10)
                     Button("Create") {
+                        onFinished(true)
                         dismiss()
                     }
                     .padding()
