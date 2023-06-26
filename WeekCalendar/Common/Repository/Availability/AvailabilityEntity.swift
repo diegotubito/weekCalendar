@@ -26,6 +26,7 @@ struct AvailabilityEntity {
             let startDate: String
             let endDate: String
             let period: String
+            let expiration: String?
         }
         
         struct Request: Encodable {
@@ -33,6 +34,7 @@ struct AvailabilityEntity {
             let startDate: String
             let endDate: String
             let period: String
+            let expiration: String?
         }
 
         struct Response: Decodable {
@@ -60,6 +62,7 @@ struct AvailabilityEntity {
             let startDate: String
             let endDate: String
             let period: String
+            let expiration: String?
         }
         
         struct Request: Encodable {
@@ -67,6 +70,7 @@ struct AvailabilityEntity {
             let startDate: String
             let endDate: String
             let period: String
+            let expiration: String?
         }
 
         struct Response: Decodable {

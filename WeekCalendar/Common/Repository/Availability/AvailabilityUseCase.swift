@@ -28,7 +28,7 @@ class AvailabilityUseCase: AvailabilityUseCaseProtocol {
     }
     
     func saveAvailability(input: AvailabilityEntity.Save.Input) async throws -> AvailabilitySaveResult {
-        let request = AvailabilityEntity.Save.Request(service: input.service, startDate: input.startDate, endDate: input.endDate, period: input.period)
+        let request = AvailabilityEntity.Save.Request(service: input.service, startDate: input.startDate, endDate: input.endDate, period: input.period, expiration: input.expiration)
         return try await repository.saveAvailability(request: request)
     }
     
@@ -38,7 +38,7 @@ class AvailabilityUseCase: AvailabilityUseCaseProtocol {
     }
     
     func updateAvailability(input: AvailabilityEntity.Update.Input) async throws -> AvailabilityUpdateResult {
-        let request = AvailabilityEntity.Update.Request(_id: input._id, startDate: input.startDate, endDate: input.endDate, period: input.period)
+        let request = AvailabilityEntity.Update.Request(_id: input._id, startDate: input.startDate, endDate: input.endDate, period: input.period, expiration: input.expiration)
         return try await repository.updateAvailability(request: request)
     }
 }

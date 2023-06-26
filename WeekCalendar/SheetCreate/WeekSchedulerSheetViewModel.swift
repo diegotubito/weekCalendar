@@ -12,11 +12,17 @@ class AvailabilitySheetViewModel: BaseViewModel {
     var type: SheetType
     var capsule: SchedulerCapsuleModel
     
-    @Published var selectedStartDate: Date
+    @Published var selectedStartDate: Date {
+        didSet {
+            selectedEndDate = Calendar.current.date(byAdding: .hour, value: 1, to: selectedStartDate)!
+        }
+    }
     @Published var selectedEndDate: Date
     @Published var selectedPeriod: SchedulerCapsulePeriod
     @Published var availability: Availability?
-    
+    @Published var isEndless: Bool
+    @Published var selectedExpirationDate: Date
+
     init(item: ItemModelPresenter, type: SheetType, capsule: SchedulerCapsuleModel) {
         self.item = item
         self.type = type
@@ -25,6 +31,8 @@ class AvailabilitySheetViewModel: BaseViewModel {
         selectedStartDate = capsule.startDate.toDate()!
         selectedEndDate = capsule.endDate.toDate()!
         selectedPeriod = capsule.period
+        isEndless = capsule.expiration == nil ? true : false
+        selectedExpirationDate = capsule.expiration?.toDate() ?? capsule.endDate.toDate()!
     }
     
     @MainActor
@@ -33,7 +41,8 @@ class AvailabilitySheetViewModel: BaseViewModel {
         
         do {
             let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-            let input = AvailabilityEntity.Save.Input(service: item._id, startDate: selectedStartDate.toString(format: format), endDate: selectedEndDate.toString(format: format), period: selectedPeriod.rawValue)
+            let expiration = isEndless ? nil : selectedExpirationDate.endOfDay().toString(format: format)
+            let input = AvailabilityEntity.Save.Input(service: item._id, startDate: selectedStartDate.toString(format: format), endDate: selectedEndDate.toString(format: format), period: selectedPeriod.rawValue, expiration: expiration)
             let response = try await usecase.saveAvailability(input: input)
             availability = response.availability
 
@@ -62,7 +71,8 @@ class AvailabilitySheetViewModel: BaseViewModel {
         
         do {
             let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-            let input = AvailabilityEntity.Update.Input(_id: capsule.availabilityId, startDate: selectedStartDate.toString(format: format), endDate: selectedEndDate.toString(format: format), period: selectedPeriod.rawValue)
+            let expiration = isEndless ? nil : selectedExpirationDate.endOfDay().toString(format: format)
+            let input = AvailabilityEntity.Update.Input(_id: capsule.availabilityId, startDate: selectedStartDate.toString(format: format), endDate: selectedEndDate.toString(format: format), period: selectedPeriod.rawValue, expiration: expiration)
             let response = try await usecase.updateAvailability(input: input)
             
             availability = response.availability

@@ -136,7 +136,7 @@ class WeekSchedulerViewModel: BaseViewModel {
         capsules.removeAll()
         for availability in availabilities {
             switch availability.period {
-            case .none:
+            case .once:
                 capsules.append(contentsOf: addSingleItem(fromDate: availability.startDate.toDate()!, toDate: availability.endDate.toDate()!, availability: availability))
             case .daily:
                 let dailyConstant = 1
@@ -226,7 +226,8 @@ class WeekSchedulerViewModel: BaseViewModel {
                                             startDate: startDate,
                                             endDate: endDate,
                                             backgroundColor: Color.gray.opacity(0.15),
-                                            columnType: columnType)
+                                            columnType: columnType,
+                                            expiration: availability.expiration)
             result.append(newCapsule)
         }
         
@@ -239,13 +240,14 @@ class WeekSchedulerViewModel: BaseViewModel {
         let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)
         
         let newAvailability = Availability(_id: UUID().uuidString,
-                                           period: .none,
+                                           period: .once,
                                            startDate: date.toString(format: format),
                                            endDate: (endDate?.toString(format: format))!,
                                            service: "",
                                            isEnabled: true,
                                            createdAt: "",
-                                           updatedAt: "")
+                                           updatedAt: "",
+                                           expiration: nil)
         
         availabilities.append(newAvailability)
         return newAvailability

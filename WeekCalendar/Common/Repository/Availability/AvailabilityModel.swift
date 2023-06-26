@@ -16,6 +16,7 @@ struct Availability: Decodable, Hashable {
     let isEnabled: Bool
     let createdAt: String
     let updatedAt: String
+    let expiration: String?
 }
 
 struct AvailabilityModelPresenter: Hashable {
@@ -27,7 +28,8 @@ struct AvailabilityModelPresenter: Hashable {
     let isEnabled: Bool
     let createdAt: String
     let updatedAt: String
-    
+    let expiration: String?
+
     var isScheduled: Bool = false
     var assignments: [Assignment] = []
 }
@@ -43,6 +45,7 @@ extension AvailabilityModelPresenter {
         self.isEnabled = model.isEnabled
         self.createdAt = model.createdAt
         self.updatedAt = model.updatedAt
+        self.expiration = model.expiration
     }
 }
 

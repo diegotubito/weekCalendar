@@ -13,45 +13,56 @@ struct AvailabilitySheetCreateUpdateDelete: View {
     
     @Environment(\.dismiss) var dismiss
     
+   
     var body: some View {
         VStack {
-            Text("Availability Settings")
-                .padding()
-            
-            HStack {
-                DatePicker("Start date", selection: $viewmodel.selectedStartDate, displayedComponents: .date)
-                    .padding([.leading, .trailing], 8)
-                    .padding([.top, .bottom], 16)
-                    .foregroundColor(Color.Dark.tone90)
-                DatePicker("Start time", selection: $viewmodel.selectedStartDate, displayedComponents: .hourAndMinute)
-                    .padding([.leading, .trailing], 8)
-                    .padding([.top, .bottom], 16)
-                    .foregroundColor(Color.Dark.tone90)
-            }
-            
-            HStack {
-                DatePicker("End date", selection: $viewmodel.selectedEndDate, displayedComponents: .date)
-                    .padding([.leading, .trailing], 8)
-                    .padding([.top, .bottom], 16)
-                    .foregroundColor(Color.Dark.tone90)
-                Spacer()
-                DatePicker("End time", selection: $viewmodel.selectedEndDate, displayedComponents: .hourAndMinute)
-                    .padding([.leading, .trailing], 8)
-                    .padding([.top, .bottom], 16)
-                    .foregroundColor(Color.Dark.tone90)
-            }
-            
-            HStack {
-                Text("Select a period")
+            ScrollView {
+                Text("Availability Settings")
+                    .padding()
+
+                HStack {
+                    Text("Periodicity")
+                        .padding(16)
+                        .foregroundColor(Color.Dark.tone90)
+                    Spacer()
+                    Picker("", selection: $viewmodel.selectedPeriod) {
+                        ForEach(SchedulerCapsulePeriod.allCases, id: \.self) { item in // 4
+                            Text(item.rawValue.capitalized) // 5
+                        }
+                    }
                     .padding(8)
-                    .foregroundColor(Color.Dark.tone90)
-                Spacer()
-                Picker("", selection: $viewmodel.selectedPeriod) {
-                    ForEach(SchedulerCapsulePeriod.allCases, id: \.self) { item in // 4
-                        Text(item.rawValue.capitalized) // 5
+                }
+                
+                HStack(alignment: .top) {
+                    DatePicker("Start date", selection: $viewmodel.selectedStartDate, displayedComponents: .date)
+                        .foregroundColor(Color.Dark.tone90)
+                    VStack(alignment: .trailing) {
+                        DatePicker("from", selection: $viewmodel.selectedStartDate, displayedComponents: .hourAndMinute)
+                            .foregroundColor(Color.Dark.tone90)
+                        DatePicker("to", selection: $viewmodel.selectedEndDate, displayedComponents: .hourAndMinute)
+                            .foregroundColor(Color.Dark.tone90)
+                    }
+                }
+                .padding()
+                
+                if viewmodel.selectedPeriod != .once {
+                    VStack {
+                        Toggle("Endless", isOn: $viewmodel.isEndless)
+                            .padding([.horizontal])
+                            .toggleStyle(.switch)
+                            .foregroundColor(Color.Dark.tone90)
+                        
+                        
+                        if !viewmodel.isEndless {
+                            DatePicker("Expiration date", selection: $viewmodel.selectedExpirationDate, displayedComponents: .date)
+                                .padding()
+                                .foregroundColor(Color.Dark.tone90)
+                            
+                        }
                     }
                 }
             }
+            
             
             Spacer()
             HStack {

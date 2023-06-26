@@ -85,29 +85,35 @@ struct WeekSchedulerView: View {
     @State private var horizontalOffset: CGFloat = 0.0
     
     var body: some View {
-        GeometryReader { proxy in
-            
-            OffsettableScrollView(axes: .vertical) { point in
-                verticalOffset = point.y
-                print(verticalOffset, proxy.size.height, viewmodel.getTotalHeight())
+        ZStack {
+            GeometryReader { proxy in
                 
-            } content: {
-                HStack(spacing: viewmodel.spacing) {
-                    HoursView
-                    OffsettableScrollView(axes: .horizontal) { point in
-                        horizontalOffset = point.x
-                        print(horizontalOffset, proxy.size.width, viewmodel.getTotalWidth())
-                    } content: {
-                        VStack(spacing: viewmodel.spacing) {
-                            CalendarView
+                OffsettableScrollView(axes: .vertical) { point in
+                    verticalOffset = point.y
+                    print(verticalOffset, proxy.size.height, viewmodel.getTotalHeight())
+                    
+                } content: {
+                    HStack(spacing: viewmodel.spacing) {
+                        HoursView
+                        OffsettableScrollView(axes: .horizontal) { point in
+                            horizontalOffset = point.x
+                            print(horizontalOffset, proxy.size.width, viewmodel.getTotalWidth())
+                        } content: {
                             VStack(spacing: viewmodel.spacing) {
-                                RowsAndColumns
-                            }.overlay {
-                                Capsules
+                                CalendarView
+                                VStack(spacing: viewmodel.spacing) {
+                                    RowsAndColumns
+                                }.overlay {
+                                    Capsules
+                                }
                             }
                         }
                     }
                 }
+            }
+            
+            if viewmodel.isLoading {
+                ProgressView()
             }
         }
         
@@ -128,7 +134,7 @@ struct WeekSchedulerView: View {
                         viewmodel.availabilities.removeLast()
                     }
                 }
-                .presentationDetents([.medium, .fraction(0.8)])
+                .presentationDetents([.medium])
 
             }
             

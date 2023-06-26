@@ -14,6 +14,7 @@ struct SchedulerCapsuleModel: Hashable {
     let endDate: String
     let backgroundColor: Color
     let columnType: ColumnType
+    let expiration: String?
     
     enum ColumnType {
         case none
@@ -24,7 +25,7 @@ struct SchedulerCapsuleModel: Hashable {
 }
 
 enum SchedulerCapsulePeriod: String, Decodable, CaseIterable {
-    case none
+    case once
     case daily
     case weekly
     case monthly
