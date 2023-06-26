@@ -53,7 +53,7 @@ struct WeekSchedulerView: View {
                                 viewmodel.selectedCapsules = newCapsules
                                 
                                 
-                                viewmodel.openSheet = .new
+                                viewmodel.sheetType = .new
                                 viewmodel.isShowingSheet = true
                                 
                             }
@@ -70,20 +70,14 @@ struct WeekSchedulerView: View {
                 .cornerRadius(5)
                 .position(x: viewmodel.getPositionX(item: capsuleItem), y: viewmodel.getPositionY(item: capsuleItem))
                 .onTapGesture {
-                    
-                    viewmodel.selectAllSameId(capsule: capsuleItem)
-                    
+                    viewmodel.selectAllCapsulesWithTheSameId(capsule: capsuleItem)
                     if let availabilityTapped = viewmodel.availabilities.filter({$0._id == capsuleItem.availabilityId}).first {
-                        
                         if viewmodel.selectedCapsules.contains(where: {$0.availabilityId == availabilityTapped._id}) {
-                            
-                            viewmodel.openSheet = .edit
+                            viewmodel.sheetType = .edit
                             viewmodel.isShowingSheet = true
-                            
                         }
                     }
                 }
-            
         }
     }
     
@@ -92,6 +86,7 @@ struct WeekSchedulerView: View {
     
     var body: some View {
         GeometryReader { proxy in
+            
             OffsettableScrollView(axes: .vertical) { point in
                 verticalOffset = point.y
                 print(verticalOffset, proxy.size.height, viewmodel.getTotalHeight())
@@ -115,28 +110,28 @@ struct WeekSchedulerView: View {
                 }
             }
         }
+        
         .onAppear {
-            viewmodel.loadAvailabilities()
+            Task {
+                await viewmodel.loadAvailabilities()
+            }
         }
         .sheet(isPresented: $viewmodel.isShowingSheet, onDismiss: {
-            viewmodel.loadAvailabilities()
-        }) {
-            if viewmodel.openSheet == .edit {
-                Color.gray.opacity(0.6)
-                Text("Edit or Delete current availability")
-                    .foregroundColor(.black)
-                    .presentationDetents([.medium, .fraction(0.8)])
-                
-            } else if viewmodel.openSheet == .new {
-                if let capsuleToCancel = viewmodel.selectedCapsules.first {
-                    CreateAvailabilitySheet(capsule: capsuleToCancel, onFinished: { success in
-                        if !success {
-                            viewmodel.availabilities.removeLast()
-                        }
-                    })
-                    .presentationDetents([.medium, .fraction(0.8)])
-                }
+            Task {
+                await viewmodel.loadAvailabilities()
             }
+        }) {
+            if let selectedCapsule = viewmodel.selectedCapsules.first {
+                
+                AvailabilitySheetCreateUpdateDelete(viewmodel: AvailabilitySheetViewModel(item: viewmodel.item, type: viewmodel.sheetType, capsule: selectedCapsule)) { newAvailability in
+                    if newAvailability == nil {
+                        viewmodel.availabilities.removeLast()
+                    }
+                }
+                .presentationDetents([.medium, .fraction(0.8)])
+
+            }
+            
         }
     }
 }

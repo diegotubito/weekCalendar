@@ -49,4 +49,3 @@ private struct OffsetPreferenceKey: PreferenceKey {
     
     static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) { }
 }
-

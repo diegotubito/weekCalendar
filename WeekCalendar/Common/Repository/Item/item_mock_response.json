@@ -1,0 +1,403 @@
+{
+    "count": 1,
+    "items": [
+        {
+            "images": [],
+            "_id": "643b4e4b7301d42e234f62af",
+            "title": "Cancha 1",
+            "subtitle": "linda canchita",
+            "itemType": "service",
+            "price": 9000,
+            "isEnabled": true,
+            "duration": 0,
+            "spot": "64334f6e796cc7dc49d92b38",
+            "createdAt": "2023-04-16T01:24:27.970Z",
+            "updatedAt": "2023-04-16T01:24:27.970Z"
+        },
+        {
+            "images": [],
+            "_id": "643bfe1cb2f0a337406eb825",
+            "title": "Corte de pelo",
+            "subtitle": "Clasico con lavado de cabello",
+            "itemType": "service",
+            "price": 3000,
+            "isEnabled": true,
+            "duration": 0,
+            "spot": "643884476ed24ea7fdbaa2d7",
+            "createdAt": "2023-04-16T13:54:37.001Z",
+            "updatedAt": "2023-04-16T13:54:37.001Z"
+        },
+        {
+            "_id": "644051739c142110feef11d8",
+            "title": "Coloracion",
+            "subtitle": "Cuidamos tu cabello como si fueras una princesa",
+            "itemType": "service",
+            "price": 3000,
+            "isEnabled": true,
+            "duration": 0,
+            "spot": "64404f159c142110feef1199",
+            "images": [
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644051729c142110feef11cc",
+                    "createdAt": "2023-04-19T20:39:14.833Z",
+                    "updatedAt": "2023-04-19T20:39:14.833Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644051729c142110feef11cd",
+                    "createdAt": "2023-04-19T20:39:14.833Z",
+                    "updatedAt": "2023-04-19T20:39:14.833Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644051729c142110feef11ce",
+                    "createdAt": "2023-04-19T20:39:14.834Z",
+                    "updatedAt": "2023-04-19T20:39:14.834Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644051729c142110feef11cf",
+                    "createdAt": "2023-04-19T20:39:14.834Z",
+                    "updatedAt": "2023-04-19T20:39:14.834Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644051729c142110feef11d0",
+                    "createdAt": "2023-04-19T20:39:14.834Z",
+                    "updatedAt": "2023-04-19T20:39:14.834Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644051729c142110feef11d1",
+                    "createdAt": "2023-04-19T20:39:14.834Z",
+                    "updatedAt": "2023-04-19T20:39:14.834Z",
+                    "__v": 0
+                }
+            ],
+            "createdAt": "2023-04-19T20:39:15.044Z",
+            "updatedAt": "2023-04-19T20:39:15.044Z"
+        },
+        {
+            "_id": "644097799c142110feef1302",
+            "title": "Corte",
+            "subtitle": "Corte simple con lavado",
+            "itemType": "service",
+            "price": 2199.99,
+            "isEnabled": true,
+            "duration": 0,
+            "spot": "64404f159c142110feef1199",
+            "images": [
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644097789c142110feef12f6",
+                    "createdAt": "2023-04-20T01:38:00.013Z",
+                    "updatedAt": "2023-04-20T01:38:00.013Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644097789c142110feef12f7",
+                    "createdAt": "2023-04-20T01:38:00.013Z",
+                    "updatedAt": "2023-04-20T01:38:00.013Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644097789c142110feef12f8",
+                    "createdAt": "2023-04-20T01:38:00.013Z",
+                    "updatedAt": "2023-04-20T01:38:00.013Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644097789c142110feef12f9",
+                    "createdAt": "2023-04-20T01:38:00.013Z",
+                    "updatedAt": "2023-04-20T01:38:00.013Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644097789c142110feef12fa",
+                    "createdAt": "2023-04-20T01:38:00.013Z",
+                    "updatedAt": "2023-04-20T01:38:00.013Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "644097789c142110feef12fb",
+                    "createdAt": "2023-04-20T01:38:00.013Z",
+                    "updatedAt": "2023-04-20T01:38:00.013Z",
+                    "__v": 0
+                }
+            ],
+            "createdAt": "2023-04-20T01:38:01.368Z",
+            "updatedAt": "2023-04-20T01:38:01.368Z"
+        },
+        {
+            "_id": "6441da2f9c142110feef13e6",
+            "title": "Cancha de 9",
+            "subtitle": "",
+            "itemType": "service",
+            "price": 11700,
+            "isEnabled": true,
+            "duration": 0,
+            "spot": "6441d9d09c142110feef13d1",
+            "images": [
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da2e9c142110feef13da",
+                    "createdAt": "2023-04-21T00:34:54.012Z",
+                    "updatedAt": "2023-04-21T00:34:54.012Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da2e9c142110feef13db",
+                    "createdAt": "2023-04-21T00:34:54.012Z",
+                    "updatedAt": "2023-04-21T00:34:54.012Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da2e9c142110feef13dc",
+                    "createdAt": "2023-04-21T00:34:54.012Z",
+                    "updatedAt": "2023-04-21T00:34:54.012Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da2e9c142110feef13dd",
+                    "createdAt": "2023-04-21T00:34:54.012Z",
+                    "updatedAt": "2023-04-21T00:34:54.012Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da2e9c142110feef13de",
+                    "createdAt": "2023-04-21T00:34:54.012Z",
+                    "updatedAt": "2023-04-21T00:34:54.012Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da2e9c142110feef13df",
+                    "createdAt": "2023-04-21T00:34:54.012Z",
+                    "updatedAt": "2023-04-21T00:34:54.012Z",
+                    "__v": 0
+                }
+            ],
+            "createdAt": "2023-04-21T00:34:55.319Z",
+            "updatedAt": "2023-04-21T00:34:55.319Z"
+        },
+        {
+            "_id": "6441da499c142110feef13f4",
+            "title": "Cancha de 5",
+            "subtitle": "A",
+            "itemType": "service",
+            "price": 11700,
+            "isEnabled": true,
+            "duration": 0,
+            "spot": "6441d9d09c142110feef13d1",
+            "images": [
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da499c142110feef13e8",
+                    "createdAt": "2023-04-21T00:35:21.576Z",
+                    "updatedAt": "2023-04-21T00:35:21.576Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da499c142110feef13e9",
+                    "createdAt": "2023-04-21T00:35:21.576Z",
+                    "updatedAt": "2023-04-21T00:35:21.576Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da499c142110feef13ea",
+                    "createdAt": "2023-04-21T00:35:21.576Z",
+                    "updatedAt": "2023-04-21T00:35:21.576Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da499c142110feef13eb",
+                    "createdAt": "2023-04-21T00:35:21.576Z",
+                    "updatedAt": "2023-04-21T00:35:21.576Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da499c142110feef13ec",
+                    "createdAt": "2023-04-21T00:35:21.576Z",
+                    "updatedAt": "2023-04-21T00:35:21.576Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da499c142110feef13ed",
+                    "createdAt": "2023-04-21T00:35:21.576Z",
+                    "updatedAt": "2023-04-21T00:35:21.576Z",
+                    "__v": 0
+                }
+            ],
+            "createdAt": "2023-04-21T00:35:21.812Z",
+            "updatedAt": "2023-04-21T00:35:21.812Z"
+        },
+        {
+            "_id": "6441da4e9c142110feef1402",
+            "title": "Cancha de 5",
+            "subtitle": "B",
+            "itemType": "service",
+            "price": 11700,
+            "isEnabled": true,
+            "duration": 0,
+            "spot": "6441d9d09c142110feef13d1",
+            "images": [
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da4e9c142110feef13f6",
+                    "createdAt": "2023-04-21T00:35:26.716Z",
+                    "updatedAt": "2023-04-21T00:35:26.716Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da4e9c142110feef13f7",
+                    "createdAt": "2023-04-21T00:35:26.716Z",
+                    "updatedAt": "2023-04-21T00:35:26.716Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da4e9c142110feef13f8",
+                    "createdAt": "2023-04-21T00:35:26.716Z",
+                    "updatedAt": "2023-04-21T00:35:26.716Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da4e9c142110feef13f9",
+                    "createdAt": "2023-04-21T00:35:26.716Z",
+                    "updatedAt": "2023-04-21T00:35:26.716Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da4e9c142110feef13fa",
+                    "createdAt": "2023-04-21T00:35:26.717Z",
+                    "updatedAt": "2023-04-21T00:35:26.717Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "6441da4e9c142110feef13fb",
+                    "createdAt": "2023-04-21T00:35:26.717Z",
+                    "updatedAt": "2023-04-21T00:35:26.717Z",
+                    "__v": 0
+                }
+            ],
+            "createdAt": "2023-04-21T00:35:26.931Z",
+            "updatedAt": "2023-04-21T00:35:26.931Z"
+        },
+        {
+            "_id": "64434d9aca8a65c7ab45429a",
+            "title": "Pelota",
+            "subtitle": "Numero 5",
+            "itemType": "product",
+            "price": 23000,
+            "isEnabled": true,
+            "duration": 0,
+            "spot": "6441d9d09c142110feef13d1",
+            "images": [
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "64434d99ca8a65c7ab45428e",
+                    "createdAt": "2023-04-22T02:59:37.054Z",
+                    "updatedAt": "2023-04-22T02:59:37.054Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "64434d99ca8a65c7ab45428f",
+                    "createdAt": "2023-04-22T02:59:37.055Z",
+                    "updatedAt": "2023-04-22T02:59:37.055Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "64434d99ca8a65c7ab454290",
+                    "createdAt": "2023-04-22T02:59:37.055Z",
+                    "updatedAt": "2023-04-22T02:59:37.055Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "64434d99ca8a65c7ab454291",
+                    "createdAt": "2023-04-22T02:59:37.055Z",
+                    "updatedAt": "2023-04-22T02:59:37.055Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "64434d99ca8a65c7ab454292",
+                    "createdAt": "2023-04-22T02:59:37.055Z",
+                    "updatedAt": "2023-04-22T02:59:37.055Z",
+                    "__v": 0
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "https://placeimg.com/64/48/any",
+                    "_id": "64434d99ca8a65c7ab454293",
+                    "createdAt": "2023-04-22T02:59:37.055Z",
+                    "updatedAt": "2023-04-22T02:59:37.055Z",
+                    "__v": 0
+                }
+            ],
+            "createdAt": "2023-04-22T02:59:38.337Z",
+            "updatedAt": "2023-04-22T02:59:38.337Z"
+        }
+    ]
+}

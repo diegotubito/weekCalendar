@@ -1,0 +1,14 @@
+
+{
+    "availability": {
+        "_id": "6498834df1978fa26bc6d62b",
+        "period": "weekly",
+        "startDate": "2023-06-28T06:00:00.000Z",
+        "endDate": "2023-06-28T08:00:00.000Z",
+        "service": "6441da2f9c142110feef13e6",
+        "isEnabled": true,
+        "createdAt": "2023-06-25T18:11:25.985Z",
+        "updatedAt": "2023-06-25T18:13:48.556Z",
+        "__v": 0
+    }
+}

@@ -22,15 +22,24 @@ struct ContentView: View {
     }
     
     var body: some View {
-        VStack {
-            WeekSchedulerView(viewmodel: WeekSchedulerViewModel(initialDate: currentDate,
-                                                                days: 30,
-                                                                startHour: 0,
-                                                                endHour: 23,
-                                                                boxWidth: 50,
-                                                                boxHeight: 50,
-                                                                calendarHeight: 60,
-                                                                spacing: 1))
+        CustomNavigationStack(viewmodel: BaseViewModel()) {
+            VStack {
+                WeekSchedulerView(viewmodel: WeekSchedulerViewModel(initialDate: getNearSunday(date: Date()),
+                                                                    days: 30,
+                                                                    startHour: 0,
+                                                                    endHour: 23,
+                                                                    boxWidth: 50,
+                                                                    boxHeight: 50,
+                                                                    calendarHeight: 60,
+                                                                    spacing: 1,
+                                                                    item: mockFakeItem()))
+            }
+        }
+        .onAppear {
+            let loginViewModel = LoginViewModel()
+            Task {
+                await loginViewModel.doLogin()
+            }
         }
     }
     
@@ -41,48 +50,27 @@ struct ContentView: View {
         return fromDate
       
     }
+    
+    func mockFakeItem() -> ItemModelPresenter {
+        return ItemModelPresenter(_id: "6441da2f9c142110feef13e6",
+                                  title: "Cancha de 9",
+                                  subtitle: "",
+                                  itemType: "service",
+                                  price: 33,
+                                  isEnabled: true,
+                                  spot: "6441d9d09c142110feef13d1",
+                                  createdAt: "",
+                                  updatedAt: "",
+                                  images: [],
+                                  image: UIImage(systemName: "pencil")!,
+                                  imageState: .loaded,
+                                  availabilities: [],
+                                  availabilitiesState: .loaded)
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
-}
-
-struct Availability: Decodable, Hashable {
-    let _id: String
-    let period: SchedulerCapsulePeriod
-    let capacity: Int
-    let startDate: String
-    let endDate: String
-    let service: String
-    let isEnabled: Bool
-    let priceAdjustmentPercentage: Int
-    let createdAt: String
-    let updatedAt: String
-}
-
-struct Assignment: Decodable, Hashable {
-    let _id: String
-    let availability: Availability
-    let status: String
-    let startDate: String
-    let amount: Double
-    let createdAt: String
-    let updatedAt: String
-    let expiration: Expiration?
-    
-    struct Expiration: Decodable, Hashable {
-        let _id: String
-        let duration: Int
-        let startDate: String?
-    }
-}
-
-enum AssignmentStatus: String {
-    case userPending
-    case ownerAccepted
-    case ownerRejected
-    case userScheduled
-    case userCancelled
 }

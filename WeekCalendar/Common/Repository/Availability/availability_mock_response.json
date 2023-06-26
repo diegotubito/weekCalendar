@@ -1,0 +1,17 @@
+{
+    "availabilities": [
+        {
+            "_id": "64922df9a25d2afc5d086ce3",
+            "period": "weekly",
+            "capacity": 33,
+            "startDate": "2000-01-01T06:00:00.000Z",
+            "endDate": "2000-01-01T06:00:00.000Z",
+            "service": "6441da2f9c142110feef13e6",
+            "isEnabled": true,
+            "priceAdjustmentPercentage": -10,
+            "createdAt": "2023-06-20T22:53:47.817Z",
+            "updatedAt": "2023-06-20T22:53:47.817Z",
+            "__v": 0
+        }
+    ]
+}

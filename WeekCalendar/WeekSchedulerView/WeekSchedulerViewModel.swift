@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-class WeekSchedulerViewModel: ObservableObject {
+class WeekSchedulerViewModel: BaseViewModel {
     @Published var availabilities: [Availability] = [] {
         didSet {
             generateItems()
         }
     }
     
-    @Published var capsules: [SchedulerCapsuleModel] = [] {
-        didSet {
-            print(capsules.count)
-        }
-    }
+    @Published var capsules: [SchedulerCapsuleModel] = []
     @Published var selectedCapsules: [SchedulerCapsuleModel] = []
-    @Published var openSheet: SheetType = .none
+    @Published var sheetType: SheetType = .new
     @Published var isShowingSheet = false
+    @Published var isLoading = false
 
     var initialDate: Date
     var days: Int
@@ -32,7 +29,9 @@ class WeekSchedulerViewModel: ObservableObject {
     var calendarHeight: CGFloat
     var spacing: CGFloat
     
-    init(initialDate: Date, days: Int, startHour: Int, endHour: Int, boxWidth: CGFloat, boxHeight: CGFloat, calendarHeight: CGFloat, spacing: CGFloat) {
+    var item: ItemModelPresenter
+    
+    init(initialDate: Date, days: Int, startHour: Int, endHour: Int, boxWidth: CGFloat, boxHeight: CGFloat, calendarHeight: CGFloat, spacing: CGFloat, item: ItemModelPresenter) {
         self.initialDate = initialDate.startOfDay()
         self.days = days
         self.startHour = startHour
@@ -41,6 +40,23 @@ class WeekSchedulerViewModel: ObservableObject {
         self.boxHeight = boxHeight
         self.calendarHeight = calendarHeight
         self.spacing = spacing
+        self.item = item
+    }
+    
+    @MainActor
+    func loadAvailabilities() async {
+        let usecase = AvailabilityUseCase()
+        isLoading = true
+        
+        do {
+            let input = AvailabilityEntity.Input(serviceId: item._id)
+            let response = try await usecase.fetchAvailabilities(input: input)
+            availabilities = response.availabilities
+            isLoading = false
+        } catch {
+            handleError(error)
+            isLoading = false
+        }
     }
     
     func getPositionX(item: SchedulerCapsuleModel) -> CGFloat {
@@ -89,7 +105,7 @@ class WeekSchedulerViewModel: ObservableObject {
         return (getItemHeight(item: item) / 2) + (spacing / 2)
     }
     
-    func selectAllSameId(capsule: SchedulerCapsuleModel) {
+    func selectAllCapsulesWithTheSameId(capsule: SchedulerCapsuleModel) {
         selectedCapsules = capsules.filter({$0.availabilityId == capsule.availabilityId})
     }
     
@@ -114,55 +130,6 @@ class WeekSchedulerViewModel: ObservableObject {
         let hour = difference / 3600
         
         return hour
-    }
-    
-    func loadAvailabilities() {
-        availabilities.removeAll()
-        let availability1 = Availability(_id: "1110",
-                                         period: .daily,
-                                         capacity: 33,
-                                         startDate: "2023-06-14T19:00:00.000Z",
-                                         endDate: "2023-06-14T20:00:00.000Z",
-                                         service: "",
-                                         isEnabled: true,
-                                         priceAdjustmentPercentage: 10,
-                                         createdAt: "",
-                                         updatedAt: "")
-        let availability2 = Availability(_id: "1100",
-                                         period: .none,
-                                         capacity: 33,
-                                         startDate: "2023-06-13T15:00:00.000Z",
-                                         endDate: "2023-06-13T17:00:00.000Z",
-                                         service: "",
-                                         isEnabled: true,
-                                         priceAdjustmentPercentage: 10,
-                                         createdAt: "",
-                                         updatedAt: "")
-        
-        let availability3 = Availability(_id: "1000",
-                                         period: .none,
-                                         capacity: 33,
-                                         startDate: "2023-06-13T15:00:00.000Z",
-                                         endDate: "2023-06-13T18:00:00.000Z",
-                                         service: "",
-                                         isEnabled: true,
-                                         priceAdjustmentPercentage: 10,
-                                         createdAt: "",
-                                         updatedAt: "")
-        
-        let availability4 = Availability(_id: "11000",
-                                         period: .none,
-                                         capacity: 33,
-                                         startDate: "2023-06-15T15:00:00.000Z",
-                                         endDate: "2023-06-17T18:00:00.000Z",
-                                         service: "",
-                                         isEnabled: true,
-                                         priceAdjustmentPercentage: 10,
-                                         createdAt: "",
-                                         updatedAt: "")
-        
-        
-        availabilities = [availability1, availability2, availability3, availability4]
     }
     
     private func generateItems() {
@@ -256,7 +223,6 @@ class WeekSchedulerViewModel: ObservableObject {
             
             let newCapsule = SchedulerCapsuleModel(availabilityId: availability._id,
                                             period: availability.period,
-                                            capacity: availability.capacity,
                                             startDate: startDate,
                                             endDate: endDate,
                                             backgroundColor: Color.gray.opacity(0.15),
@@ -274,12 +240,10 @@ class WeekSchedulerViewModel: ObservableObject {
         
         let newAvailability = Availability(_id: UUID().uuidString,
                                            period: .none,
-                                           capacity: 21,
                                            startDate: date.toString(format: format),
                                            endDate: (endDate?.toString(format: format))!,
                                            service: "",
                                            isEnabled: true,
-                                           priceAdjustmentPercentage: 10,
                                            createdAt: "",
                                            updatedAt: "")
         

@@ -20,7 +20,7 @@ struct WeekSchedulerCapsuleView: View {
                 }
             }
             HStack {
-                Text("\(getStartTime(stringDate: capsule.startDate)) (\(capsule.capacity))")
+                Text("\(getStartTime(stringDate: capsule.startDate))")
                     .font(.system(size: 10))
                     .padding(.horizontal, 4)
                     .foregroundColor(isCapsuleSelected() ? .white : .white.opacity(0.5))

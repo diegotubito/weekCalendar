@@ -10,7 +10,6 @@ import SwiftUI
 struct SchedulerCapsuleModel: Hashable {
     let availabilityId: String
     let period: SchedulerCapsulePeriod
-    let capacity: Int
     let startDate: String
     let endDate: String
     let backgroundColor: Color
@@ -24,15 +23,14 @@ struct SchedulerCapsuleModel: Hashable {
     }
 }
 
-enum SchedulerCapsulePeriod: String, Decodable {
+enum SchedulerCapsulePeriod: String, Decodable, CaseIterable {
     case none
     case daily
     case weekly
     case monthly
 }
 
-enum SheetType {
+enum SheetType: Equatable {
     case edit
     case new
-    case none
 }

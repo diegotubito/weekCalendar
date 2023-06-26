@@ -1,0 +1,16 @@
+{
+    "user": {
+        "_id": "642f675e3334343ff52068dc",
+        "username": "diego",
+        "email": "diegodavid@icloud.com",
+        "firstName": "David Diego",
+        "lastName": "Gomez",
+        "isEnabled": true,
+        "role": "SUPER_ROLE",
+        "phoneNumber": "1135937260",
+        "emailVerified": false,
+        "createdAt": "2023-04-07T00:44:14.554Z",
+        "spot": "642f676f3334343ff52068e2"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJmNjc1ZTMzMzQzNDNmZjUyMDY4ZGMiLCJpYXQiOjE2ODI3ODQ5MzIsImV4cCI6MTY4Mjc4ODUzMn0.0sH-ArJQUWTtgfGdpAqiktJyYiB2xHArt7NnGYqY-IE"
+}

@@ -1,0 +1,13 @@
+{
+    "assignment": {
+        "user": "642f675e3334343ff52068dc",
+        "availability": "64442659da7ec87f7b60f3a4",
+        "spot": "6441d9d09c142110feef13d1",
+        "status": "user-pending",
+        "startDate": "2023-04-23T03:00:00.000Z",
+        "amount": 1900,
+        "_id": "64499b25fc5c7a91e4d00cb0",
+        "createdAt": "2023-04-26T21:44:05.831Z",
+        "updatedAt": "2023-04-26T21:44:05.831Z",
+    }
+}

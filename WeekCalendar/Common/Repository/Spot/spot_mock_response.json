@@ -1,0 +1,235 @@
+{
+    "count": 2,
+    "spots": [
+        {
+            "images": [],
+            "_id": "64334f6e796cc7dc49d92b38",
+            "title": "Azules",
+            "subtitle": "",
+            "thumbnailImage": "www.my-image.jpg",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -34.7284846842873,
+                    -58.439284190786
+                ],
+                "street": "Fallieres",
+                "streetNumber": 650,
+                "cp": "1828",
+                "locality": "Banfield",
+                "state": "Buenos Aires",
+                "country": "ARG",
+                "_id": "64334f6e796cc7dc49d92b39"
+            },
+            "contactInformation": {
+                "phoneNumber": "",
+                "email": "",
+                "_id": "64334f6e796cc7dc49d92b3a"
+            },
+            "isEnabled": true,
+            "tipos": [
+                {
+                    "_id": "643349ef85f19e942a9a8399",
+                    "type": "TENNIS",
+                    "icon": "tennis.racket",
+                    "tintColor": "#ff0000"
+                },
+                {
+                    "_id": "643349d585f19e942a9a8398",
+                    "type": "PADDLE",
+                    "icon": "tennisball.circle",
+                    "tintColor": "#00ff00"
+                }
+            ],
+            "createdAt": "2023-04-09T23:51:10.494Z",
+            "updatedAt": "2023-04-09T23:51:10.494Z",
+            "__v": 0
+        },
+        {
+            "images": [],
+            "_id": "643884476ed24ea7fdbaa2d7",
+            "title": "Peluqueria",
+            "subtitle": "los amigos",
+            "thumbnailImage": "www.my-image.jpg",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -34.7261846842873,
+                    -58.435184190786
+                ],
+                "street": "Fallieres",
+                "streetNumber": 650,
+                "cp": "1828",
+                "locality": "Banfield",
+                "state": "Buenos Aires",
+                "country": "ARG",
+                "_id": "643884476ed24ea7fdbaa2d8"
+            },
+            "contactInformation": {
+                "phoneNumber": "",
+                "email": "",
+                "_id": "643884476ed24ea7fdbaa2d9"
+            },
+            "isEnabled": true,
+            "tipos": [
+                {
+                    "_id": "6436265b539bddf2b2945c8a",
+                    "type": "BARBER_SHOP",
+                    "icon": "scissors",
+                    "tintColor": "#662685"
+                }
+            ],
+            "createdAt": "2023-04-13T22:37:59.547Z",
+            "updatedAt": "2023-04-13T22:37:59.547Z",
+            "__v": 0
+        },
+        {
+            "images": [],
+            "_id": "643899130852f905113da842",
+            "title": "Peluqueria 2",
+            "subtitle": "los amigos 2",
+            "thumbnailImage": "www.my-image.jpg",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -34.7211846842873,
+                    -58.431184190786
+                ],
+                "street": "Cochabamba",
+                "streetNumber": 650,
+                "cp": "1828",
+                "locality": "Banfield",
+                "state": "Buenos Aires",
+                "country": "ARG",
+                "_id": "643899130852f905113da843"
+            },
+            "contactInformation": {
+                "phoneNumber": "",
+                "email": "",
+                "_id": "643899130852f905113da844"
+            },
+            "isEnabled": true,
+            "tipos": [
+                {
+                    "_id": "6436265b539bddf2b2945c8a",
+                    "type": "BARBER_SHOP",
+                    "icon": "scissors",
+                    "tintColor": "#662685"
+                }
+            ],
+            "createdAt": "2023-04-14T00:06:43.995Z",
+            "updatedAt": "2023-04-14T00:06:43.995Z",
+            "__v": 0
+        },
+        {
+            "_id": "64404f159c142110feef1199",
+            "title": "Peluqueria 3",
+            "subtitle": "los amigos 3",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -34.72114846842873,
+                    -58.432184190786
+                ],
+                "street": "Cochabamba",
+                "streetNumber": 650,
+                "cp": "1828",
+                "locality": "Banfield",
+                "state": "Buenos Aires",
+                "country": "ARG",
+                "_id": "64404f159c142110feef119a"
+            },
+            "contactInformation": {
+                "phoneNumber": "",
+                "email": "",
+                "_id": "64404f159c142110feef119b"
+            },
+            "isEnabled": true,
+            "tipos": [
+                {
+                    "_id": "6436265b539bddf2b2945c8a",
+                    "type": "BARBER_SHOP",
+                    "icon": "scissors",
+                    "tintColor": "#662685"
+                }
+            ],
+            "profileImage": "",
+            "thumbnailImage": "www.my-image.jpg",
+            "images": [
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "",
+                    "_id": "64404f159c142110feef119e"
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "",
+                    "_id": "64404f159c142110feef119f"
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "",
+                    "_id": "64404f159c142110feef11a0"
+                }
+            ],
+            "createdAt": "2023-04-19T20:29:09.390Z",
+            "updatedAt": "2023-04-19T20:29:09.390Z",
+            "__v": 0
+        },
+        {
+            "_id": "6441d9d09c142110feef13d1",
+            "title": "POLIDEPORTIVO ADILAS",
+            "subtitle": "",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    -34.72095934375024,
+                    -58.39028476281314
+                ],
+                "street": "Gral Ferré",
+                "streetNumber": 2901,
+                "cp": "1824",
+                "locality": "Lanús",
+                "state": "Buenos Aires",
+                "country": "ARG",
+                "_id": "6441d9d09c142110feef13d2"
+            },
+            "contactInformation": {
+                "phoneNumber": "01120003151",
+                "email": "",
+                "_id": "6441d9d09c142110feef13d3"
+            },
+            "isEnabled": true,
+            "tipos": [
+                {
+                    "_id": "6433490785f19e942a9a8394",
+                    "type": "FOOTBALL",
+                    "icon": "soccerball",
+                    "tintColor": "#0000ff"
+                }
+            ],
+            "profileImage": "https://placeimg.com/75/75/any",
+            "thumbnailImage": "https://placeimg.com/640/480/any",
+            "images": [
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "",
+                    "_id": "6441d9d09c142110feef13d6"
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "",
+                    "_id": "6441d9d09c142110feef13d7"
+                },
+                {
+                    "url": "https://placeimg.com/640/480/any",
+                    "thumbnail": "",
+                    "_id": "6441d9d09c142110feef13d8"
+                }
+            ],
+            "createdAt": "2023-04-21T00:33:20.750Z",
+            "updatedAt": "2023-04-21T00:33:20.750Z",
+            "__v": 0
+        }
+    ]
+}

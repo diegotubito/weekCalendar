@@ -1,0 +1,64 @@
+{
+    "item": {
+        "title": "Pelota",
+        "subtitle": "Numero 5",
+        "itemType": "product",
+        "price": 23000,
+        "isEnabled": true,
+        "duration": 0,
+        "spot": "6441d9d09c142110feef13d1",
+        "images": [
+            {
+                "url": "https://placeimg.com/640/480/any",
+                "thumbnail": "https://placeimg.com/64/48/any",
+                "_id": "646952817e29a47bd372b934",
+                "createdAt": "2023-05-20T23:06:41.772Z",
+                "updatedAt": "2023-05-20T23:06:41.772Z",
+                "__v": 0
+            },
+            {
+                "url": "https://placeimg.com/640/480/any",
+                "thumbnail": "https://placeimg.com/64/48/any",
+                "_id": "646952817e29a47bd372b935",
+                "createdAt": "2023-05-20T23:06:41.772Z",
+                "updatedAt": "2023-05-20T23:06:41.772Z",
+                "__v": 0
+            },
+            {
+                "url": "https://placeimg.com/640/480/any",
+                "thumbnail": "https://placeimg.com/64/48/any",
+                "_id": "646952817e29a47bd372b936",
+                "createdAt": "2023-05-20T23:06:41.772Z",
+                "updatedAt": "2023-05-20T23:06:41.772Z",
+                "__v": 0
+            },
+            {
+                "url": "https://placeimg.com/640/480/any",
+                "thumbnail": "https://placeimg.com/64/48/any",
+                "_id": "646952817e29a47bd372b937",
+                "createdAt": "2023-05-20T23:06:41.773Z",
+                "updatedAt": "2023-05-20T23:06:41.773Z",
+                "__v": 0
+            },
+            {
+                "url": "https://placeimg.com/640/480/any",
+                "thumbnail": "https://placeimg.com/64/48/any",
+                "_id": "646952817e29a47bd372b938",
+                "createdAt": "2023-05-20T23:06:41.773Z",
+                "updatedAt": "2023-05-20T23:06:41.773Z",
+                "__v": 0
+            },
+            {
+                "url": "https://placeimg.com/640/480/any",
+                "thumbnail": "https://placeimg.com/64/48/any",
+                "_id": "646952817e29a47bd372b939",
+                "createdAt": "2023-05-20T23:06:41.773Z",
+                "updatedAt": "2023-05-20T23:06:41.773Z",
+                "__v": 0
+            }
+        ],
+        "_id": "646952817e29a47bd372b940",
+        "createdAt": "2023-05-20T23:06:41.978Z",
+        "updatedAt": "2023-05-20T23:06:41.978Z"
+    }
+}

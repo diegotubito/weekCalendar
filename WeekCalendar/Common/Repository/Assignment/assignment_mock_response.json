@@ -1,0 +1,407 @@
+{
+    "count": 2,
+    "assignments": [
+        {
+            "_id": "64923049a25d2afc5d086d7e",
+            "user": {
+                "_id": "642f675e3334343ff52068dc",
+                "username": "diego",
+                "email": "diegodavid@icloud.com",
+                "firstName": "David Diego",
+                "lastName": "Gomez",
+                "isEnabled": true,
+                "role": "SUPER_ROLE",
+                "phoneNumber": "1135937260",
+                "emailVerified": false,
+                "createdAt": "2023-04-07T00:44:14.554Z",
+                "spot": {
+                    "_id": "6441d9d09c142110feef13d1",
+                    "title": "POLIDEPORTIVO ADILAS",
+                    "subtitle": "",
+                    "location": {
+                        "type": "Point",
+                        "coordinates": [
+                            -34.72095934375024,
+                            -58.39028476281314
+                        ],
+                        "street": "Gral Ferré",
+                        "streetNumber": 2901,
+                        "cp": "1824",
+                        "locality": "Lanús",
+                        "state": "Buenos Aires",
+                        "country": "ARG",
+                        "_id": "6441d9d09c142110feef13d2"
+                    },
+                    "contactInformation": {
+                        "phoneNumber": "01120003151",
+                        "email": "",
+                        "_id": "6441d9d09c142110feef13d3"
+                    },
+                    "isEnabled": true,
+                    "tipos": [
+                        {
+                            "_id": "6433490785f19e942a9a8394",
+                            "type": "FOOTBALL",
+                            "icon": "soccerball",
+                            "tintColor": "#0000ff"
+                        }
+                    ],
+                    "profileImage": "https://placeimg.com/75/75/any",
+                    "thumbnailImage": "https://placeimg.com/640/480/any",
+                    "images": [
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d6"
+                        },
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d7"
+                        },
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d8"
+                        }
+                    ],
+                    "createdAt": "2023-04-21T00:33:20.750Z",
+                    "updatedAt": "2023-04-21T00:33:20.750Z",
+                    "__v": 0
+                },
+                "deviceTokens": [
+                    "80D3869D42620D4C4F0B70BE8FCD1539D2D808FFE45A09F0D0634E393043F28912774CCABE508C0464CC61D4D45D207BC36452D85277BD21106BEDF529B67FA356F256C4B0E0D790E2581F3C7EAD2EC4",
+                    "BB9A96803B6C536D57B740657185EC125B2E008F7E9D065E3D60D89C3D9379A7",
+                    "8076F53EC919B3DA6A717767BA1923BAF3FA23E84B89B9BE6DDCB59D7B18F28A42192CC9D937AD44B7BF6BB1E18BC3813F92656D0B3A2E322A2FD312A9A19F7471277474CF62D44B838AE39077372627",
+                    "8056D7E9B4A5F0800D77C9D55C356B5F5B3940D1118DAC4BB55A11435884B3303DC8C13A266AEDD9E8B7F4E5D2D09BD68A7FA7AE0E721482919F72D3C74A7E33B947674D4C30A6B47A3929CB9D5F6824",
+                    "803220F28152E9969D70EA750B029AFA6F0DC01BB5F2176AFD15FB6D5651B10EBCCC44DAEF5D12B4DE01EA6371B0F6F160EB19312F1BACCD9A036A73B4E939E5CAEF3C71D2A67F96141A0EB4557DCA39",
+                    "7589A2BB85400BDAA57C754A9339F2E24F6DF3A6704D19E0E478AF489710D6E1"
+                ]
+            },
+            "availability": null,
+            "item": {
+                "_id": "6441da2f9c142110feef13e6",
+                "title": "Cancha de 9",
+                "subtitle": "",
+                "itemType": "service",
+                "price": 11700,
+                "isEnabled": true,
+                "duration": 0,
+                "spot": {
+                    "_id": "6441d9d09c142110feef13d1",
+                    "title": "POLIDEPORTIVO ADILAS",
+                    "subtitle": "",
+                    "location": {
+                        "type": "Point",
+                        "coordinates": [
+                            -34.72095934375024,
+                            -58.39028476281314
+                        ],
+                        "street": "Gral Ferré",
+                        "streetNumber": 2901,
+                        "cp": "1824",
+                        "locality": "Lanús",
+                        "state": "Buenos Aires",
+                        "country": "ARG",
+                        "_id": "6441d9d09c142110feef13d2"
+                    },
+                    "contactInformation": {
+                        "phoneNumber": "01120003151",
+                        "email": "",
+                        "_id": "6441d9d09c142110feef13d3"
+                    },
+                    "isEnabled": true,
+                    "tipos": [
+                        {
+                            "_id": "6433490785f19e942a9a8394",
+                            "type": "FOOTBALL",
+                            "icon": "soccerball",
+                            "tintColor": "#0000ff"
+                        }
+                    ],
+                    "profileImage": "https://placeimg.com/75/75/any",
+                    "thumbnailImage": "https://placeimg.com/640/480/any",
+                    "images": [
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d6"
+                        },
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d7"
+                        },
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d8"
+                        }
+                    ],
+                    "createdAt": "2023-04-21T00:33:20.750Z",
+                    "updatedAt": "2023-04-21T00:33:20.750Z",
+                    "__v": 0
+                },
+                "images": [
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13da",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13db",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13dc",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13dd",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13de",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13df",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    }
+                ],
+                "createdAt": "2023-04-21T00:34:55.319Z",
+                "updatedAt": "2023-04-21T00:34:55.319Z"
+            },
+            "status": "user-pending",
+            "startDate": "2023-06-17T00:00:00.000Z",
+            "amount": 11700,
+            "createdAt": "2023-06-20T23:03:37.694Z",
+            "updatedAt": "2023-06-20T23:03:37.694Z",
+            "__v": 0
+        },
+        {
+            "_id": "64987b9ef1978fa26bc6d3ed",
+            "user": {
+                "_id": "642f675e3334343ff52068dc",
+                "username": "diego",
+                "email": "diegodavid@icloud.com",
+                "firstName": "David Diego",
+                "lastName": "Gomez",
+                "isEnabled": true,
+                "role": "SUPER_ROLE",
+                "phoneNumber": "1135937260",
+                "emailVerified": false,
+                "createdAt": "2023-04-07T00:44:14.554Z",
+                "spot": {
+                    "_id": "6441d9d09c142110feef13d1",
+                    "title": "POLIDEPORTIVO ADILAS",
+                    "subtitle": "",
+                    "location": {
+                        "type": "Point",
+                        "coordinates": [
+                            -34.72095934375024,
+                            -58.39028476281314
+                        ],
+                        "street": "Gral Ferré",
+                        "streetNumber": 2901,
+                        "cp": "1824",
+                        "locality": "Lanús",
+                        "state": "Buenos Aires",
+                        "country": "ARG",
+                        "_id": "6441d9d09c142110feef13d2"
+                    },
+                    "contactInformation": {
+                        "phoneNumber": "01120003151",
+                        "email": "",
+                        "_id": "6441d9d09c142110feef13d3"
+                    },
+                    "isEnabled": true,
+                    "tipos": [
+                        {
+                            "_id": "6433490785f19e942a9a8394",
+                            "type": "FOOTBALL",
+                            "icon": "soccerball",
+                            "tintColor": "#0000ff"
+                        }
+                    ],
+                    "profileImage": "https://placeimg.com/75/75/any",
+                    "thumbnailImage": "https://placeimg.com/640/480/any",
+                    "images": [
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d6"
+                        },
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d7"
+                        },
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d8"
+                        }
+                    ],
+                    "createdAt": "2023-04-21T00:33:20.750Z",
+                    "updatedAt": "2023-04-21T00:33:20.750Z",
+                    "__v": 0
+                },
+                "deviceTokens": [
+                    "80D3869D42620D4C4F0B70BE8FCD1539D2D808FFE45A09F0D0634E393043F28912774CCABE508C0464CC61D4D45D207BC36452D85277BD21106BEDF529B67FA356F256C4B0E0D790E2581F3C7EAD2EC4",
+                    "BB9A96803B6C536D57B740657185EC125B2E008F7E9D065E3D60D89C3D9379A7",
+                    "8076F53EC919B3DA6A717767BA1923BAF3FA23E84B89B9BE6DDCB59D7B18F28A42192CC9D937AD44B7BF6BB1E18BC3813F92656D0B3A2E322A2FD312A9A19F7471277474CF62D44B838AE39077372627",
+                    "8056D7E9B4A5F0800D77C9D55C356B5F5B3940D1118DAC4BB55A11435884B3303DC8C13A266AEDD9E8B7F4E5D2D09BD68A7FA7AE0E721482919F72D3C74A7E33B947674D4C30A6B47A3929CB9D5F6824",
+                    "803220F28152E9969D70EA750B029AFA6F0DC01BB5F2176AFD15FB6D5651B10EBCCC44DAEF5D12B4DE01EA6371B0F6F160EB19312F1BACCD9A036A73B4E939E5CAEF3C71D2A67F96141A0EB4557DCA39",
+                    "7589A2BB85400BDAA57C754A9339F2E24F6DF3A6704D19E0E478AF489710D6E1"
+                ]
+            },
+            "availability": null,
+            "item": {
+                "_id": "6441da2f9c142110feef13e6",
+                "title": "Cancha de 9",
+                "subtitle": "",
+                "itemType": "service",
+                "price": 11700,
+                "isEnabled": true,
+                "duration": 0,
+                "spot": {
+                    "_id": "6441d9d09c142110feef13d1",
+                    "title": "POLIDEPORTIVO ADILAS",
+                    "subtitle": "",
+                    "location": {
+                        "type": "Point",
+                        "coordinates": [
+                            -34.72095934375024,
+                            -58.39028476281314
+                        ],
+                        "street": "Gral Ferré",
+                        "streetNumber": 2901,
+                        "cp": "1824",
+                        "locality": "Lanús",
+                        "state": "Buenos Aires",
+                        "country": "ARG",
+                        "_id": "6441d9d09c142110feef13d2"
+                    },
+                    "contactInformation": {
+                        "phoneNumber": "01120003151",
+                        "email": "",
+                        "_id": "6441d9d09c142110feef13d3"
+                    },
+                    "isEnabled": true,
+                    "tipos": [
+                        {
+                            "_id": "6433490785f19e942a9a8394",
+                            "type": "FOOTBALL",
+                            "icon": "soccerball",
+                            "tintColor": "#0000ff"
+                        }
+                    ],
+                    "profileImage": "https://placeimg.com/75/75/any",
+                    "thumbnailImage": "https://placeimg.com/640/480/any",
+                    "images": [
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d6"
+                        },
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d7"
+                        },
+                        {
+                            "url": "https://placeimg.com/640/480/any",
+                            "thumbnail": "",
+                            "_id": "6441d9d09c142110feef13d8"
+                        }
+                    ],
+                    "createdAt": "2023-04-21T00:33:20.750Z",
+                    "updatedAt": "2023-04-21T00:33:20.750Z",
+                    "__v": 0
+                },
+                "images": [
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13da",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13db",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13dc",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13dd",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13de",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    },
+                    {
+                        "url": "https://placeimg.com/640/480/any",
+                        "thumbnail": "https://placeimg.com/64/48/any",
+                        "_id": "6441da2e9c142110feef13df",
+                        "createdAt": "2023-04-21T00:34:54.012Z",
+                        "updatedAt": "2023-04-21T00:34:54.012Z",
+                        "__v": 0
+                    }
+                ],
+                "createdAt": "2023-04-21T00:34:55.319Z",
+                "updatedAt": "2023-04-21T00:34:55.319Z"
+            },
+            "status": "user-pending",
+            "startDate": "2023-06-25T00:00:00.000Z",
+            "amount": 11700,
+            "createdAt": "2023-06-25T17:38:38.360Z",
+            "updatedAt": "2023-06-25T17:38:38.360Z",
+            "__v": 0
+        }
+    ]
+}
