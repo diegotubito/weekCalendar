@@ -45,7 +45,7 @@ struct AvailabilitySheetCreateUpdateDelete: View {
                 }
                 .padding()
                 
-                if viewmodel.selectedPeriod != .once {
+                if viewmodel.selectedPeriod != .oneTime {
                     VStack {
                         Toggle("Endless", isOn: $viewmodel.isEndless)
                             .padding([.horizontal])

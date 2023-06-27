@@ -25,10 +25,13 @@ struct SchedulerCapsuleModel: Hashable {
 }
 
 enum SchedulerCapsulePeriod: String, Decodable, CaseIterable {
-    case once
+    case oneTime = "one time"
     case daily
     case weekly
     case monthly
+    case weekend
+    case business = "business days"
+    case workingDays = "working days"
 }
 
 enum SheetType: Equatable {

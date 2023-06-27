@@ -135,20 +135,21 @@ class WeekSchedulerViewModel: BaseViewModel {
     private func generateItems() {
         capsules.removeAll()
         for availability in availabilities {
+            guard let startDate = availability.startDate.toDate(),
+                  let endDate = availability.endDate.toDate() else { continue }
+            
             switch availability.period {
-            case .once:
-                capsules.append(contentsOf: addSingleItem(fromDate: availability.startDate.toDate()!, toDate: availability.endDate.toDate()!, availability: availability))
+            case .oneTime:
+                capsules.append(contentsOf: addSingleItem(fromDate: startDate, toDate: endDate, availability: availability))
             case .daily:
                 let dailyConstant = 1
                 var result: [SchedulerCapsuleModel] = []
                 for index in 0..<days / dailyConstant {
-                    let fromDate = availability.startDate.toDate()!
-                    let correctFromDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: fromDate)
-                    let toDate = availability.endDate.toDate()!
-                    let correctToDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: toDate)
-                    result.append(contentsOf: addSingleItem(fromDate: correctFromDate!, toDate: correctToDate!, availability: availability))
+                    if let nextStartDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: startDate),
+                       let nextEndDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: endDate) {
+                        result.append(contentsOf: addSingleItem(fromDate: nextStartDate, toDate: nextEndDate, availability: availability))
+                    }
                 }
-                
                 capsules.append(contentsOf: result)
                 break
             case .monthly:
@@ -157,24 +158,68 @@ class WeekSchedulerViewModel: BaseViewModel {
                 var result: [SchedulerCapsuleModel] = []
 
                 for index in 0..<iteration {
-                    let fromDate = availability.startDate.toDate()!
-                    let correctFromDate = Calendar.current.date(byAdding: .month, value: monthlyConstant * index, to: fromDate)
-                    let toDate = availability.endDate.toDate()!
-                    let correctToDate = Calendar.current.date(byAdding: .month, value: monthlyConstant * index, to: toDate)
-                    result.append(contentsOf: addSingleItem(fromDate: correctFromDate!, toDate: correctToDate!, availability: availability))
+                    if let nextStartDate = Calendar.current.date(byAdding: .month, value: monthlyConstant * index, to: startDate),
+                       let nextEndDate = Calendar.current.date(byAdding: .month, value: monthlyConstant * index, to: endDate) {
+                        result.append(contentsOf: addSingleItem(fromDate: nextStartDate, toDate: nextEndDate, availability: availability))
+                    }
                 }
                 capsules.append(contentsOf: result)
             case .weekly:
                 let weeklyConstant = 7
                 var result: [SchedulerCapsuleModel] = []
                 for index in 0..<days / weeklyConstant {
-                    let fromDate = availability.startDate.toDate()!
-                    let correctFromDate = Calendar.current.date(byAdding: .day, value: weeklyConstant * index, to: fromDate)
-                    let toDate = availability.endDate.toDate()!
-                    let correctToDate = Calendar.current.date(byAdding: .day, value: weeklyConstant * index, to: toDate)
-                    result.append(contentsOf: addSingleItem(fromDate: correctFromDate!, toDate: correctToDate!, availability: availability))
+                    if let nextStartDate = Calendar.current.date(byAdding: .day, value: weeklyConstant * index, to: startDate),
+                       let nextEndDate = Calendar.current.date(byAdding: .day, value: weeklyConstant * index, to: endDate) {
+                        result.append(contentsOf: addSingleItem(fromDate: nextStartDate, toDate: nextEndDate, availability: availability))
+                    }
                 }
                 capsules.append(contentsOf: result)
+            case .weekend:
+                let dailyConstant = 1
+                var result: [SchedulerCapsuleModel] = []
+                for index in 0..<days / dailyConstant {
+                    if let nextStartDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: startDate),
+                       let nextEndDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: endDate) {
+                        let weekDay = Calendar.current.component(.weekday, from: nextEndDate)
+                        if weekDay == 7 || weekDay == 1 { // saturday and sunday
+                            result.append(contentsOf: addSingleItem(fromDate: nextStartDate, toDate: nextEndDate, availability: availability))
+                            
+                        }
+                    }
+                }
+                
+                capsules.append(contentsOf: result)
+                break
+            case .business:
+                let dailyConstant = 1
+                var result: [SchedulerCapsuleModel] = []
+                for index in 0..<days / dailyConstant {
+                    if let nextStartDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: startDate),
+                       let nextEndDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: endDate) {
+                        let weekDay = Calendar.current.component(.weekday, from: nextEndDate)
+                        if weekDay != 7 && weekDay != 1 { // business
+                            result.append(contentsOf: addSingleItem(fromDate: nextStartDate, toDate: nextEndDate, availability: availability))
+                        }
+                    }
+                }
+                
+                capsules.append(contentsOf: result)
+                break
+            case .workingDays:
+                let dailyConstant = 1
+                var result: [SchedulerCapsuleModel] = []
+                for index in 0..<days / dailyConstant {
+                    if let nextStartDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: startDate),
+                       let nextEndDate = Calendar.current.date(byAdding: .day, value: dailyConstant * index, to: endDate) {
+                        let weekDay = Calendar.current.component(.weekday, from: nextEndDate)
+                        if weekDay != 1 { // working days (mon to sat)
+                            result.append(contentsOf: addSingleItem(fromDate: nextStartDate, toDate: nextEndDate, availability: availability))
+                        }
+                    }
+                }
+                
+                capsules.append(contentsOf: result)
+                break
             }
         }
     }
@@ -183,7 +228,8 @@ class WeekSchedulerViewModel: BaseViewModel {
         
         let components = Calendar.current.dateComponents([.day], from: fromDate, to: toDate)
         guard let daysCounter = components.day else { return [] }
-        let lastDate = Calendar.current.date(byAdding: .day, value: days, to: initialDate)!
+        let lastDateFromCalendar = Calendar.current.date(byAdding: .day, value: days, to: initialDate)!
+        let expirationDate = availability.expiration?.toDate()
 
         let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
         var result: [SchedulerCapsuleModel] = []
@@ -191,7 +237,10 @@ class WeekSchedulerViewModel: BaseViewModel {
         for index in 0..<(daysCounter + 1) {
             guard let startTimeDate = Calendar.current.date(byAdding: .day, value: index, to: fromDate) else { break }
            
-            if startTimeDate > lastDate { // this is to avoid creating more capsules than the calendar screen width can support.
+            if startTimeDate > lastDateFromCalendar { // this is to avoid creating more capsules than the calendar screen width can support.
+                return result
+            }
+            if let expirationDate = expirationDate, startTimeDate > expirationDate {
                 return result
             }
            
@@ -200,6 +249,7 @@ class WeekSchedulerViewModel: BaseViewModel {
             
             var columnType: SchedulerCapsuleModel.ColumnType = .none
             
+            // this is run only if startDate and endDate are different. But, generally we don't let users do that.
             if daysCounter > 0 {
                 if index != 0 {
                     let startOfDay = startTimeDate.startOfDay()
@@ -240,7 +290,7 @@ class WeekSchedulerViewModel: BaseViewModel {
         let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)
         
         let newAvailability = Availability(_id: UUID().uuidString,
-                                           period: .once,
+                                           period: .oneTime,
                                            startDate: date.toString(format: format),
                                            endDate: (endDate?.toString(format: format))!,
                                            service: "",

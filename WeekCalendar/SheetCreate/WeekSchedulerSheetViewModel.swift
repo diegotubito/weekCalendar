@@ -18,7 +18,13 @@ class AvailabilitySheetViewModel: BaseViewModel {
         }
     }
     @Published var selectedEndDate: Date
-    @Published var selectedPeriod: SchedulerCapsulePeriod
+    @Published var selectedPeriod: SchedulerCapsulePeriod {
+        didSet {
+            if selectedPeriod == .oneTime {
+                isEndless = true
+            }
+        }
+    }
     @Published var availability: Availability?
     @Published var isEndless: Bool
     @Published var selectedExpirationDate: Date
