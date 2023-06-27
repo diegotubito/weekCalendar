@@ -28,10 +28,14 @@ struct ContentView: View {
                                                                     days: 30,
                                                                     startHour: 0,
                                                                     endHour: 23,
+                                                                    hourWidht: 50,
                                                                     boxWidth: 50,
                                                                     boxHeight: 50,
-                                                                    calendarHeight: 60,
+                                                                    calendarHeight: 50,
                                                                     spacing: 1,
+                                                                    fixedBackgroundColor: Color.Dark.tone90.opacity(0.3),
+                                                                    dynamicBackgroundColor: Color.Dark.tone90.opacity(0.25),
+                                                                    selectionBackgroundColor: Color.Blue.tone300,
                                                                     item: mockFakeItem()))
             }
         }

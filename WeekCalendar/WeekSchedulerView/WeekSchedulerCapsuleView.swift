@@ -10,6 +10,7 @@ import SwiftUI
 struct WeekSchedulerCapsuleView: View {
     var capsule: SchedulerCapsuleModel
     var selectedCapsules: [SchedulerCapsuleModel]
+    var backgroundColor: Color
     
     var body: some View {
         VStack(spacing: 0) {
@@ -41,7 +42,7 @@ struct WeekSchedulerCapsuleView: View {
                 }
             }
         }
-        .background(isCapsuleSelected() ? .blue.opacity(0.5) : capsule.backgroundColor)
+        .background(isCapsuleSelected() ? backgroundColor : capsule.backgroundColor)
         
     }
     

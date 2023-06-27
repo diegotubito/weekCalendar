@@ -24,22 +24,30 @@ class WeekSchedulerViewModel: BaseViewModel {
     var days: Int
     var startHour: Int
     var endHour: Int
+    var hourWidth: CGFloat
     var boxWidth: CGFloat
     var boxHeight: CGFloat
     var calendarHeight: CGFloat
     var spacing: CGFloat
+    var fixedBackgroundColor: Color = .gray.opacity(0.3)
+    var dynamicBackgroundColor: Color = .gray.opacity(0.1)
+    var selectionBackgroundColor: Color = .blue
     
     var item: ItemModelPresenter
     
-    init(initialDate: Date, days: Int, startHour: Int, endHour: Int, boxWidth: CGFloat, boxHeight: CGFloat, calendarHeight: CGFloat, spacing: CGFloat, item: ItemModelPresenter) {
+    init(initialDate: Date, days: Int, startHour: Int, endHour: Int, hourWidht: CGFloat, boxWidth: CGFloat, boxHeight: CGFloat, calendarHeight: CGFloat, spacing: CGFloat, fixedBackgroundColor: Color, dynamicBackgroundColor: Color, selectionBackgroundColor: Color, item: ItemModelPresenter) {
         self.initialDate = initialDate.startOfDay()
         self.days = days
         self.startHour = startHour
         self.endHour = endHour
+        self.hourWidth = hourWidht
         self.boxWidth = boxWidth
         self.boxHeight = boxHeight
         self.calendarHeight = calendarHeight
         self.spacing = spacing
+        self.fixedBackgroundColor = fixedBackgroundColor
+        self.dynamicBackgroundColor = dynamicBackgroundColor
+        self.selectionBackgroundColor = selectionBackgroundColor
         self.item = item
     }
     
@@ -47,7 +55,6 @@ class WeekSchedulerViewModel: BaseViewModel {
     func loadAvailabilities() async {
         let usecase = AvailabilityUseCase()
         isLoading = true
-        
         do {
             let input = AvailabilityEntity.Input(serviceId: item._id)
             let response = try await usecase.fetchAvailabilities(input: input)

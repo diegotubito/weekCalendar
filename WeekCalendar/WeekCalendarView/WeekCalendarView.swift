@@ -14,8 +14,9 @@ struct WeekCalendarView: View {
     @State var maxDays: Int
     var isSelectable: Bool
     var spacing: CGFloat
+    var fixedBackgroundColor: Color
     
-    init(initialDate: Date, selectedDate: Date = Date(), maxDays: Int, isSelectable: Bool, spacing: CGFloat, columnWidth: CGFloat, height: CGFloat, onSelectedDate: ((Date) -> Void)?, onVisibleDates: (([Date]) -> Void)?) {
+    init(initialDate: Date, selectedDate: Date = Date(), maxDays: Int, isSelectable: Bool, spacing: CGFloat, columnWidth: CGFloat, height: CGFloat, fixedBackgroundColor: Color, onSelectedDate: ((Date) -> Void)?, onVisibleDates: (([Date]) -> Void)?) {
         self._initialDate = State(initialValue: initialDate)
         self._selectedDate = State(initialValue: selectedDate)
         self.onSelectedDate = onSelectedDate
@@ -25,6 +26,7 @@ struct WeekCalendarView: View {
         self.spacing = spacing
         self.columnWidht = columnWidth
         self.height = height
+        self.fixedBackgroundColor = fixedBackgroundColor
     }
     
     struct Model: Hashable {
@@ -59,7 +61,7 @@ struct WeekCalendarView: View {
                             }
                     }
                     .frame(width: columnWidht, height: height)
-                    .background(.gray.opacity(0.3))
+                    .background(fixedBackgroundColor)
                 }
             }
             if isSelectable {
@@ -153,7 +155,7 @@ struct WeekCalendarView: View {
 
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
-        WeekCalendarView(initialDate: Date(), selectedDate: Date(), maxDays: 3, isSelectable: true, spacing: 1, columnWidth: 58, height: 58, onSelectedDate: { selectedDate in
+        WeekCalendarView(initialDate: Date(), selectedDate: Date(), maxDays: 3, isSelectable: true, spacing: 1, columnWidth: 58, height: 58, fixedBackgroundColor: .gray.opacity(0.25), onSelectedDate: { selectedDate in
             
         }, onVisibleDates: { dates in
             

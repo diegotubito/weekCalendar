@@ -18,15 +18,18 @@ struct WeekSchedulerView: View {
     @State private var sheetOffset: CGFloat = 0.0
     
     var HoursView: some View {
-        VStack {
-            Spacer()
-                .frame(height: viewmodel.calendarHeight)
+        VStack(spacing: viewmodel.spacing) {
+            viewmodel.fixedBackgroundColor
+                .frame(width: viewmodel.hourWidth, height: viewmodel.calendarHeight)
             WeekSchedulerHourView(startHour: viewmodel.startHour,
                                   endHour: viewmodel.endHour,
-                                  hourWidth: viewmodel.boxWidth,
+                                  hourWidth: viewmodel.hourWidth,
                                   hourHeight: viewmodel.boxHeight,
-                                  spacing: viewmodel.spacing)
+                                  spacing: viewmodel.spacing,
+                                  fixedBackgroundColor: viewmodel.fixedBackgroundColor)
         }
+        .offset(y: 4) // issue with this adjustment constant
+       
     }
     
     var CalendarView: some View {
@@ -36,14 +39,15 @@ struct WeekSchedulerView: View {
                          isSelectable: false,
                          spacing: viewmodel.spacing,
                          columnWidth: viewmodel.boxWidth,
-                         height: viewmodel.calendarHeight) { selectedDate in } onVisibleDates: { visibleDates in }
+                         height: viewmodel.calendarHeight,
+                         fixedBackgroundColor: viewmodel.fixedBackgroundColor) { selectedDate in } onVisibleDates: { visibleDates in }
     }
     
     var RowsAndColumns: some View {
         ForEach(0..<(viewmodel.endHour - viewmodel.startHour + 1), id: \.self) { rowIndex in
             HStack(spacing: viewmodel.spacing) {
                 ForEach(0..<viewmodel.days, id: \.self) { columnIndex in
-                    Color.gray.opacity(0.25)
+                    viewmodel.dynamicBackgroundColor
                         .frame(width: viewmodel.boxWidth, height: viewmodel.boxHeight)
                         .onTapGesture {
                             if let tappedDate = Calendar.current.date(byAdding: .day, value: columnIndex, to: viewmodel.initialDate),
@@ -65,7 +69,7 @@ struct WeekSchedulerView: View {
     
     var Capsules: some View {
         ForEach(viewmodel.capsules, id: \.self) { capsuleItem in
-            WeekSchedulerCapsuleView(capsule: capsuleItem, selectedCapsules: viewmodel.selectedCapsules)
+            WeekSchedulerCapsuleView(capsule: capsuleItem, selectedCapsules: viewmodel.selectedCapsules, backgroundColor: viewmodel.selectionBackgroundColor)
                 .frame(width: viewmodel.boxWidth * Constants.capsuleProportionalWidth, height: viewmodel.getItemHeight(item: capsuleItem))
                 .cornerRadius(5)
                 .position(x: viewmodel.getPositionX(item: capsuleItem), y: viewmodel.getPositionY(item: capsuleItem))
@@ -135,9 +139,14 @@ struct WeekSchedulerView: View {
                     }
                 }
                 .presentationDetents([.medium])
+                .presentationBackground(.clear)
+                .background(Color.Blue.midnight.opacity(0.8))
 
             }
             
+        }
+        .alert(isPresented: $viewmodel.showAlert) {
+            Alert(title: Text(viewmodel.alertTitle), message: Text(viewmodel.alertMessage))
         }
     }
 }
