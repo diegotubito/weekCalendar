@@ -38,6 +38,7 @@ struct ContentView: View {
                                                                     selectionBackgroundColor: Color.Blue.tone300,
                                                                     item: mockFakeItem()))
             }
+            .background(Color.black)
         }
         .onAppear {
             let loginViewModel = LoginViewModel()

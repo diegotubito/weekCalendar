@@ -19,8 +19,6 @@ struct BasicButton: View {
     @Binding var isEnabled: Bool
     let action: () -> Void
     
-    
-  
     var body: some View {
         switch style {
         case .primary:
@@ -29,13 +27,13 @@ struct BasicButton: View {
                     .frame(maxWidth: .infinity)
                     .padding(16)
                     .foregroundColor(.white)
-                    .background(isEnabled ? Color.blue : Color.blue.opacity(0.3))
+                    .background(isEnabled ? Color.Blue.tone300 : Color.Blue.tone300.opacity(0.3))
                     .cornerRadius(10)
                 
             }
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(isEnabled ? Color.blue : Color.blue.opacity(0.3), lineWidth: 1)
+                    .stroke(isEnabled ? Color.Blue.tone200 : Color.Blue.tone200.opacity(0.3), lineWidth: 1)
             )
             .disabled(!isEnabled)
         case .secondary:
@@ -43,14 +41,14 @@ struct BasicButton: View {
                 Text(title)
                     .frame(maxWidth: .infinity)
                     .padding(16)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.Yellow.light100)
                     .background(Color.clear)
                     .cornerRadius(10)
                 
             }
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
+                    .stroke(Color.Yellow.light100, lineWidth: 1)
             )
             .disabled(!isEnabled)
         case .destructive:
@@ -58,14 +56,14 @@ struct BasicButton: View {
                 Text(title)
                     .frame(maxWidth: .infinity)
                     .padding(16)
-                    .foregroundColor(.white)
-                    .background(isEnabled ? Color.Red.tone100 : Color.Red.tone100.opacity(0.3))
+                    .foregroundColor(Color.Neutral.tone80)
+                    .background(isEnabled ? Color.Red.midnight : Color.Red.tone100.opacity(0.3))
                     .cornerRadius(10)
                 
             }
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(isEnabled ? Color.Red.tone100 : Color.Red.tone100.opacity(0.3), lineWidth: 1)
+                    .stroke(isEnabled ? Color.clear : Color.Red.tone100.opacity(0.3), lineWidth: 1)
             )
             .disabled(!isEnabled)
         }

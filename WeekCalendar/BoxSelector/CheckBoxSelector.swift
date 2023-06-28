@@ -27,11 +27,16 @@ struct CheckBoxSelector: View {
     var body: some View {
         if style == .horizontal {
             HStack(spacing: 12) {
+                Spacer()
                 ForEach(items, id: \.self) { item in
                     VStack {
                         Text(item)
+                            .font(.caption)
                             .foregroundColor(Color.Dark.tone90)
-                        Image(isSelected(item) ? "checkmark-circle" : "circle")
+                        Image(systemName: isSelected(item) ? "checkmark.circle.fill" : "circle")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(Color.Yellow.light100)
                     }
                     .onTapGesture {
                         if isSelected(item) {
@@ -43,16 +48,18 @@ struct CheckBoxSelector: View {
                         onSelectedItems(selectedItems)
                     }
                 }
-                Spacer()
             }
         } else {
             VStack {
                 ForEach(items, id: \.self) { item in
                     HStack {
                         Text(item)
+                            .font(.caption)
                             .foregroundColor(Color.Dark.tone90)
-                        Spacer()
-                        Image(isSelected(item) ? "checkmark-circle" : "circle")
+                        Image(systemName: isSelected(item) ? "checkmark.circle.fill" : "circle")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(Color.Yellow.medium)
                     }
                     .onTapGesture {
                         if isSelected(item) {

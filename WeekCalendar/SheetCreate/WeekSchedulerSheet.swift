@@ -11,73 +11,93 @@ struct AvailabilitySheetCreateUpdateDelete: View {
     @ObservedObject var viewmodel: AvailabilitySheetViewModel
     var onFinished: (Availability?) -> Void
     
+    struct Constants {
+        static let optionTextColor = Color.Neutral.tone80
+        static let labelTextColor = Color.Dark.tone90
+    }
+    
     @Environment(\.dismiss) var dismiss
    
     var body: some View {
         VStack {
             ScrollView {
-                Text("Availability Settings")
-                    .padding()
-
-                HStack {
-                    Text("Periodicity")
-                        .padding(16)
-                        .foregroundColor(Color.Dark.tone90)
-                    Spacer()
-                    Picker("", selection: $viewmodel.selectedPeriod) {
-                        ForEach(SchedulerCapsulePeriod.allCases, id: \.self) { item in // 4
-                            Text(item.rawValue.capitalized) // 5
+                
+                VStack {
+                    Text("Availability Settings")
+                        .padding()
+                        .foregroundColor(Color.Neutral.tone70)
+                        .font(.title2)
+                    
+                    Divider()
+                        .background(Color.Neutral.tone70)
+                    
+                    HStack {
+                        Text("Periodicity")
+                            .foregroundColor(Constants.labelTextColor)
+                        Spacer()
+                        Picker("", selection: $viewmodel.selectedPeriod) {
+                            ForEach(SchedulerCapsulePeriod.allCases, id: \.self) { item in
+                                Text(item.rawValue.capitalized)
+                            }
                         }
                     }
-                    .padding(8)
-                }
-                
-                if viewmodel.selectedPeriod == .weekly && viewmodel.type == .new {
-                    CheckBoxSelector(items: viewmodel.getWeekNames(), style: .horizontal, selectedItems: viewmodel.selectedClones) { selectedItems in
-                        viewmodel.selectedClones = selectedItems
+                    
+                    if viewmodel.selectedPeriod == .weekly && viewmodel.type == .new {
+                        CheckBoxSelector(items: viewmodel.getWeekNames(), style: .horizontal, selectedItems: viewmodel.selectedClones) { selectedItems in
+                            viewmodel.selectedClones = selectedItems
+                        }
+                        .padding([.bottom])
                     }
-                    .padding()
-                }
-
-                Divider()
-
-                HStack(alignment: .top) {
-                    DatePicker("Start date", selection: $viewmodel.selectedStartDate, displayedComponents: .date)
-                        .foregroundColor(Color.Dark.tone90)
-                    VStack(alignment: .trailing) {
-                        DatePicker("from", selection: $viewmodel.selectedStartDate, displayedComponents: .hourAndMinute)
-                            .foregroundColor(Color.Dark.tone90)
-                        DatePicker("to", selection: $viewmodel.selectedEndDate, displayedComponents: .hourAndMinute)
-                            .foregroundColor(Color.Dark.tone90)
+                    
+                    Divider()
+                        .background(Color.Neutral.tone70)
+                    
+                    HStack(alignment: .top) {
+                        HStack {
+                            Text("Start date")
+                                .foregroundColor(Constants.labelTextColor)
+                            DatePicker("", selection: $viewmodel.selectedStartDate, displayedComponents: .date)
+                                .applyTextColor(Constants.optionTextColor)
+                        }
+                        VStack(alignment: .trailing) {
+                            DatePicker("", selection: $viewmodel.selectedStartDate, displayedComponents: .hourAndMinute)
+                                .applyTextColor(Constants.optionTextColor)
+                            DatePicker("", selection: $viewmodel.selectedEndDate, displayedComponents: .hourAndMinute)
+                                .applyTextColor(Constants.optionTextColor)
+                        }
+                    }
+                    .padding(.vertical)
+                    
+                    if viewmodel.selectedPeriod != .oneTime {
+                        Divider()
+                            .background(Color.Neutral.tone70)
+                        
+                        VStack {
+                            Toggle("Expiration", isOn: $viewmodel.doesExpyre)
+                                .toggleStyle(.switch)
+                                .foregroundColor(Constants.labelTextColor)
+                                .tint(Color.Yellow.light100)
+                            
+                            
+                            if viewmodel.doesExpyre {
+                                HStack {
+                                    Text("Set the date that finishes this event")
+                                        .font(.caption)
+                                        .foregroundColor(Constants.labelTextColor)
+                                    
+                                    DatePicker("", selection: $viewmodel.selectedExpirationDate, displayedComponents: .date)
+                                        .applyTextColor(Constants.optionTextColor)
+                                }
+                            }
+                        }
+                        .padding(.vertical)
                     }
                 }
                 .padding()
-                
-                Divider()
-                
-                if viewmodel.selectedPeriod != .oneTime {
-                    VStack {
-                        Toggle("Endless", isOn: $viewmodel.isEndless)
-                            .padding([.horizontal])
-                            .toggleStyle(.switch)
-                            .foregroundColor(Color.Dark.tone90)
-                        
-                        
-                        if !viewmodel.isEndless {
-                            DatePicker("Expiration date", selection: $viewmodel.selectedExpirationDate, displayedComponents: .date)
-                                .padding()
-                                .foregroundColor(Color.Dark.tone90)
-                            
-                        }
-                    }
-                }
-                
-                
             }
             
-            
             Spacer()
-            HStack {
+            HStack(spacing: 16) {
                 switch viewmodel.type {
                 case .edit:
                     BasicButton(title: "Remove", style: .destructive, isEnabled: .constant(true)) {
@@ -114,4 +134,14 @@ struct AvailabilitySheetCreateUpdateDelete: View {
             dismiss()
         }
     }
+}
+
+extension View {
+  @ViewBuilder func applyTextColor(_ color: Color) -> some View {
+    if UITraitCollection.current.userInterfaceStyle == .light {
+      self.colorInvert().colorMultiply(color)
+    } else {
+      self.colorMultiply(color)
+    }
+  }
 }

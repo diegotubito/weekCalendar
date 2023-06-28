@@ -138,7 +138,7 @@ struct WeekSchedulerView: View {
                         viewmodel.availabilities.removeLast()
                     }
                 }
-                .presentationDetents([.medium])
+                .presentationDetents([.medium, .fraction(0.7)])
                 .presentationBackground(.clear)
                 .background(Color.Blue.midnight)
 

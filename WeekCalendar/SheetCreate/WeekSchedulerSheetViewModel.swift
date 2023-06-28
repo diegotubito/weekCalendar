@@ -22,7 +22,7 @@ class AvailabilitySheetViewModel: BaseViewModel {
     @Published var selectedPeriod: SchedulerCapsulePeriod {
         didSet {
             if selectedPeriod == .oneTime {
-                isEndless = true
+                doesExpyre = false
             }
             if selectedPeriod == .weekly {
                 let weekName = selectedStartDate.getDayName().capitalized.prefix(3)
@@ -32,7 +32,7 @@ class AvailabilitySheetViewModel: BaseViewModel {
     }
     
     @Published var availability: Availability?
-    @Published var isEndless: Bool
+    @Published var doesExpyre: Bool
     @Published var selectedExpirationDate: Date
     
     @Published var selectedClones: [String] = []
@@ -46,7 +46,7 @@ class AvailabilitySheetViewModel: BaseViewModel {
         selectedStartDate = capsule.startDate.toDate()!
         selectedEndDate = capsule.endDate.toDate()!
         selectedPeriod = capsule.period
-        isEndless = capsule.expiration == nil ? true : false
+        doesExpyre = capsule.expiration == nil ? false : true
         selectedExpirationDate = capsule.expiration?.toDate() ?? capsule.endDate.toDate()!
     }
 
@@ -80,7 +80,7 @@ class AvailabilitySheetViewModel: BaseViewModel {
         let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
         
         if selectedPeriod == .weekly {
-            let expiration = isEndless ? nil : selectedExpirationDate.endOfDay().toString(format: format)
+            let expiration = doesExpyre ? selectedExpirationDate.endOfDay().toString(format: format) : nil
             let weeknames = getWeekNames()
             
             for dayName in selectedClones {
@@ -96,7 +96,7 @@ class AvailabilitySheetViewModel: BaseViewModel {
         } else {
             let startDate = selectedStartDate.toString(format: format)
             let endDate = selectedEndDate.toString(format: format)
-            let expiration = isEndless ? nil : selectedExpirationDate.endOfDay().toString(format: format)
+            let expiration = doesExpyre ? selectedExpirationDate.endOfDay().toString(format: format) : nil
             
             Task {
                 await saveAvailability(startDate: startDate, endDate: endDate, expiration: expiration)
@@ -142,7 +142,7 @@ class AvailabilitySheetViewModel: BaseViewModel {
         
         do {
             let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-            let expiration = isEndless ? nil : selectedExpirationDate.endOfDay().toString(format: format)
+            let expiration = doesExpyre ? selectedExpirationDate.endOfDay().toString(format: format) : nil
             let input = AvailabilityEntity.Update.Input(_id: capsule.availabilityId, startDate: selectedStartDate.toString(format: format), endDate: selectedEndDate.toString(format: format), period: selectedPeriod.rawValue, expiration: expiration)
             let response = try await usecase.updateAvailability(input: input)
             
