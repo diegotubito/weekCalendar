@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "rounded.plus.button.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

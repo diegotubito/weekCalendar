@@ -108,7 +108,6 @@ struct WeekCalendarView: View {
         }
     }
     
-   
     func getFullDateName(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMMM d, yyyy"

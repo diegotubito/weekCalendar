@@ -140,7 +140,7 @@ struct WeekSchedulerView: View {
                 }
                 .presentationDetents([.medium])
                 .presentationBackground(.clear)
-                .background(Color.Blue.midnight.opacity(0.8))
+                .background(Color.Blue.midnight)
 
             }
             

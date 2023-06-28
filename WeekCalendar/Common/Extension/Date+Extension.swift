@@ -18,6 +18,15 @@ extension Date {
     func isBetween(_ date1: Date, and date2: Date) -> Bool {
         min(date1, date2) ... max(date1, date2) ~= self
     }
+    
+    func getDayName() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        
+        let currentDate = self
+        let dayName = dateFormatter.string(from: currentDate)
+        return String(String(dayName))
+    }
 }
 
 extension Date {

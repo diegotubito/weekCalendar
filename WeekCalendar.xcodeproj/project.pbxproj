@@ -79,6 +79,8 @@
 		AB7BF8A22A49F8DE00B65E76 /* LoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7BF89D2A49F8DE00B65E76 /* LoginEntity.swift */; };
 		AB7BF8A32A49F8DE00B65E76 /* login_mock_response.json in Resources */ = {isa = PBXBuildFile; fileRef = AB7BF89E2A49F8DE00B65E76 /* login_mock_response.json */; };
 		AB7BF8A52A49F92F00B65E76 /* CustomNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7BF8A42A49F92F00B65E76 /* CustomNavigationStack.swift */; };
+		AB7BF9042A4B71C300B65E76 /* CheckBoxSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7BF9032A4B71C300B65E76 /* CheckBoxSelector.swift */; };
+		AB7BF9062A4B723400B65E76 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB7BF9052A4B723400B65E76 /* Icons.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -155,6 +157,8 @@
 		AB7BF89D2A49F8DE00B65E76 /* LoginEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginEntity.swift; sourceTree = "<group>"; };
 		AB7BF89E2A49F8DE00B65E76 /* login_mock_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = login_mock_response.json; sourceTree = "<group>"; };
 		AB7BF8A42A49F92F00B65E76 /* CustomNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationStack.swift; sourceTree = "<group>"; };
+		AB7BF9032A4B71C300B65E76 /* CheckBoxSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxSelector.swift; sourceTree = "<group>"; };
+		AB7BF9052A4B723400B65E76 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,7 @@
 			children = (
 				AB5A9AC82A3F576100A379D1 /* WeekCalendarApp.swift */,
 				AB5A9ACA2A3F576100A379D1 /* ContentView.swift */,
+				AB7BF9022A4B71B500B65E76 /* BoxSelector */,
 				AB7BF8942A49F88000B65E76 /* Login */,
 				AB7BF8202A49EEF800B65E76 /* Common */,
 				AB1EB7252A47924B00E0E161 /* SheetCreate */,
@@ -205,6 +210,7 @@
 				AB5A9B772A4387A700A379D1 /* WeekSchedulerView */,
 				AB5A9ACC2A3F576200A379D1 /* Assets.xcassets */,
 				AB7BF8922A49F4D200B65E76 /* Colors.xcassets */,
+				AB7BF9052A4B723400B65E76 /* Icons.xcassets */,
 				AB5A9ACE2A3F576200A379D1 /* Preview Content */,
 			);
 			path = WeekCalendar;
@@ -407,6 +413,14 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		AB7BF9022A4B71B500B65E76 /* BoxSelector */ = {
+			isa = PBXGroup;
+			children = (
+				AB7BF9032A4B71C300B65E76 /* CheckBoxSelector.swift */,
+			);
+			path = BoxSelector;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -469,6 +483,7 @@
 				AB7BF8822A49F1F600B65E76 /* spot_mock_response.json in Resources */,
 				AB7BF85B2A49F0E700B65E76 /* create_assignment_mock_response.json in Resources */,
 				AB7BF8932A49F4D200B65E76 /* Colors.xcassets in Resources */,
+				AB7BF9062A4B723400B65E76 /* Icons.xcassets in Resources */,
 				AB7BF8432A49EF7600B65E76 /* availability_mock_response.json in Resources */,
 				AB7BF8442A49EF7600B65E76 /* availability_mock_delete_response.json in Resources */,
 				AB5A9AD02A3F576200A379D1 /* Preview Assets.xcassets in Resources */,
@@ -524,6 +539,7 @@
 				AB7BF8732A49F19100B65E76 /* ItemEntity.swift in Sources */,
 				AB1EB7202A46B1E500E0E161 /* WeekSchedulerHourView.swift in Sources */,
 				AB1EB7272A47925D00E0E161 /* WeekSchedulerSheet.swift in Sources */,
+				AB7BF9042A4B71C300B65E76 /* CheckBoxSelector.swift in Sources */,
 				AB7BF8912A49F47700B65E76 /* Color+Extension.swift in Sources */,
 				AB7BF8612A49F0E700B65E76 /* CreateAssignmentUseCase.swift in Sources */,
 				AB7BF88B2A49F24F00B65E76 /* ImageModel.swift in Sources */,

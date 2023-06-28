@@ -12,7 +12,6 @@ struct AvailabilitySheetCreateUpdateDelete: View {
     var onFinished: (Availability?) -> Void
     
     @Environment(\.dismiss) var dismiss
-    
    
     var body: some View {
         VStack {
@@ -33,6 +32,15 @@ struct AvailabilitySheetCreateUpdateDelete: View {
                     .padding(8)
                 }
                 
+                if viewmodel.selectedPeriod == .weekly && viewmodel.type == .new {
+                    CheckBoxSelector(items: viewmodel.getWeekNames(), style: .horizontal, selectedItems: viewmodel.selectedClones) { selectedItems in
+                        viewmodel.selectedClones = selectedItems
+                    }
+                    .padding()
+                }
+
+                Divider()
+
                 HStack(alignment: .top) {
                     DatePicker("Start date", selection: $viewmodel.selectedStartDate, displayedComponents: .date)
                         .foregroundColor(Color.Dark.tone90)
@@ -44,6 +52,8 @@ struct AvailabilitySheetCreateUpdateDelete: View {
                     }
                 }
                 .padding()
+                
+                Divider()
                 
                 if viewmodel.selectedPeriod != .oneTime {
                     VStack {
@@ -61,6 +71,8 @@ struct AvailabilitySheetCreateUpdateDelete: View {
                         }
                     }
                 }
+                
+                
             }
             
             
@@ -87,10 +99,9 @@ struct AvailabilitySheetCreateUpdateDelete: View {
                     }
                     
                     BasicButton(title: "Create", style: .primary, isEnabled: .constant(true)) {
-                        Task {
-                            await viewmodel.saveAvailability()
-                        }
+                        viewmodel.saveAvailability()
                     }
+                    
                 }
             }
             .padding()
