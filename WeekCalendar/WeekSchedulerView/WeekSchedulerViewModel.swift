@@ -238,7 +238,6 @@ class WeekSchedulerViewModel: BaseViewModel {
         let lastDateFromCalendar = Calendar.current.date(byAdding: .day, value: days, to: initialDate)!
         let expirationDate = availability.expiration?.toDate()
 
-        let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
         var result: [SchedulerCapsuleModel] = []
         
         for index in 0..<(daysCounter + 1) {
@@ -251,8 +250,8 @@ class WeekSchedulerViewModel: BaseViewModel {
                 return result
             }
            
-            var startDate = startTimeDate.toString(format: format)
-            var endDate = toDate.toString(format: format)
+            var startDate = startTimeDate.toString()
+            var endDate = toDate.toString()
             
             var columnType: SchedulerCapsuleModel.ColumnType = .none
             
@@ -260,21 +259,21 @@ class WeekSchedulerViewModel: BaseViewModel {
             if daysCounter > 0 {
                 if index != 0 {
                     let startOfDay = startTimeDate.startOfDay()
-                    startDate = startOfDay.toString(format: format)
+                    startDate = startOfDay.toString()
                     
                     if index == daysCounter {
                         columnType = .tail
-                        endDate = toDate.toString(format: format)
+                        endDate = toDate.toString()
                     } else {
                         columnType = .inner
                         let endOfDay = startTimeDate.endOfDay()
-                        endDate = endOfDay.toString(format: format)
+                        endDate = endOfDay.toString()
                     }
                     
                 } else {
                     columnType = .head
                     let endOfDay = startTimeDate.endOfDay()
-                    endDate = endOfDay.toString(format: format)
+                    endDate = endOfDay.toString()
                 }
             }
             
@@ -292,14 +291,12 @@ class WeekSchedulerViewModel: BaseViewModel {
     }
     
     func createNewAvailability(date: Date) -> Availability {
-        let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-        
         let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)
         
         let newAvailability = Availability(_id: UUID().uuidString,
                                            period: .oneTime,
-                                           startDate: date.toString(format: format),
-                                           endDate: (endDate?.toString(format: format))!,
+                                           startDate: date.toString(),
+                                           endDate: (endDate?.toString())!,
                                            service: "",
                                            isEnabled: true,
                                            createdAt: "",

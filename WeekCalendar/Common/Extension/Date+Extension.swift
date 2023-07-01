@@ -14,6 +14,13 @@ extension Date {
         let dateString = dateFormatter.string(from: self)
         return dateString
     }
+    
+    func toString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+        let dateString = dateFormatter.string(from: self)
+        return dateString
+    }
 
     func isBetween(_ date1: Date, and date2: Date) -> Bool {
         min(date1, date2) ... max(date1, date2) ~= self

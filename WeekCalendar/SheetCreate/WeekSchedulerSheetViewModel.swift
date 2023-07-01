@@ -77,26 +77,24 @@ class AvailabilitySheetViewModel: BaseViewModel {
     }
     
     func saveAvailability() {
-        let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-        
         if selectedPeriod == .weekly {
-            let expiration = doesExpyre ? selectedExpirationDate.endOfDay().toString(format: format) : nil
+            let expiration = doesExpyre ? selectedExpirationDate.endOfDay().toString() : nil
             let weeknames = getWeekNames()
             
             for dayName in selectedClones {
                 let index = (weeknames.lastIndex(where: { $0.prefix(3) == dayName.prefix(3)} ) ?? 0) + 1
                 
-                let nextStartDate = getNext(weekday: index, fromDate: selectedStartDate).toString(format: format)
-                let nextEndDate = getNext(weekday: index, fromDate: selectedEndDate).toString(format: format)
+                let nextStartDate = getNext(weekday: index, fromDate: selectedStartDate).toString()
+                let nextEndDate = getNext(weekday: index, fromDate: selectedEndDate).toString()
                 
                 Task {
                     await saveAvailability(startDate: nextStartDate, endDate: nextEndDate, expiration: expiration)
                 }
             }
         } else {
-            let startDate = selectedStartDate.toString(format: format)
-            let endDate = selectedEndDate.toString(format: format)
-            let expiration = doesExpyre ? selectedExpirationDate.endOfDay().toString(format: format) : nil
+            let startDate = selectedStartDate.toString()
+            let endDate = selectedEndDate.toString()
+            let expiration = doesExpyre ? selectedExpirationDate.endOfDay().toString() : nil
             
             Task {
                 await saveAvailability(startDate: startDate, endDate: endDate, expiration: expiration)
@@ -141,9 +139,8 @@ class AvailabilitySheetViewModel: BaseViewModel {
         let usecase = AvailabilityUseCase()
         
         do {
-            let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-            let expiration = doesExpyre ? selectedExpirationDate.endOfDay().toString(format: format) : nil
-            let input = AvailabilityEntity.Update.Input(_id: capsule.availabilityId, startDate: selectedStartDate.toString(format: format), endDate: selectedEndDate.toString(format: format), period: selectedPeriod.rawValue, expiration: expiration)
+            let expiration = doesExpyre ? selectedExpirationDate.endOfDay().toString() : nil
+            let input = AvailabilityEntity.Update.Input(_id: capsule.availabilityId, startDate: selectedStartDate.toString(), endDate: selectedEndDate.toString(), period: selectedPeriod.rawValue, expiration: expiration)
             let response = try await usecase.updateAvailability(input: input)
             
             availability = response.availability
