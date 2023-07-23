@@ -57,7 +57,7 @@ struct ContentView: View {
     }
     
     func mockFakeItem() -> ItemModelPresenter {
-        return ItemModelPresenter(_id: "6441da2f9c142110feef13e6",
+        return ItemModelPresenter(_id: "64a0fadd2af472086a9c86b9",
                                   title: "Cancha de 9",
                                   subtitle: "",
                                   itemType: "service",

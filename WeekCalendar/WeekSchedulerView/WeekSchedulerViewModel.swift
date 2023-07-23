@@ -291,12 +291,14 @@ class WeekSchedulerViewModel: BaseViewModel {
     }
     
     func createNewAvailability(date: Date) -> Availability {
+        let format = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+        
         let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)
         
         let newAvailability = Availability(_id: UUID().uuidString,
                                            period: .oneTime,
-                                           startDate: date.toString(),
-                                           endDate: (endDate?.toString())!,
+                                           startDate: date.toString(format: format),
+                                           endDate: (endDate?.toString(format: format))!,
                                            service: "",
                                            isEnabled: true,
                                            createdAt: "",
